@@ -40,6 +40,23 @@ public class Permission {
     columnDefinition = "TEXT")
     private String description;
 
+
+    @Override
+    public String toString(){
+        return title+","+module+","+description;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        Permission p = (Permission) obj;
+
+        if(p.title.equals(this.title)&&p.module.equals(this.module)&&p.description.equals(this.description)){
+
+            return true;
+        }
+        return false;
+    }
+
     @ManyToOne
     @JoinColumn(name="role_id",
             referencedColumnName = "id",
