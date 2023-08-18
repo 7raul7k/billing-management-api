@@ -77,5 +77,10 @@ public class Customer {
     @JsonBackReference(value = "test4")
     List<Payment> payments = new ArrayList<>();
 
-    
+    @OneToMany(mappedBy = "customer",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER)
+    @JsonBackReference(value = "test5")
+    private List<Bill> bills = new ArrayList<>();
 }

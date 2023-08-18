@@ -1,6 +1,5 @@
 package ro.myclass.billingmanagementapi.models;
 
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,29 +7,25 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
-@Table(name = "receipts")
-@Entity(name = "Receipt")
+@Table(name ="bills")
+@Entity(name = "Bill")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class Receipt {
+public class Bill {
 
     @Id
-    @SequenceGenerator(name = "receipt_sequence",
-    sequenceName = "receipt_sequence",
+    @SequenceGenerator(name = "bill_sequence",
+    sequenceName = "bill_sequence",
     allocationSize = 1)
     @GeneratedValue(
             strategy = SEQUENCE,
-            generator = "receipt_sequence"
+            generator = "bill_sequence"
     )
-    @Column( name = "id")
+    @Column(name = "id")
     private Long id;
     @Column(name = "type",
     nullable = false,
@@ -44,33 +39,39 @@ public class Receipt {
     nullable = false,
     columnDefinition = "TEXT")
     private String number;
-    @Column(name = "date",
-    nullable = false,
-    columnDefinition = "DATE")
-    private LocalDate date;
 
     @Override
     public String toString(){
-        return id+","+type+","+description+","+number+","+date;
+        return id+","+type+","+description+","+number;
     }
 
     @Override
     public boolean equals(Object obj){
-        Receipt r = (Receipt) obj;
+        Bill b = (Bill) obj;
 
-        if(r.getType().equals(this.type)&&r.getDescription().equals(this.description)&&r.getNumber().equals(this.number)){
+        if(b.getType().equals(this.type)&&b.getDescription().equals(this.description)&&b.number.equals(this.number)){
             return true;
         }
 
         return false;
-
-
     }
 
-    @OneToMany(mappedBy = "receipt",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.EAGER)
+
+    @ManyToOne
+    @JoinColumn(name="customer_id",
+            referencedColumnName = "id",
+            foreignKey = @ForeignKey(name = "customer_id_fk2"))
+    @JsonBackReference(value = "test1")
+    private Customer customer;
+
+    @ManyToOne
+    @JoinColumn(name="bill_id",
+            referencedColumnName = "id",
+            foreignKey = @ForeignKey(name = "bill_id_fk"))
     @JsonBackReference(value = "test5")
-    private List<Bill> billList = new ArrayList<>();
+    private Receipt receipt;
+
+
+
+
 }
