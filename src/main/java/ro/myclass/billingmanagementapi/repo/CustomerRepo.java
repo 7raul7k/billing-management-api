@@ -30,6 +30,9 @@ public interface CustomerRepo  extends JpaRepository<Customer,Long> {
     @Query("select c from Customer c where c.username = ?1")
     Optional<Customer> getCustomerByUsername(String username);
 
+    @Query("select c from Customer c")
+    List<Customer> getAllCustomer();
+
 
 
 }
