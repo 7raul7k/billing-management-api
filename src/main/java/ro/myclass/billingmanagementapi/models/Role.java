@@ -1,10 +1,14 @@
 package ro.myclass.billingmanagementapi.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
@@ -33,5 +37,30 @@ public class Role {
             nullable = false,
             columnDefinition = "TEXT")
     private String description;
+
+    @Override
+    public String toString(){
+        return title+","+description;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        Role role = (Role) obj;
+
+       if(role.title.equals(this.title)&&this.description.equals(this.description)){
+           return true;
+       }
+
+       return false;
+
+    }
+
+
+    @OneToMany(mappedBy = "role",
+    cascade = CascadeType.ALL,
+    orphanRemoval = true,
+    fetch = FetchType.EAGER)
+    @JsonBackReference(value = "test4")
+    List<Username> usernameList = new ArrayList<>();
 
 }
