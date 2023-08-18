@@ -47,7 +47,7 @@ public class Role {
     public boolean equals(Object obj){
         Role role = (Role) obj;
 
-       if(role.title.equals(this.title)&&this.description.equals(this.description)){
+       if(role.getTitle().equals(this.title)&&this.getDescription().equals(this.description)){
            return true;
        }
 

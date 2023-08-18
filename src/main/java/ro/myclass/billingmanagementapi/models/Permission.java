@@ -50,7 +50,7 @@ public class Permission {
     public boolean equals(Object obj){
         Permission p = (Permission) obj;
 
-        if(p.title.equals(this.title)&&p.module.equals(this.module)&&p.description.equals(this.description)){
+        if(p.getTitle().equals(this.title)&&p.getModule().equals(this.module)&&p.getDescription().equals(this.description)){
 
             return true;
         }

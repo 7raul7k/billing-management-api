@@ -57,7 +57,7 @@ public class Username {
 
         Username u = (Username) obj;
 
-        if(u.username.equals(this.username)&&u.email.equals(this.email)&&u.address.equals(this.address)){
+        if(u.getUsername().equals(this.username)&&u.getEmail().equals(this.email)&&u.getAddress().equals(this.address)){
             return true;
         }
 

@@ -55,7 +55,7 @@ public class Receipt {
     public boolean equals(Object obj){
         Receipt r = (Receipt) obj;
 
-        if(r.type.equals(this.type)&&r.description.equals(this.description)&&r.number.equals(this.number)){
+        if(r.getType().equals(this.type)&&r.getDescription().equals(this.description)&&r.getNumber().equals(this.number)){
             return true;
         }
 

@@ -50,7 +50,7 @@ public class PaymentMode {
     public boolean equals(Object obj){
         PaymentMode pm = (PaymentMode) obj;
 
-        if(pm.name.equals(this.name)&&pm.type.equals(this.type)&&pm.description.equals(this.description)){
+        if(pm.getName().equals(this.name)&&pm.getType().equals(this.type)&&pm.getDescription().equals(this.description)){
 
             return true;
         }
