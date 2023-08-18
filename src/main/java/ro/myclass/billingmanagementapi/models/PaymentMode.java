@@ -43,7 +43,7 @@ public class PaymentMode {
 
     @Override
     public String toString(){
-        return name+","+type+","+description;
+        return id+","+name+","+type+","+description;
     }
 
     @Override

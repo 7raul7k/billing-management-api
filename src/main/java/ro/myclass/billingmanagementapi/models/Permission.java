@@ -43,7 +43,7 @@ public class Permission {
 
     @Override
     public String toString(){
-        return title+","+module+","+description;
+        return id+","+title+","+module+","+description;
     }
 
     @Override

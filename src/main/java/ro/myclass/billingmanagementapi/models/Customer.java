@@ -1,11 +1,15 @@
 package ro.myclass.billingmanagementapi.models;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
@@ -53,7 +57,7 @@ public class Customer {
 
     @Override
     public String toString(){
-        return name +","+mobile+","+email+","+address+","+username+","+password;
+        return id+","+name +","+mobile+","+email+","+address+","+username+","+password;
     }
     @Override
     public boolean equals(Object obj){
@@ -65,4 +69,13 @@ public class Customer {
 
         return false;
     }
+
+    @OneToMany(mappedBy = "customer",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER)
+    @JsonBackReference(value = "test4")
+    List<Payment> payments = new ArrayList<>();
+
+    
 }

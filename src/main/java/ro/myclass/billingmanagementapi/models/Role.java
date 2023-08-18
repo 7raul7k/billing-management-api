@@ -40,7 +40,7 @@ public class Role {
 
     @Override
     public String toString(){
-        return title+","+description;
+        return id+","+title+","+description;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package ro.myclass.billingmanagementapi.models;
 
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,54 +11,56 @@ import java.time.LocalDate;
 
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
-@Table(name = "receipts")
-@Entity(name = "Receipt")
+@Table(name = "payments")
+@Entity(name ="Payment")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class Receipt {
-
+public class Payment {
     @Id
-    @SequenceGenerator(name = "receipt_sequence",
-    sequenceName = "receipt_sequence",
+    @SequenceGenerator(name ="payment_sequence",
+    sequenceName = "payment_sequence",
     allocationSize = 1)
     @GeneratedValue(
             strategy = SEQUENCE,
-            generator = "receipt_sequence"
+            generator = "payment_sequence"
     )
-    @Column( name = "id")
+    @Column(name = "id")
     private Long id;
-    @Column(name = "type",
-    nullable = false,
-    columnDefinition = "TEXT")
-    private String type;
     @Column(name = "description",
     nullable = false,
     columnDefinition = "TEXT")
     private String description;
-    @Column(name = "number",
+    @Column(name = "amount",
     nullable = false,
     columnDefinition = "TEXT")
-    private String number;
-    @Column(name = "date",
+    private String amount;
+    @Column(name ="date",
     nullable = false,
     columnDefinition = "DATE")
     private LocalDate date;
 
     @Override
     public String toString(){
-        return id+","+type+","+description+","+number+","+date;
+        return id+","+description+","+amount+","+date;
     }
 
     @Override
     public boolean equals(Object obj){
-        Receipt r = (Receipt) obj;
+        Payment p = (Payment) obj;
 
-        if(r.getType().equals(this.type)&&r.getDescription().equals(this.description)&&r.getNumber().equals(this.number)){
+        if(p.getDescription().equals(this.description)&&p.getAmount().equals(this.amount)){
             return true;
         }
 
         return false;
     }
+
+    @ManyToOne
+    @JoinColumn(name="customer_id",
+            referencedColumnName = "id",
+            foreignKey = @ForeignKey(name = "customer_id_fk"))
+    @JsonBackReference(value = "test3")
+    private Customer customer;
 }
