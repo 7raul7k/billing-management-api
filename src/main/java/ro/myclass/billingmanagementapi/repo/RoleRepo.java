@@ -8,7 +8,7 @@ import ro.myclass.billingmanagementapi.models.Role;
 import java.util.Optional;
 
 @Repository
-public interface RoleRepository extends JpaRepository<Role,Long> {
+public interface RoleRepo extends JpaRepository<Role,Long> {
 
 
     @Query("select r from Role r where r.id = ?1")
