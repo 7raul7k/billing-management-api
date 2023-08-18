@@ -68,7 +68,7 @@ public class Username {
     @ManyToOne
     @JoinColumn(name="role_id",
     referencedColumnName = "id",
-    foreignKey = @ForeignKey(name = "role_id_fk"))
+    foreignKey = @ForeignKey(name = "role_id_fk2"))
     @JsonBackReference(value = "test1")
     private Role role;
 

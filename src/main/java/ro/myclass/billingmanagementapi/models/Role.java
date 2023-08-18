@@ -63,4 +63,11 @@ public class Role {
     @JsonBackReference(value = "test4")
     List<Username> usernameList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "roles",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER)
+    @JsonBackReference(value = "test5")
+    List<Permission> permissions = new ArrayList<>();
+
 }
