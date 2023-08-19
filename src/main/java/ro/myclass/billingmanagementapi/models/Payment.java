@@ -60,7 +60,7 @@ public class Payment {
     @ManyToOne
     @JoinColumn(name="customer_id",
             referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "customer_id_fk"))
+            foreignKey = @ForeignKey(name = "customer_id_fk2"))
     @JsonBackReference(value = "test3")
     private Customer customer;
 }

@@ -60,14 +60,14 @@ public class Bill {
     @ManyToOne
     @JoinColumn(name="customer_id",
             referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "customer_id_fk2"))
+            foreignKey = @ForeignKey(name = "customer_id_fk"))
     @JsonBackReference(value = "test1")
     private Customer customer;
 
     @ManyToOne
-    @JoinColumn(name="bill_id",
+    @JoinColumn(name="receipt_id",
             referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "bill_id_fk"))
+            foreignKey = @ForeignKey(name = "receipt_id_fk"))
     @JsonBackReference(value = "test5")
     private Receipt receipt;
 
