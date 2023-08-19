@@ -68,7 +68,7 @@ public class Bill {
     @JoinColumn(name="receipt_id",
             referencedColumnName = "id",
             foreignKey = @ForeignKey(name = "receipt_id_fk"))
-    @JsonBackReference(value = "test5")
+    @JsonBackReference(value = "test10")
     private Receipt receipt;
 
 
