@@ -21,10 +21,6 @@ public interface BillRepo extends JpaRepository<Bill,Long> {
     @Query("select b from Bill b where b.number = ?1")
     Optional<Bill> getBillByNumber(String number);
 
-    @Query("select b from Bill b where b.receipt = ?1")
-    List<Bill> getBillByReceipt(String receipt);
-
-
     @Query("select b from Bill b")
     List<Bill> getAllBill();
 }
