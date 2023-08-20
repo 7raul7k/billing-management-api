@@ -18,7 +18,7 @@ public interface PaymentModeRepo extends JpaRepository<PaymentMode,Long> {
     Optional<PaymentMode> getPaymentModeByName(String name);
 
     @Query("select p from PaymentMode p where p.type = ?1")
-    List<PaymentMode> getPaymentModeByType(String type);
+    Optional<PaymentMode> getPaymentModeByType(String type);
 
     @Query("select p from PaymentMode p")
     List<PaymentMode> getAllPaymentMode();

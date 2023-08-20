@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ro.myclass.billingmanagementapi.models.Role;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -18,7 +19,7 @@ public interface RoleRepo extends JpaRepository<Role,Long> {
     Optional<Role> getRoleByTitle(String title);
 
     @Query("select r from Role r ")
-    Optional<Role> getAllRole();
+    List<Role> getAllRole();
 
 
 }
