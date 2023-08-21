@@ -1,23 +1,24 @@
 package ro.myclass.billingmanagementapi.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import ro.myclass.billingmanagementapi.models.Permission;
 import ro.myclass.billingmanagementapi.models.Role;
 
-import java.util.List;
+import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class RoleDTO {
+public class UsernameDTO {
 
-    private String title;
-    private String description;
-    private List<Permission> permissions;
-    private Role role;
+        private String username;
+        private String email;
+        private LocalDate dob;
+        private String address;
+        private Role Role;
+
+
 }

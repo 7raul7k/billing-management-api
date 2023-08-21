@@ -89,9 +89,13 @@ public class RoleService {
             throw new RoleNotFoundException();
         }else{
             Role role = roleOptional.get();
-            role.setTitle(roleDTO.getTitle());
-            role.setDescription(roleDTO.getDescription());
-            role.setPermissions(roleDTO.getPermissions());
+         if(roleDTO.getTitle()!=null){
+             role.setTitle(roleDTO.getTitle());
+        }if(roleDTO.getDescription()!=null){
+             role.setDescription(roleDTO.getDescription());
+         }if(roleDTO.getPermissions()!=null){
+             role.setPermissions(roleDTO.getPermissions());
+         }
 
             this.roleRepo.save(role);
         }
