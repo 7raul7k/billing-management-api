@@ -64,22 +64,11 @@ class PermissionRepoTest {
 
 
         Permission permission = Permission.builder().id(1L).description("test").title("test").module("test").build();
-        Permission permission2 = Permission.builder().id(2L).description("test2").title("test").module("test2").build();
-        Permission permission3 = Permission.builder().id(3L).description("test3").title("test").module("test3").build();
-        Permission permission4 = Permission.builder().id(4L).description("test4").title("test").module("test4").build();
 
         permissionRepo.save(permission);
-        permissionRepo.save(permission2);
-        permissionRepo.save(permission3);
-        permissionRepo.save(permission4);
 
-        List<Permission> permissionList = new ArrayList<>();
-        permissionList.add(permission);
-        permissionList.add(permission2);
-        permissionList.add(permission3);
-        permissionList.add(permission4);
 
-        assertEquals(permissionList,this.permissionRepo.getPermissionByTitle("test"));
+        assertEquals(permission,this.permissionRepo.getPermissionByTitle("test").get());
 
     }
 

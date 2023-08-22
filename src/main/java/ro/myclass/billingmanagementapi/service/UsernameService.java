@@ -102,6 +102,6 @@ public class UsernameService {
             usernameOptional.get().setRole(usernameDTO.getRole());
         }
 
-        this.usernameRepo.save(usernameOptional.get());
+        this.usernameRepo.saveAndFlush(usernameOptional.get());
     }
 }

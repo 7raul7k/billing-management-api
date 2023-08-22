@@ -17,7 +17,7 @@ public interface PermissionRepo extends JpaRepository<Permission,Long> {
     Optional<Permission> getPermissionById(long id);
 
     @Query("select p from Permission p where p.title = ?1")
-    List<Permission> getPermissionByTitle(String title);
+    Optional<Permission> getPermissionByTitle(String title);
 
     @Query("select p from Permission p where p.module = ?1")
     List<Permission> getPermissionByModule(String module);

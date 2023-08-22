@@ -62,6 +62,6 @@ public class Permission {
             referencedColumnName = "id",
             foreignKey = @ForeignKey(name = "role_id_fk"))
     @JsonBackReference(value = "test2")
-    private Role roles;
+    private Role role;
 
 }

@@ -97,7 +97,7 @@ public class RoleService {
              role.setPermissions(roleDTO.getPermissions());
          }
 
-            this.roleRepo.save(role);
+            this.roleRepo.saveAndFlush(role);
         }
     }
 }
