@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ro.myclass.billingmanagementapi.BillingManagementApiApplication;
+import ro.myclass.billingmanagementapi.models.Customer;
 import ro.myclass.billingmanagementapi.models.Payment;
 
 import java.time.LocalDate;
@@ -21,6 +22,8 @@ class PaymentRepoTest {
 
     @Autowired
     PaymentRepo paymentRepo;
+
+
 
     @BeforeEach
     public void clean(){this.paymentRepo.deleteAll();}
@@ -80,6 +83,20 @@ class PaymentRepoTest {
 
         assertEquals(paymentList,this.paymentRepo.getPaymentByAmount("100"));
     }
+
+    @Test
+    public void getPaymentByAmountAndDescription(){
+
+        Payment payment = Payment.builder().id(1L).amount("100").description("test").date(LocalDate.now()).build();
+
+        paymentRepo.save(payment);
+
+        assertEquals(payment,this.paymentRepo.getPaymentByAmountAndDescription("100","test").get());
+
+
+    }
+
+
 
 
 }

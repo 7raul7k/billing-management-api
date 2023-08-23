@@ -39,30 +39,29 @@ public class PaymentService {
 
     public void addPayment(PaymentDTO paymentDTO) {
 
-        List<Payment> paymentOptional = this.paymentRepo.getPaymentByAmount(paymentDTO.getAmount());
+        Optional<Payment> paymentOptional = this.paymentRepo.getPaymentByAmountAndDescription(paymentDTO.getAmount(), paymentDTO.getDescription());
 
-        for (Payment payment : paymentOptional) {
-            if (payment.getAmount().equals(paymentDTO.getAmount()) && payment.getDate().equals(paymentDTO.getDate()) && payment.getDescription().equals(paymentDTO.getDescription())) {
 
-                throw new PaymentWasFoundException();
+        if (paymentOptional.isEmpty()) {
+            Payment payment = Payment.builder().amount(paymentDTO.getAmount()).date(paymentDTO.getDate()).description(paymentDTO.getDescription()).build();
 
-            }
+            this.paymentRepo.save(payment);
+        } else {
+            throw new PaymentWasFoundException();
         }
 
-        Payment payment = Payment.builder().amount(paymentDTO.getAmount()).date(paymentDTO.getDate()).description(paymentDTO.getDescription()).build();
 
-
-        this.paymentRepo.save(payment);
     }
 
-    public void deletePayment(String amount) {
-        List<Payment> paymentList = this.paymentRepo.getPaymentByAmount(amount);
+    public void deletePayment(String amount,String description) {
+        Optional<Payment> paymentOptional = this.paymentRepo.getPaymentByAmountAndDescription(amount,description);
 
-        for (Payment payment : paymentList) {
-            if (payment.getAmount().equals(amount)) {
-                this.paymentRepo.delete(payment);
-            }
+        if (paymentOptional.isEmpty()) {
+            throw new ListEmptyException();
+        } else {
+            this.paymentRepo.delete(paymentOptional.get());
         }
+
     }
 
     public void updatePayment(CancelPaymentRequest cancelPaymentRequest){
@@ -74,10 +73,10 @@ public class PaymentService {
     }
 
         PaymentDTO paymentDTO = cancelPaymentRequest.getPaymentDTO();
-        List<Payment> paymentList = this.paymentRepo.getPaymentByAmount(cancelPaymentRequest.getPaymentDTO().getAmount());
 
-        for (Payment payment : paymentList){
-            if(payment.getAmount().equals(cancelPaymentRequest.getPaymentDTO().getAmount())&& payment.getCustomer().equals(customerOptional.get())) {
+        Optional<Payment> paymentOptional = this.paymentRepo.getPaymentByAmountAndDescription(paymentDTO.getAmount(), paymentDTO.getDescription());
+
+        Payment payment = paymentOptional.get();
                 if (paymentDTO.getAmount() != null) {
                     payment.setAmount(paymentDTO.getAmount());
                 }
@@ -92,7 +91,37 @@ public class PaymentService {
                 }
 
                 this.paymentRepo.saveAndFlush(payment);
-            }
+
+
+    }
+
+    public Payment getPaymentByAmountAndDescription(String amount, String description) {
+        Optional<Payment> paymentOptional = this.paymentRepo.getPaymentByAmountAndDescription(amount, description);
+
+        if (paymentOptional.isEmpty()) {
+            throw new ListEmptyException();
+        } else {
+            return paymentOptional.get();
+        }
+    }
+
+    public Payment getPaymentById(long id){
+        Optional<Payment> paymentOptional = this.paymentRepo.getPaymentById(id);
+
+        if(paymentOptional.isEmpty()){
+            throw new ListEmptyException();
+        }else{
+            return paymentOptional.get();
+        }
+    }
+
+    public List<Payment> getPaymentByAmount(String amount){
+        List<Payment> paymentList = this.paymentRepo.getPaymentByAmount(amount);
+
+        if(paymentList.isEmpty()){
+            throw new ListEmptyException();
+        }else{
+            return paymentList;
         }
     }
 }
