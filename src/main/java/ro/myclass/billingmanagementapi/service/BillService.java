@@ -36,9 +36,12 @@ public class BillService {
         Optional<Bill> billOptional = billRepo.getBillByNumber(billDTO.getNumber());
 
         if (billOptional.isEmpty()) {
-            throw new BillNotFoundException();
+            Bill bill = Bill.builder().number(billDTO.getNumber()).type(billDTO.getType()).description(billDTO.getDescription()).customer(billDTO.getCustomer()).build();
+
+            this.billRepo.save(bill);
         } else {
-            this.billRepo.save(billOptional.get());
+            throw new BillNotFoundException();
+
         }
     }
 

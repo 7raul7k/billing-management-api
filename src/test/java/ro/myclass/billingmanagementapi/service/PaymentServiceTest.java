@@ -233,7 +233,7 @@ class PaymentServiceTest {
             assertThrows(Exception.class, () -> paymentService.getPaymentByAmount("1"));
         }
 
-     
+
 
 
 
