@@ -4,6 +4,7 @@ package ro.myclass.billingmanagementapi.service;
 import org.springframework.stereotype.Service;
 import ro.myclass.billingmanagementapi.dto.PermissionDTO;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
+import ro.myclass.billingmanagementapi.exceptions.PermissionWasFoundException;
 import ro.myclass.billingmanagementapi.models.Permission;
 import ro.myclass.billingmanagementapi.repo.PermissionRepo;
 
@@ -33,9 +34,11 @@ public class PermissionService {
        Optional<Permission> permissionOptional = this.permissionRepo.getPermissionByTitle(permissionDTO.getTitle());
 
         if(permissionOptional.isEmpty()){
-            Permission permission = Permission.builder().title(permissionDTO.getTitle()).description(permissionDTO.getDescription()).build();
+            Permission permission = Permission.builder().title(permissionDTO.getTitle()).description(permissionDTO.getDescription()).module(permissionDTO.getModule()).build();
 
             this.permissionRepo.save(permission);
+        }else{
+            throw new PermissionWasFoundException();
         }
     }
 
@@ -49,33 +52,33 @@ public class PermissionService {
         }
     }
 
-    public void getPermissionById(long id){
+    public Permission getPermissionById(long id){
         Optional<Permission> permissionOptional = this.permissionRepo.getPermissionById(id);
 
         if(permissionOptional.isEmpty()){
             throw new ListEmptyException();
         }else{
-            this.permissionRepo.delete(permissionOptional.get());
+            return permissionOptional.get();
         }
     }
 
-    public void getPermissionByModule(String module){
+    public List<Permission> getPermissionByModule(String module){
         List<Permission> permissionOptional = this.permissionRepo.getPermissionByModule(module);
 
         if(permissionOptional.isEmpty()){
             throw new ListEmptyException();
         }else{
-            this.permissionRepo.deleteAll(permissionOptional);
+           return permissionOptional;
         }
     }
 
-    public void getPermissionByTitle(String title){
+    public Permission getPermissionByTitle(String title){
         Optional<Permission> permissionOptional = this.permissionRepo.getPermissionByTitle(title);
 
         if(permissionOptional.isEmpty()){
             throw new ListEmptyException();
         }else{
-            this.permissionRepo.delete(permissionOptional.get());
+            return permissionOptional.get();
         }
     }
 
