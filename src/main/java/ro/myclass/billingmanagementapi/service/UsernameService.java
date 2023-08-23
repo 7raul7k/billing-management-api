@@ -63,23 +63,23 @@ public class UsernameService {
         }
     }
 
-    public void getUsernameByUsername(String username){
+    public Username getUsernameByUsername(String username){
         Optional<Username> usernameOptional = this.usernameRepo.getUsernameByUsername(username);
 
         if(usernameOptional.isEmpty()){
             throw new UsernameNotFoundException();
         }else{
-            this.usernameRepo.delete(usernameOptional.get());
+            return usernameOptional.get();
         }
     }
 
-    public void getUsernameByEmail(String email){
+    public Username getUsernameByEmail(String email){
         Optional<Username> usernameOptional = this.usernameRepo.getUsernameByEmail(email);
 
         if(usernameOptional.isEmpty()){
             throw new UsernameNotFoundException();
         }else{
-            this.usernameRepo.delete(usernameOptional.get());
+            return usernameOptional.get();
         }
     }
 

@@ -2,6 +2,7 @@ package ro.myclass.billingmanagementapi.service;
 
 
 import org.springframework.stereotype.Service;
+import ro.myclass.billingmanagementapi.dto.CancelReceiptRequest;
 import ro.myclass.billingmanagementapi.dto.ReceiptDTO;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
 import ro.myclass.billingmanagementapi.exceptions.ReceiptNotFoundException;
@@ -32,27 +33,24 @@ public class ReceiptService {
     }
 
     public void addReceipt(ReceiptDTO receiptDTO) {
+        Optional<Receipt> receiptOptional = this.receiptRepo.getReceiptByTypeAndNumberAndDescription(receiptDTO.getType(), receiptDTO.getNumber(), receiptDTO.getDescription());
 
-        List<Receipt> receiptOptional = this.receiptRepo.getReceiptsByNumber(receiptDTO.getNumber());
+        if(receiptOptional.isEmpty()){
+            Receipt receipt = Receipt.builder().description(receiptDTO.getDescription()).type(receiptDTO.getType()).number(receiptDTO.getNumber()).date(receiptDTO.getDate()).billList(receiptDTO.getBills()).build();
 
-        for(Receipt receipt : receiptOptional){
-            if(receipt.getNumber().equals(receiptDTO.getNumber()) && receipt.getType().equals(receiptDTO.getType())){
-                throw new ReceiptWasFoundException();
-            }
+            this.receiptRepo.save(receipt);
+        }else{
+            throw new ReceiptWasFoundException();
         }
-
-        Receipt receipt = Receipt.builder().description(receiptDTO.getDescription()).type(receiptDTO.getType()).number(receiptDTO.getNumber()).date(receiptDTO.getDate()).billList(receiptDTO.getBills()).build();
-
-        this.receiptRepo.save(receipt);
     }
 
-    public void removeReceipt(String type,String number){
-        List<Receipt> receiptList = this.receiptRepo.getReceiptsByNumber(number);
+    public void removeReceipt(CancelReceiptRequest cancelReceiptRequest){
+      Optional<Receipt> receiptOptional = this.receiptRepo.getReceiptByTypeAndNumberAndDescription(cancelReceiptRequest.getType(),cancelReceiptRequest.getNumber(),cancelReceiptRequest.getDescription());
 
-        for (Receipt receipt : receiptList){
-            if(receipt.getType().equals(type) && receipt.getNumber().equals(number)){
-                this.receiptRepo.delete(receipt);
-            }
+        if(receiptOptional.isEmpty()){
+            throw new ReceiptWasFoundException();
+        }else{
+            this.receiptRepo.delete(receiptOptional.get());
         }
     }
 
@@ -86,39 +84,42 @@ public class ReceiptService {
         }
     }
 
-    public void updateReceipt(ReceiptDTO receiptDTO){
-        List<Receipt> receiptOptional = this.receiptRepo.getReceiptsByNumber(receiptDTO.getNumber());
+    public void updateReceipt(ReceiptDTO receiptDTO) {
+        Optional<Receipt> receiptOptional = this.receiptRepo.getReceiptByTypeAndNumberAndDescription(receiptDTO.getType(), receiptDTO.getNumber(), receiptDTO.getDescription());
+
+        if (receiptOptional.isEmpty()) {
+            throw new ReceiptNotFoundException();
+        } else {
+            Receipt receipt = receiptOptional.get();
+
+            if (receiptDTO.getDescription() != null) {
+                receipt.setDescription(receiptDTO.getDescription());
+            }
+            if (receiptDTO.getType() != null) {
+                receipt.setType(receiptDTO.getType());
+            }
+            if (receiptDTO.getNumber() != null) {
+                receipt.setNumber(receiptDTO.getNumber());
+            }
+            if (receiptDTO.getDate() != null) {
+                receipt.setDate(receiptDTO.getDate());
+            }
+            if (receiptDTO.getBills() != null) {
+                receipt.setBillList(receiptDTO.getBills());
+            }
+
+            this.receiptRepo.saveAndFlush(receipt);
+
+        }
+    }
+
+    public Receipt getReceiptByTypeAndNumberAndDescription(String type, String number, String description){
+        Optional<Receipt> receiptOptional = this.receiptRepo.getReceiptByTypeAndNumberAndDescription(type,number,description);
 
         if(receiptOptional.isEmpty()){
             throw new ReceiptNotFoundException();
         }else{
-
-            for(Receipt receipt : receiptOptional) {
-                if (receipt.getNumber().equals(receiptDTO.getNumber()) && receipt.getType().equals(receiptDTO.getType())) {
-
-                    if (receiptDTO.getDescription() != null) {
-                        receipt.setDescription(receiptDTO.getDescription());
-                    }
-                    if (receiptDTO.getType() != null) {
-                        receipt.setType(receiptDTO.getType());
-                    }
-                    if (receiptDTO.getDate() != null) {
-                        receipt.setDate(receiptDTO.getDate());
-                    }
-                    if (receiptDTO.getBills() != null) {
-                        receipt.setBillList(receiptDTO.getBills());
-                    }
-                    if (receiptDTO.getNumber() != null) {
-                        receipt.setNumber(receiptDTO.getNumber());
-                    }
-                    if (receiptDTO.getDate() != null) {
-                        receipt.setDate(receiptDTO.getDate());
-                    }
-                    this.receiptRepo.saveAndFlush(receipt);
-                }
-
-            }
-
+            return receiptOptional.get();
         }
     }
 }

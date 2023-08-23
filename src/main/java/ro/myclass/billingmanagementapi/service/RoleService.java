@@ -34,9 +34,12 @@ public class RoleService {
         Optional<Role> roleOptional = this.roleRepo.getRoleByTitle(roleDTO.getTitle());
 
         if(roleOptional.isEmpty()){
+
             Role role = Role.builder().title(roleDTO.getTitle()).description(roleDTO.getDescription()).permissions(roleDTO.getPermissions()).build();
 
             this.roleRepo.save(role);
+        }else{
+            throw new RoleNotFoundException();
         }
     }
 
@@ -62,25 +65,16 @@ public class RoleService {
         }
     }
 
-    public void getRoleByTitle(String title){
+    public Role getRoleByTitle(String title){
         Optional<Role> roleOptional = this.roleRepo.getRoleByTitle(title);
 
         if(roleOptional.isEmpty()){
             throw new RoleNotFoundException();
         }else{
-            this.roleRepo.getRoleByTitle(title);
+            return roleOptional.get();
         }
     }
 
-    public void getAllRole(){
-        List<Role> roleList = this.roleRepo.getAllRole();
-
-        if(roleList.isEmpty()){
-            throw new ListEmptyException();
-        }else{
-            this.roleRepo.getAllRole();
-        }
-    }
 
     public void updateRole(RoleDTO roleDTO){
         Optional<Role> roleOptional = this.roleRepo.getRoleByTitle(roleDTO.getTitle());

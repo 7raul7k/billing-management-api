@@ -23,4 +23,8 @@ public interface ReceiptRepo extends JpaRepository<Receipt,Long> {
 
     @Query("select r from Receipt r")
     List<Receipt> getAllReceipt();
+
+
+    @Query("select r from Receipt r where r.type = ?1 and r.number = ?2 and r.description = ?3")
+    Optional<Receipt> getReceiptByTypeAndNumberAndDescription(String type, String number, String description);
 }
