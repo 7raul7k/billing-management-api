@@ -196,7 +196,7 @@ class CustomerServiceTest {
 
         customerService.updateCustomer(customerDTO);
 
-        verify(customerRepo,times(1)).save(argumentCaptor.capture());
+        verify(customerRepo,times(1)).saveAndFlush(argumentCaptor.capture());
 
         assertEquals(customer,argumentCaptor.getValue());
     }
@@ -210,7 +210,7 @@ class CustomerServiceTest {
         assertThrows(CustomerNotFoundException.class,()->customerService.updateCustomer(customerDTO));
     }
 
-    
+
 
 
 

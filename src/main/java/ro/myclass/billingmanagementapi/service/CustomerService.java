@@ -108,7 +108,7 @@ public class CustomerService {
 
         if (customerOptional.isEmpty()) {
             throw new CustomerNotFoundException();
-        } else {
+        }
             Customer customer = customerOptional.get();
 
             if (customerDTO.getName() != null) {
@@ -135,9 +135,11 @@ public class CustomerService {
             if (customerDTO.getBills() != null) {
                 customer.setBills(customerDTO.getBills());
 
-                this.customerRepo.save(customer);
+
             }
-        }
+
+        this.customerRepo.saveAndFlush(customer);
+
 
     }
 }
