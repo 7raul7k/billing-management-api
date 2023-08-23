@@ -75,15 +75,6 @@ public class RoleService {
         }
     }
 
-    public void getAllRole(){
-        List<Role> roleList = this.roleRepo.getAllRole();
-
-        if(roleList.isEmpty()){
-            throw new ListEmptyException();
-        }else{
-            this.roleRepo.getAllRole();
-        }
-    }
 
     public void updateRole(RoleDTO roleDTO){
         Optional<Role> roleOptional = this.roleRepo.getRoleByTitle(roleDTO.getTitle());

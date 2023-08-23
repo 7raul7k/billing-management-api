@@ -197,6 +197,4 @@ class UsernameServiceTest {
 
         assertThrows(UsernameNotFoundException.class,()->usernameService.updateUsername(usernameDTO));
     }
-
-    
 }

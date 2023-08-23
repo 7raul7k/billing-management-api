@@ -35,7 +35,7 @@ public class PaymentModeService {
         Optional<PaymentMode> paymentModeOptional = this.paymentModeRepo.getPaymentModeByName(paymentModeDTO.getName());
 
         if(paymentModeOptional.isEmpty()){
-            PaymentMode paymentMode = PaymentMode.builder().name(paymentModeDTO.getName()).description(paymentModeDTO.getDescription()).build();
+            PaymentMode paymentMode = PaymentMode.builder().name(paymentModeDTO.getName()).description(paymentModeDTO.getDescription()).type(paymentModeDTO.getType()).build();
 
             this.paymentModeRepo.save(paymentMode);
         }else{
