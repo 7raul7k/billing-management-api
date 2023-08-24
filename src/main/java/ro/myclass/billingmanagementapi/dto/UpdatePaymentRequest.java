@@ -5,15 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import ro.myclass.billingmanagementapi.models.Payment;
-
-import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class CancelPaymentRequest {
+public class UpdatePaymentRequest {
 
     private PaymentDTO paymentDTO;
     private int customerId;

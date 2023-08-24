@@ -210,12 +210,41 @@ class CustomerServiceTest {
         assertThrows(CustomerNotFoundException.class,()->customerService.updateCustomer(customerDTO));
     }
 
+    @Test
+    public void getCustomerByAddress(){
+        //generate 4 customers with same address
+        // save them in customerrepo and then  in a arraylist
+        // doReturn the arraylist
+
+        Customer customer = Customer.builder().id(1L).name("test").mobile("test").email("test").address("test").username("test").password("test").build();
+        Customer customer1 = Customer.builder().id(2L).name("test1").mobile("test1").email("test1").address("test1").username("test1").password("test1").build();
+        Customer customer2 = Customer.builder().id(3L).name("test2").mobile("test2").email("test2").address("test2").username("test2").password("test2").build();
+        Customer customer3 = Customer.builder().id(4L).name("test3").mobile("test3").email("test3").address("test3").username("test3").password("test3").build();
+
+        customerRepo.save(customer);
+        customerRepo.save(customer1);
+        customerRepo.save(customer2);
+        customerRepo.save(customer3);
+
+        List<Customer> customerList = new ArrayList<>();
+        customerList.add(customer);
+        customerList.add(customer1);
+        customerList.add(customer2);
+        customerList.add(customer3);
+
+        doReturn(customerList).when(customerRepo).getCustomerByAddress(customer.getAddress());
+
+        assertEquals(customerList,customerService.getCustomerByAddress(customer.getAddress()));
 
 
+    }
 
+    @Test
+    public void getCustomerByAddressException(){
+        List<Customer> customerList = new ArrayList<>();
 
+        doReturn(customerList).when(customerRepo).getCustomerByAddress("test");
 
-
-
-
+        assertThrows(ListEmptyException.class,()->customerService.getCustomerByAddress("test"));
+    }
 }

@@ -1,7 +1,7 @@
 package ro.myclass.billingmanagementapi.service;
 
 import org.springframework.stereotype.Service;
-import ro.myclass.billingmanagementapi.dto.CancelPaymentRequest;
+import ro.myclass.billingmanagementapi.dto.UpdatePaymentRequest;
 import ro.myclass.billingmanagementapi.dto.PaymentDTO;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
 import ro.myclass.billingmanagementapi.exceptions.PaymentWasFoundException;
@@ -64,15 +64,15 @@ public class PaymentService {
 
     }
 
-    public void updatePayment(CancelPaymentRequest cancelPaymentRequest){
+    public void updatePayment(UpdatePaymentRequest updatePaymentRequest){
 
-        Optional<Customer> customerOptional = this.customerRepo.getCustomerById( cancelPaymentRequest.getCustomerId());
+        Optional<Customer> customerOptional = this.customerRepo.getCustomerById( updatePaymentRequest.getCustomerId());
 
         if (customerOptional.isEmpty()){
             throw new PaymentWasFoundException();
     }
 
-        PaymentDTO paymentDTO = cancelPaymentRequest.getPaymentDTO();
+        PaymentDTO paymentDTO = updatePaymentRequest.getPaymentDTO();
 
         Optional<Payment> paymentOptional = this.paymentRepo.getPaymentByAmountAndDescription(paymentDTO.getAmount(), paymentDTO.getDescription());
 
