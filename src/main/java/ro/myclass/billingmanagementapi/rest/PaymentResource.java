@@ -6,19 +6,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.myclass.billingmanagementapi.dto.PaymentDTO;
+import ro.myclass.billingmanagementapi.dto.UpdatePaymentRequest;
 import ro.myclass.billingmanagementapi.models.Payment;
 import ro.myclass.billingmanagementapi.service.PaymentService;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/paymentMode")
+@RequestMapping("/api/v1/payment")
 @Slf4j
-public class PaymentModeResource {
+public class PaymentResource {
 
     private PaymentService paymentService;
 
-    public PaymentModeResource(PaymentService paymentService) {
+    public PaymentResource(PaymentService paymentService) {
         this.paymentService = paymentService;
     }
 
@@ -28,7 +29,7 @@ public class PaymentModeResource {
 
         log.info("REST request to get all payments {}", paymentList);
 
-        return new ResponseEntity<>(paymentList, HttpStatus.OK);
+        return ResponseEntity.ok(paymentList);
     }
 
     @PostMapping("/addPayment")
@@ -37,7 +38,7 @@ public class PaymentModeResource {
 
         log.info("REST request to add a payment {}", payment);
 
-        return new ResponseEntity<>("Payment was added", HttpStatus.OK);
+        return  new ResponseEntity<>("Payment was added", HttpStatus.OK);
     }
 
     @GetMapping("/getPaymentById/{id}")
@@ -46,7 +47,7 @@ public class PaymentModeResource {
 
         log.info("REST request to get a payment by id {}", id);
 
-        return new ResponseEntity<>(payment, HttpStatus.OK);
+        return  new ResponseEntity<>(payment, HttpStatus.OK);
     }
 
     @GetMapping("/getPaymentByAmount/{amount}")
@@ -58,9 +59,23 @@ public class PaymentModeResource {
         return new ResponseEntity<>(payment, HttpStatus.OK);
     }
 
+    @DeleteMapping("/deletePayment")
+    public ResponseEntity<String> deletePayment(@RequestParam String amount,@RequestParam String description) {
+        this.paymentService.deletePayment(amount, description);
 
+        log.info("REST request to delete a payment by amount and description {}", amount, description);
 
+        return new ResponseEntity<>("Payment was deleted", HttpStatus.OK);
+    }
 
+    @PutMapping("/updatePayment")
+    public ResponseEntity<String> updatePayment(@RequestBody UpdatePaymentRequest updatePaymentRequest) {
 
+        this.paymentService.updatePayment(updatePaymentRequest);
 
+        log.info("REST request to update a payment by updatePaymentRequest {}", updatePaymentRequest);
+
+        return new ResponseEntity<>("Payment was updated", HttpStatus.OK);
+
+    }
 }

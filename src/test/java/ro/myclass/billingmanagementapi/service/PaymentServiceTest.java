@@ -7,7 +7,7 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import ro.myclass.billingmanagementapi.dto.CancelPaymentRequest;
+import ro.myclass.billingmanagementapi.dto.UpdatePaymentRequest;
 import ro.myclass.billingmanagementapi.dto.PaymentDTO;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
 import ro.myclass.billingmanagementapi.models.Customer;
@@ -129,15 +129,15 @@ class PaymentServiceTest {
         public void updatePayment(){
 
             PaymentDTO paymentDTO = PaymentDTO.builder().amount("test").date(LocalDate.now()).description("test").build();
-            CancelPaymentRequest cancelPaymentRequest = CancelPaymentRequest.builder().customerId(1).paymentDTO(paymentDTO).build();
+            UpdatePaymentRequest updatePaymentRequest = UpdatePaymentRequest.builder().customerId(1).paymentDTO(paymentDTO).build();
             Payment payment = Payment.builder().id(1L).amount("test").date(LocalDate.now()).description("test").build();
 
             Customer customer = Customer.builder().id(1L).name("test").mobile("test").email("test").address("test").username("test").password("test").payments(new ArrayList<>()).build();
 
-            doReturn(Optional.of(customer)).when(customerRepo).getCustomerById(cancelPaymentRequest.getCustomerId());
+            doReturn(Optional.of(customer)).when(customerRepo).getCustomerById(updatePaymentRequest.getCustomerId());
 
             doReturn(Optional.of(payment)).when(paymentRepo).getPaymentByAmountAndDescription(paymentDTO.getAmount(),paymentDTO.getDescription());
-            paymentService.updatePayment(cancelPaymentRequest);
+            paymentService.updatePayment(updatePaymentRequest);
 
             verify(paymentRepo,times(1)).saveAndFlush(argumentCaptor.capture());
 
@@ -147,27 +147,27 @@ class PaymentServiceTest {
         @Test
         public void updatePaymentCustomerException(){
             PaymentDTO paymentDTO = PaymentDTO.builder().amount("test").date(LocalDate.now()).description("test").build();
-            CancelPaymentRequest cancelPaymentRequest = CancelPaymentRequest.builder().customerId(1).paymentDTO(paymentDTO).build();
+            UpdatePaymentRequest updatePaymentRequest = UpdatePaymentRequest.builder().customerId(1).paymentDTO(paymentDTO).build();
             Payment payment = Payment.builder().id(1L).amount("test").date(LocalDate.now()).description("test").build();
 
 
-            doReturn(Optional.empty()).when(customerRepo).getCustomerById(cancelPaymentRequest.getCustomerId());
+            doReturn(Optional.empty()).when(customerRepo).getCustomerById(updatePaymentRequest.getCustomerId());
 
-            assertThrows(Exception.class, () -> paymentService.updatePayment(cancelPaymentRequest));
+            assertThrows(Exception.class, () -> paymentService.updatePayment(updatePaymentRequest));
         }
 
         @Test
         public void updatePaymentPaymentException(){
             PaymentDTO paymentDTO = PaymentDTO.builder().amount("test").date(LocalDate.now()).description("test").build();
-            CancelPaymentRequest cancelPaymentRequest = CancelPaymentRequest.builder().customerId(1).paymentDTO(paymentDTO).build();
+            UpdatePaymentRequest updatePaymentRequest = UpdatePaymentRequest.builder().customerId(1).paymentDTO(paymentDTO).build();
             Payment payment = Payment.builder().id(1L).amount("test").date(LocalDate.now()).description("test").build();
 
             Customer customer = Customer.builder().id(1L).name("test").mobile("test").email("test").address("test").username("test").password("test").payments(new ArrayList<>()).build();
 
-            doReturn(Optional.of(customer)).when(customerRepo).getCustomerById(cancelPaymentRequest.getCustomerId());
+            doReturn(Optional.of(customer)).when(customerRepo).getCustomerById(updatePaymentRequest.getCustomerId());
 
             doReturn(Optional.empty()).when(paymentRepo).getPaymentByAmountAndDescription(paymentDTO.getAmount(),paymentDTO.getDescription());
-            assertThrows(Exception.class, () -> paymentService.updatePayment(cancelPaymentRequest));
+            assertThrows(Exception.class, () -> paymentService.updatePayment(updatePaymentRequest));
         }
 
         @Test

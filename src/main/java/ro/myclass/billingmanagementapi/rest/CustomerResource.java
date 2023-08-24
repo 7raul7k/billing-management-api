@@ -86,6 +86,6 @@ public class CustomerResource {
         return new ResponseEntity<>(customerList, HttpStatus.OK);
     }
 
-    
+
 
 }
