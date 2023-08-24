@@ -3,7 +3,6 @@ package ro.myclass.billingmanagementapi.rest;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.myclass.billingmanagementapi.dto.RoleDTO;
@@ -16,11 +15,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/role")
 @Slf4j
-public class RoleResources {
+public class RoleResource {
 
     private RoleService roleService;
 
-    public RoleResources(RoleService roleService) {
+    public RoleResource(RoleService roleService) {
         this.roleService = roleService;
     }
 
