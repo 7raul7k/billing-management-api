@@ -41,7 +41,7 @@ public class PaymentModeResource {
     }
 
     @DeleteMapping("/deletePaymentMode/{name}")
-    public ResponseEntity<String> deletePaymentMode(String name) {
+    public ResponseEntity<String> deletePaymentMode(@PathVariable  String name) {
         this.paymentModeService.deletePaymentMode(name);
 
         log.info("REST request to delete a payment mode by name {}", name);
@@ -76,7 +76,7 @@ public class PaymentModeResource {
 
         return new ResponseEntity<>("Payment mode was updated", HttpStatus.OK);
     }
-    
+
 
 
 
