@@ -1,4 +1,4 @@
-package ro.myclass.billingmanagementapi.dto;
+package ro.myclass.billingmanagementapi.bill.dto;
 
 
 import lombok.AllArgsConstructor;

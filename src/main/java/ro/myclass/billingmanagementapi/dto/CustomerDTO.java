@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import ro.myclass.billingmanagementapi.models.Bill;
+import ro.myclass.billingmanagementapi.bill.models.Bill;
 import ro.myclass.billingmanagementapi.models.Payment;
 
 import java.util.List;

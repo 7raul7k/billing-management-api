@@ -1,23 +1,25 @@
-package ro.myclass.billingmanagementapi.service;
+package ro.myclass.billingmanagementapi.bill.service;
 
 
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-import ro.myclass.billingmanagementapi.dto.BillDTO;
+import ro.myclass.billingmanagementapi.bill.dto.BillDTO;
+import ro.myclass.billingmanagementapi.bill.repository.BillRepo;
 import ro.myclass.billingmanagementapi.exceptions.BillNotFoundException;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
-import ro.myclass.billingmanagementapi.models.Bill;
-import ro.myclass.billingmanagementapi.repo.BillRepo;
+import ro.myclass.billingmanagementapi.bill.models.Bill;
 
 import java.util.List;
 import java.util.Optional;
 
+@Transactional
 @Service
-public class BillService {
+public class BillImplService implements BillQueryService,BillCommandService {
 
     private BillRepo billRepo;
 
-    public BillService(BillRepo billRepo) {
+    public BillImplService(BillRepo billRepo) {
         this.billRepo = billRepo;
     }
 

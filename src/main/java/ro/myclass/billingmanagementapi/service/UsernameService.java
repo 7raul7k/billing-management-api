@@ -1,6 +1,7 @@
 package ro.myclass.billingmanagementapi.service;
 
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import ro.myclass.billingmanagementapi.dto.UsernameDTO;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
@@ -31,6 +32,7 @@ public class UsernameService {
         }
     }
 
+    @Transactional
     public void addUsername(UsernameDTO usernameDTO){
       Optional<Username> usernameOptional = this.usernameRepo.getUsernameByUsername(usernameDTO.getUsername());
 
@@ -43,6 +45,7 @@ public class UsernameService {
         }
     }
 
+    @Transactional
     public void deleteUsername(String username){
         Optional<Username> usernameOptional = this.usernameRepo.getUsernameByUsername(username);
 
@@ -96,8 +99,6 @@ public class UsernameService {
         }if(usernameDTO.getDob()!=null){
                usernameOptional.get().setDob(usernameDTO.getDob());
            }
-        }if(usernameDTO.getUsername()!=null){
-            usernameOptional.get().setUsername(usernameDTO.getUsername());
         }if(usernameDTO.getRole()!=null){
             usernameOptional.get().setRole(usernameDTO.getRole());
         }

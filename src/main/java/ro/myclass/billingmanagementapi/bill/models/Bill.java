@@ -1,4 +1,4 @@
-package ro.myclass.billingmanagementapi.models;
+package ro.myclass.billingmanagementapi.bill.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import ro.myclass.billingmanagementapi.models.Customer;
+import ro.myclass.billingmanagementapi.models.Receipt;
 
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
