@@ -1,20 +1,20 @@
-package ro.myclass.billingmanagementapi.service;
+package ro.myclass.billingmanagementapi.username.service;
 
 
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-import ro.myclass.billingmanagementapi.dto.UsernameDTO;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
 import ro.myclass.billingmanagementapi.exceptions.UsernameNotFoundException;
 import ro.myclass.billingmanagementapi.exceptions.UsernameWasFoundException;
-import ro.myclass.billingmanagementapi.models.Username;
-import ro.myclass.billingmanagementapi.repo.UsernameRepo;
+import ro.myclass.billingmanagementapi.username.dto.UsernameDTO;
+import ro.myclass.billingmanagementapi.username.models.Username;
+import ro.myclass.billingmanagementapi.username.repo.UsernameRepo;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UsernameService {
+public class UsernameService implements UsernameQuerryService, UsernameCommandService {
 
     private UsernameRepo usernameRepo;
 

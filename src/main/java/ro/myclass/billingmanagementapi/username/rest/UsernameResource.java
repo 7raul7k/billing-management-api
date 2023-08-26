@@ -1,13 +1,15 @@
-package ro.myclass.billingmanagementapi.rest;
+package ro.myclass.billingmanagementapi.username.rest;
 
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ro.myclass.billingmanagementapi.dto.UsernameDTO;
-import ro.myclass.billingmanagementapi.models.Username;
-import ro.myclass.billingmanagementapi.service.UsernameService;
+import ro.myclass.billingmanagementapi.username.service.UsernameCommandService;
+import ro.myclass.billingmanagementapi.username.service.UsernameQuerryService;
+import ro.myclass.billingmanagementapi.username.service.UsernameService;
+import ro.myclass.billingmanagementapi.username.dto.UsernameDTO;
+import ro.myclass.billingmanagementapi.username.models.Username;
 
 import java.util.List;
 
@@ -16,15 +18,18 @@ import java.util.List;
 @Slf4j
 public class UsernameResource {
 
-    private UsernameService usernameService;
+    private UsernameCommandService usernameCommandService;
 
-    public UsernameResource(UsernameService usernameService) {
-        this.usernameService = usernameService;
+    private UsernameQuerryService usernameQuerryService;
+
+    public UsernameResource(UsernameCommandService usernameCommandService, UsernameQuerryService usernameQuerryService) {
+        this.usernameCommandService = usernameCommandService;
+        this.usernameQuerryService = usernameQuerryService;
     }
 
     @GetMapping("/allUsernames")
     public ResponseEntity<List<Username>> getAllUsernames() {
-        List<Username> usernameList = this.usernameService.getAllUsernames();
+        List<Username> usernameList = this.usernameQuerryService.getAllUsernames();
 
         log.info("REST request to get all usernames {}", usernameList);
 
@@ -33,7 +38,7 @@ public class UsernameResource {
 
     @PostMapping("/addUsername")
     public ResponseEntity<String> addUsername(@RequestBody UsernameDTO username) {
-        this.usernameService.addUsername(username);
+        this.usernameCommandService.addUsername(username);
 
         log.info("REST request to add a username {}", username);
 
@@ -42,7 +47,7 @@ public class UsernameResource {
     
     @DeleteMapping("/deleteUsername/{username}")
     public ResponseEntity<String> deleteUsername(@PathVariable String username) {
-        this.usernameService.deleteUsername(username);
+        this.usernameCommandService.deleteUsername(username);
 
         log.info("REST request to delete a username by username {}", username);
 
@@ -51,7 +56,7 @@ public class UsernameResource {
     
     @GetMapping("/getUsernameById/{id}")
     public ResponseEntity<Username> getUsernameById(@PathVariable long id) {
-        Username username = this.usernameService.getUsernameById(id);
+        Username username = this.usernameQuerryService.getUsernameById(id);
 
         log.info("REST request to get a username by id {}", id);
 
@@ -60,7 +65,7 @@ public class UsernameResource {
 
     @GetMapping("/getUsernameByUsername/{username}")
     public ResponseEntity<Username> getUsernameByUsername(@PathVariable String username) {
-        Username username1 = this.usernameService.getUsernameByUsername(username);
+        Username username1 = this.usernameQuerryService.getUsernameByUsername(username);
 
         log.info("REST request to get a username by username {}", username);
 
@@ -69,7 +74,7 @@ public class UsernameResource {
 
     @PutMapping("/updateUsername")
     public ResponseEntity<String> updateUsername(@RequestBody UsernameDTO usernameDTO) {
-        this.usernameService.updateUsername(usernameDTO);
+        this.usernameCommandService.updateUsername(usernameDTO);
 
         log.info("REST request to update a username {}", usernameDTO);
 
@@ -79,7 +84,7 @@ public class UsernameResource {
 
     @GetMapping("/getUsernameByEmail/{email}")
     public ResponseEntity<Username> getUsernameByEmail(@PathVariable String email) {
-        Username username = this.usernameService.getUsernameByEmail(email);
+        Username username = this.usernameQuerryService.getUsernameByEmail(email);
 
         log.info("REST request to get a username by email {}", email);
 

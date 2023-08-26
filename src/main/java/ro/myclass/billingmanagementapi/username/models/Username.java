@@ -1,4 +1,4 @@
-package ro.myclass.billingmanagementapi.models;
+package ro.myclass.billingmanagementapi.username.models;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;

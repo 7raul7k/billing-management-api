@@ -1,4 +1,4 @@
-package ro.myclass.billingmanagementapi.dto;
+package ro.myclass.billingmanagementapi.username.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

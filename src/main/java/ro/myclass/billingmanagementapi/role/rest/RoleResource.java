@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.myclass.billingmanagementapi.role.dto.RoleDTO;
+import ro.myclass.billingmanagementapi.role.service.RoleCommandService;
+import ro.myclass.billingmanagementapi.role.service.RoleQuerryService;
 import ro.myclass.billingmanagementapi.role.service.RoleService;
 import ro.myclass.billingmanagementapi.role.models.Role;
 
@@ -17,15 +19,18 @@ import java.util.List;
 @Slf4j
 public class RoleResource {
 
-    private RoleService roleService;
+    private RoleCommandService roleCommandService;
 
-    public RoleResource(RoleService roleService) {
-        this.roleService = roleService;
+    private RoleQuerryService roleQuerryService;
+
+    public RoleResource(RoleCommandService roleCommandService, RoleQuerryService roleQuerryService) {
+        this.roleCommandService = roleCommandService;
+        this.roleQuerryService = roleQuerryService;
     }
 
     @GetMapping("/allRoles")
     public ResponseEntity<List<Role>> getAllRoles(){
-        List<Role> roleList = this.roleService.getAllRoles();
+        List<Role> roleList = this.roleQuerryService.getAllRoles();
 
         log.info("REST request to get all roles {}",roleList);
 
@@ -34,7 +39,7 @@ public class RoleResource {
 
     @PostMapping("/addRole")
     public ResponseEntity<String> addRole(@RequestBody RoleDTO role){
-        this.roleService.addRole(role);
+        this.roleCommandService.addRole(role);
 
         log.info("REST request to add a role {}",role);
 
@@ -44,7 +49,7 @@ public class RoleResource {
 
     @DeleteMapping("/deleteRole/{title}")
     public ResponseEntity<String> deleteRole(@PathVariable String title){
-        this.roleService.removeRole(title);
+        this.roleCommandService.removeRole(title);
 
         log.info("REST request to delete a role by title {}",title);
 
@@ -54,7 +59,7 @@ public class RoleResource {
 
     @GetMapping("/getRoleById/{id}")
     public ResponseEntity<Role> getRoleById(@PathVariable("id") long id) {
-        Role role = this.roleService.getRolebyId(id);
+        Role role = this.roleQuerryService.getRolebyId(id);
 
         log.info("REST request to get a role by id {}", id);
 
@@ -63,7 +68,7 @@ public class RoleResource {
 
     @PutMapping("/updateRole")
     public ResponseEntity<String> updateRole(@RequestBody RoleDTO roleDTO) {
-        this.roleService.updateRole(roleDTO);
+        this.roleCommandService.updateRole(roleDTO);
 
         log.info("REST request to update a role {}", roleDTO);
 
@@ -72,7 +77,7 @@ public class RoleResource {
 
     @GetMapping("/getRoleByTitle/{title}")
     public ResponseEntity<Role> getRoleByTitle(@PathVariable("title") String title) {
-        Role role = this.roleService.getRoleByTitle(title);
+        Role role = this.roleQuerryService.getRoleByTitle(title);
 
         log.info("REST request to get a role by title {}", title);
 
