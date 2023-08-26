@@ -32,7 +32,7 @@ public class PaymentModeResource {
     }
 
     @PostMapping("/addPayment")
-    public ResponseEntity<String> addPayment(PaymentDTO payment) {
+    public ResponseEntity<String> addPayment(@RequestBody PaymentDTO payment) {
         this.paymentService.addPayment(payment);
 
         log.info("REST request to add a payment {}", payment);
@@ -41,7 +41,7 @@ public class PaymentModeResource {
     }
 
     @GetMapping("/getPaymentById/{id}")
-    public ResponseEntity<Payment> getPaymentById(long id) {
+    public ResponseEntity<Payment> getPaymentById(@PathVariable long id) {
         Payment payment = this.paymentService.getPaymentById(id);
 
         log.info("REST request to get a payment by id {}", id);

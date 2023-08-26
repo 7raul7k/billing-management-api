@@ -43,7 +43,7 @@ public class RoleResource {
     }
 
     @DeleteMapping("/deleteRole/{title}")
-    public ResponseEntity<String> deleteRole(@PathVariable("title") String title){
+    public ResponseEntity<String> deleteRole(@PathVariable String title){
         this.roleService.removeRole(title);
 
         log.info("REST request to delete a role by title {}",title);

@@ -32,7 +32,7 @@ public class UsernameResource {
     }
 
     @PostMapping("/addUsername")
-    public ResponseEntity<String> addUsername(UsernameDTO username) {
+    public ResponseEntity<String> addUsername(@RequestBody UsernameDTO username) {
         this.usernameService.addUsername(username);
 
         log.info("REST request to add a username {}", username);
@@ -41,7 +41,7 @@ public class UsernameResource {
     }
     
     @DeleteMapping("/deleteUsername/{username}")
-    public ResponseEntity<String> deleteUsername(String username) {
+    public ResponseEntity<String> deleteUsername(@PathVariable String username) {
         this.usernameService.deleteUsername(username);
 
         log.info("REST request to delete a username by username {}", username);
@@ -50,7 +50,7 @@ public class UsernameResource {
     }
     
     @GetMapping("/getUsernameById/{id}")
-    public ResponseEntity<Username> getUsernameById(long id) {
+    public ResponseEntity<Username> getUsernameById(@PathVariable long id) {
         Username username = this.usernameService.getUsernameById(id);
 
         log.info("REST request to get a username by id {}", id);
@@ -59,7 +59,7 @@ public class UsernameResource {
     }
 
     @GetMapping("/getUsernameByUsername/{username}")
-    public ResponseEntity<Username> getUsernameByUsername(String username) {
+    public ResponseEntity<Username> getUsernameByUsername(@PathVariable String username) {
         Username username1 = this.usernameService.getUsernameByUsername(username);
 
         log.info("REST request to get a username by username {}", username);
@@ -68,7 +68,7 @@ public class UsernameResource {
     }
 
     @PutMapping("/updateUsername")
-    public ResponseEntity<String> updateUsername(UsernameDTO usernameDTO) {
+    public ResponseEntity<String> updateUsername(@RequestBody UsernameDTO usernameDTO) {
         this.usernameService.updateUsername(usernameDTO);
 
         log.info("REST request to update a username {}", usernameDTO);
@@ -77,7 +77,8 @@ public class UsernameResource {
     }
 
 
-    public ResponseEntity<Username> getUsernameByEmail(String email) {
+    @GetMapping("/getUsernameByEmail/{email}")
+    public ResponseEntity<Username> getUsernameByEmail(@PathVariable String email) {
         Username username = this.usernameService.getUsernameByEmail(email);
 
         log.info("REST request to get a username by email {}", email);

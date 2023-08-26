@@ -33,7 +33,7 @@ public class ReceiptResource {
     }
 
     @PostMapping("/addReceipt")
-    public ResponseEntity<String> addReceipt(ReceiptDTO receipt) {
+    public ResponseEntity<String> addReceipt(@RequestBody ReceiptDTO receipt) {
         this.receiptService.addReceipt(receipt);
 
         log.info("REST request to add a receipt {}", receipt);
@@ -61,8 +61,8 @@ public class ReceiptResource {
 
 
 
-    @GetMapping("/getReceiptByTitle/{type}")
-    public ResponseEntity<Receipt> getReceiptByTitle(@PathVariable String type) {
+    @GetMapping("/getReceiptByType/{type}")
+    public ResponseEntity<Receipt> getReceiptByType(@PathVariable String type) {
        List<Receipt> receiptList = this.receiptService.getReceiptByType(type);
 
         log.info("REST request to get a receipt by type {}", type);

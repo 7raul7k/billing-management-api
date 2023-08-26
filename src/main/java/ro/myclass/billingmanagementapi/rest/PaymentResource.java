@@ -33,7 +33,7 @@ public class PaymentResource {
     }
 
     @PostMapping("/addPayment")
-    public ResponseEntity<String> addPayment(PaymentDTO payment) {
+    public ResponseEntity<String> addPayment(@RequestBody PaymentDTO payment) {
         this.paymentService.addPayment(payment);
 
         log.info("REST request to add a payment {}", payment);
@@ -42,7 +42,7 @@ public class PaymentResource {
     }
 
     @GetMapping("/getPaymentById/{id}")
-    public ResponseEntity<Payment> getPaymentById(long id) {
+    public ResponseEntity<Payment> getPaymentById(@PathVariable long id) {
         Payment payment = this.paymentService.getPaymentById(id);
 
         log.info("REST request to get a payment by id {}", id);
@@ -78,4 +78,14 @@ public class PaymentResource {
         return new ResponseEntity<>("Payment was updated", HttpStatus.OK);
 
     }
+
+    @GetMapping("/getPaymentByAmountAndDescription")
+    public ResponseEntity<Payment> getPaymentByAmountAndDescription(@RequestParam String amount,@RequestParam String description) {
+        Payment payment = this.paymentService.getPaymentByAmountAndDescription(amount, description);
+
+        log.info("REST request to get a payment by amount and description {}", amount, description);
+
+        return new ResponseEntity<>(payment, HttpStatus.OK);
+    }
+
 }

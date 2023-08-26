@@ -32,7 +32,7 @@ public class PermissionResource {
     }
 
     @PostMapping("/addPermission")
-    public ResponseEntity<String> addPermission(PermissionDTO permission) {
+    public ResponseEntity<String> addPermission(@RequestBody PermissionDTO permission) {
         this.permissionService.addPermission(permission);
 
         log.info("REST request to add a permission {}", permission);
@@ -41,7 +41,7 @@ public class PermissionResource {
     }
 
     @GetMapping("/getPermissionById/{id}")
-    public ResponseEntity<Permission> getPermissionById(long id) {
+    public ResponseEntity<Permission> getPermissionById(@PathVariable long id) {
         Permission permission = this.permissionService.getPermissionById(id);
 
         log.info("REST request to get a permission by id {}", id);
@@ -50,7 +50,7 @@ public class PermissionResource {
     }
 
     @GetMapping("/getPermissionByTitle/{title}")
-    public ResponseEntity<Permission> getPermissionByTitle(String title) {
+    public ResponseEntity<Permission> getPermissionByTitle(@PathVariable String title) {
         Permission permission = this.permissionService.getPermissionByTitle(title);
 
         log.info("REST request to get a permission by title {}", title);
@@ -59,8 +59,9 @@ public class PermissionResource {
     }
 
     @GetMapping("/getPermissionByModule/{module}")
-    public ResponseEntity<Permission> getPermissionByModule(String module) {
-        Permission permissions = (Permission) this.permissionService.getPermissionByModule(module);
+    public ResponseEntity<List<Permission>> getPermissionByModule(@PathVariable String module) {
+
+        List<Permission> permissions = this.permissionService.getPermissionByModule(module);
 
         log.info("REST request to get a permission by module {}", module);
 
@@ -68,7 +69,7 @@ public class PermissionResource {
     }
 
     @PutMapping("/updatePermission")
-    public ResponseEntity<String> updatePermission(PermissionDTO permissionDTO) {
+    public ResponseEntity<String> updatePermission(@RequestBody PermissionDTO permissionDTO) {
         this.permissionService.updatePermission(permissionDTO);
 
         log.info("REST request to update a permission {}", permissionDTO);

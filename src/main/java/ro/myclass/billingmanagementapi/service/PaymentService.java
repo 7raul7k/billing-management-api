@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import ro.myclass.billingmanagementapi.dto.UpdatePaymentRequest;
 import ro.myclass.billingmanagementapi.dto.PaymentDTO;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
+import ro.myclass.billingmanagementapi.exceptions.PaymentNotFoundException;
 import ro.myclass.billingmanagementapi.exceptions.PaymentWasFoundException;
 import ro.myclass.billingmanagementapi.models.Customer;
 import ro.myclass.billingmanagementapi.models.Payment;
@@ -43,7 +44,12 @@ public class PaymentService {
 
 
         if (paymentOptional.isEmpty()) {
-            Payment payment = Payment.builder().amount(paymentDTO.getAmount()).date(paymentDTO.getDate()).description(paymentDTO.getDescription()).build();
+            Payment payment = Payment.builder()
+                    .amount(paymentDTO.getAmount())
+                    .date(paymentDTO.getDate())
+                    .description(paymentDTO.getDescription())
+                    .customer(paymentDTO.getCustomer())
+                    .build();
 
             this.paymentRepo.save(payment);
         } else {
@@ -99,7 +105,7 @@ public class PaymentService {
         Optional<Payment> paymentOptional = this.paymentRepo.getPaymentByAmountAndDescription(amount, description);
 
         if (paymentOptional.isEmpty()) {
-            throw new ListEmptyException();
+            throw new PaymentNotFoundException();
         } else {
             return paymentOptional.get();
         }
