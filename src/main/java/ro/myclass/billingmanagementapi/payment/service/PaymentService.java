@@ -1,21 +1,21 @@
-package ro.myclass.billingmanagementapi.service;
+package ro.myclass.billingmanagementapi.payment.service;
 
 import org.springframework.stereotype.Service;
-import ro.myclass.billingmanagementapi.dto.UpdatePaymentRequest;
-import ro.myclass.billingmanagementapi.dto.PaymentDTO;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
 import ro.myclass.billingmanagementapi.exceptions.PaymentNotFoundException;
 import ro.myclass.billingmanagementapi.exceptions.PaymentWasFoundException;
 import ro.myclass.billingmanagementapi.customer.models.Customer;
-import ro.myclass.billingmanagementapi.models.Payment;
+import ro.myclass.billingmanagementapi.payment.dto.PaymentDTO;
+import ro.myclass.billingmanagementapi.payment.dto.UpdatePaymentRequest;
+import ro.myclass.billingmanagementapi.payment.models.Payment;
 import ro.myclass.billingmanagementapi.customer.repo.CustomerRepo;
-import ro.myclass.billingmanagementapi.repo.PaymentRepo;
+import ro.myclass.billingmanagementapi.payment.repo.PaymentRepo;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PaymentService {
+public class PaymentService implements PaymentQuerryService, PaymentCommandService{
 
     private PaymentRepo paymentRepo;
 

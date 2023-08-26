@@ -13,18 +13,18 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import ro.myclass.billingmanagementapi.dto.PaymentDTO;
-import ro.myclass.billingmanagementapi.dto.UpdatePaymentRequest;
+import ro.myclass.billingmanagementapi.payment.dto.PaymentDTO;
+import ro.myclass.billingmanagementapi.payment.rest.PaymentResource;
+import ro.myclass.billingmanagementapi.payment.dto.UpdatePaymentRequest;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
 import ro.myclass.billingmanagementapi.exceptions.PaymentNotFoundException;
-import ro.myclass.billingmanagementapi.models.Payment;
-import ro.myclass.billingmanagementapi.service.PaymentService;
+import ro.myclass.billingmanagementapi.payment.models.Payment;
+import ro.myclass.billingmanagementapi.payment.service.PaymentService;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;

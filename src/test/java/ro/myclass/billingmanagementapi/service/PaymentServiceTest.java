@@ -7,13 +7,14 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import ro.myclass.billingmanagementapi.dto.UpdatePaymentRequest;
-import ro.myclass.billingmanagementapi.dto.PaymentDTO;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
 import ro.myclass.billingmanagementapi.customer.models.Customer;
-import ro.myclass.billingmanagementapi.models.Payment;
 import ro.myclass.billingmanagementapi.customer.repo.CustomerRepo;
-import ro.myclass.billingmanagementapi.repo.PaymentRepo;
+import ro.myclass.billingmanagementapi.payment.dto.PaymentDTO;
+import ro.myclass.billingmanagementapi.payment.dto.UpdatePaymentRequest;
+import ro.myclass.billingmanagementapi.payment.models.Payment;
+import ro.myclass.billingmanagementapi.payment.repo.PaymentRepo;
+import ro.myclass.billingmanagementapi.payment.service.PaymentService;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

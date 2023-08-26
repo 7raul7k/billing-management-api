@@ -1,4 +1,4 @@
-package ro.myclass.billingmanagementapi.models;
+package ro.myclass.billingmanagementapi.payment.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;

@@ -5,9 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ro.myclass.billingmanagementapi.dto.PaymentDTO;
-import ro.myclass.billingmanagementapi.models.Payment;
-import ro.myclass.billingmanagementapi.service.PaymentService;
+import ro.myclass.billingmanagementapi.payment.dto.PaymentDTO;
+import ro.myclass.billingmanagementapi.payment.models.Payment;
+import ro.myclass.billingmanagementapi.payment.service.PaymentService;
 
 import java.util.List;
 
