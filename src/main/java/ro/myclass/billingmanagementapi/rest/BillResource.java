@@ -32,7 +32,7 @@ public class BillResource {
     }
 
     @PostMapping("/addBill")
-    public ResponseEntity<String> addBill(@RequestParam BillDTO bill) {
+    public ResponseEntity<String> addBill(@RequestBody BillDTO bill) {
         this.billService.addBill(bill);
 
         log.info("REST request to add a bill {}", bill);
@@ -69,12 +69,14 @@ public class BillResource {
     }
 
     @PutMapping("/updateBill")
-    public ResponseEntity<String> updateBill(@RequestParam BillDTO billDTO) {
+    public ResponseEntity<String> updateBill(@RequestBody BillDTO billDTO) {
         this.billService.updateBill(billDTO);
 
         log.info("REST request to update a bill {}", billDTO);
 
         return new ResponseEntity<>("Bill was updated", HttpStatus.OK);
     }
+
+
     
 }
