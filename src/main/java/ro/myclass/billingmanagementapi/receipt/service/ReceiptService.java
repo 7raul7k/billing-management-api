@@ -1,20 +1,20 @@
-package ro.myclass.billingmanagementapi.service;
+package ro.myclass.billingmanagementapi.receipt.service;
 
 
 import org.springframework.stereotype.Service;
-import ro.myclass.billingmanagementapi.dto.CancelReceiptRequest;
-import ro.myclass.billingmanagementapi.dto.ReceiptDTO;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
 import ro.myclass.billingmanagementapi.exceptions.ReceiptNotFoundException;
 import ro.myclass.billingmanagementapi.exceptions.ReceiptWasFoundException;
-import ro.myclass.billingmanagementapi.models.Receipt;
-import ro.myclass.billingmanagementapi.repo.ReceiptRepo;
+import ro.myclass.billingmanagementapi.receipt.dto.CancelReceiptRequest;
+import ro.myclass.billingmanagementapi.receipt.dto.ReceiptDTO;
+import ro.myclass.billingmanagementapi.receipt.models.Receipt;
+import ro.myclass.billingmanagementapi.receipt.repo.ReceiptRepo;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ReceiptService {
+public class ReceiptService implements ReceiptCommandService,ReceiptQuerryService{
 
     public ReceiptRepo receiptRepo;
 

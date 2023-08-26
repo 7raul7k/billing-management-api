@@ -7,13 +7,14 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import ro.myclass.billingmanagementapi.dto.CancelReceiptRequest;
-import ro.myclass.billingmanagementapi.dto.ReceiptDTO;
+import ro.myclass.billingmanagementapi.receipt.dto.CancelReceiptRequest;
+import ro.myclass.billingmanagementapi.receipt.dto.ReceiptDTO;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
 import ro.myclass.billingmanagementapi.exceptions.ReceiptNotFoundException;
 import ro.myclass.billingmanagementapi.exceptions.ReceiptWasFoundException;
-import ro.myclass.billingmanagementapi.models.Receipt;
-import ro.myclass.billingmanagementapi.repo.ReceiptRepo;
+import ro.myclass.billingmanagementapi.receipt.models.Receipt;
+import ro.myclass.billingmanagementapi.receipt.repo.ReceiptRepo;
+import ro.myclass.billingmanagementapi.receipt.service.ReceiptService;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

@@ -1,14 +1,16 @@
-package ro.myclass.billingmanagementapi.rest;
+package ro.myclass.billingmanagementapi.receipt.rest;
 
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ro.myclass.billingmanagementapi.dto.CancelReceiptRequest;
-import ro.myclass.billingmanagementapi.dto.ReceiptDTO;
-import ro.myclass.billingmanagementapi.models.Receipt;
-import ro.myclass.billingmanagementapi.service.ReceiptService;
+import ro.myclass.billingmanagementapi.receipt.dto.CancelReceiptRequest;
+import ro.myclass.billingmanagementapi.receipt.dto.ReceiptDTO;
+import ro.myclass.billingmanagementapi.receipt.models.Receipt;
+import ro.myclass.billingmanagementapi.receipt.service.ReceiptCommandService;
+import ro.myclass.billingmanagementapi.receipt.service.ReceiptQuerryService;
+import ro.myclass.billingmanagementapi.receipt.service.ReceiptService;
 
 import java.util.List;
 
@@ -17,15 +19,19 @@ import java.util.List;
 @Slf4j
 public class ReceiptResource {
 
-    private ReceiptService receiptService;
+    private ReceiptCommandService receiptCommandService;
 
-    public ReceiptResource(ReceiptService receiptService) {
-        this.receiptService = receiptService;
+    private ReceiptQuerryService receiptQuerryService;
+
+
+    public ReceiptResource(ReceiptCommandService receiptCommandService, ReceiptQuerryService receiptQuerryService) {
+        this.receiptCommandService = receiptCommandService;
+        this.receiptQuerryService = receiptQuerryService;
     }
 
     @GetMapping("/allReceipts")
     public ResponseEntity<List<Receipt>> getAllReceipts() {
-        List<Receipt> receiptList = this.receiptService.getAllReceipts();
+        List<Receipt> receiptList = this.receiptQuerryService.getAllReceipts();
 
         log.info("REST request to get all receipts {}", receiptList);
 
@@ -34,7 +40,7 @@ public class ReceiptResource {
 
     @PostMapping("/addReceipt")
     public ResponseEntity<String> addReceipt(@RequestBody ReceiptDTO receipt) {
-        this.receiptService.addReceipt(receipt);
+        this.receiptCommandService.addReceipt(receipt);
 
         log.info("REST request to add a receipt {}", receipt);
 
@@ -43,7 +49,7 @@ public class ReceiptResource {
 
     @DeleteMapping("/deleteReceipt")
     public ResponseEntity<String> deleteReceipt(@RequestBody CancelReceiptRequest cancelReceiptRequest) {
-        this.receiptService.removeReceipt(cancelReceiptRequest);
+        this.receiptCommandService.removeReceipt(cancelReceiptRequest);
 
         log.info("REST request to delete a receipt by cancelReceiptRequest {}", cancelReceiptRequest);
 
@@ -52,7 +58,7 @@ public class ReceiptResource {
 
     @GetMapping("/getReceiptById/{id}")
     public ResponseEntity<Receipt> getReceiptById(@PathVariable long id) {
-        Receipt receipt = this.receiptService.getReceiptById(id);
+        Receipt receipt = this.receiptQuerryService.getReceiptById(id);
 
         log.info("REST request to get a receipt by id {}", id);
 
@@ -63,7 +69,7 @@ public class ReceiptResource {
 
     @GetMapping("/getReceiptByType/{type}")
     public ResponseEntity<Receipt> getReceiptByType(@PathVariable String type) {
-       List<Receipt> receiptList = this.receiptService.getReceiptByType(type);
+       List<Receipt> receiptList = this.receiptQuerryService.getReceiptByType(type);
 
         log.info("REST request to get a receipt by type {}", type);
 
@@ -72,7 +78,7 @@ public class ReceiptResource {
 
     @PutMapping("/updateReceipt")
     public ResponseEntity<String> updateReceipt(@RequestBody ReceiptDTO receiptDTO) {
-        this.receiptService.updateReceipt(receiptDTO);
+        this.receiptCommandService.updateReceipt(receiptDTO);
 
         log.info("REST request to update a receipt {}", receiptDTO);
 

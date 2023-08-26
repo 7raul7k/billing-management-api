@@ -11,15 +11,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import ro.myclass.billingmanagementapi.dto.ReceiptDTO;
+import ro.myclass.billingmanagementapi.receipt.dto.ReceiptDTO;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
-import ro.myclass.billingmanagementapi.models.Receipt;
-import ro.myclass.billingmanagementapi.service.ReceiptService;
+import ro.myclass.billingmanagementapi.receipt.models.Receipt;
+import ro.myclass.billingmanagementapi.receipt.rest.ReceiptResource;
+import ro.myclass.billingmanagementapi.receipt.service.ReceiptService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
