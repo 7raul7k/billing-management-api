@@ -1,4 +1,4 @@
-package ro.myclass.billingmanagementapi.dto;
+package ro.myclass.billingmanagementapi.role.dto;
 
 
 import lombok.AllArgsConstructor;
@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import ro.myclass.billingmanagementapi.permission.models.Permission;
-import ro.myclass.billingmanagementapi.models.Role;
+import ro.myclass.billingmanagementapi.role.models.Role;
 
 import java.util.List;
 

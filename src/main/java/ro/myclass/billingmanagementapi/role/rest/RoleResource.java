@@ -1,13 +1,13 @@
-package ro.myclass.billingmanagementapi.rest;
+package ro.myclass.billingmanagementapi.role.rest;
 
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ro.myclass.billingmanagementapi.dto.RoleDTO;
-import ro.myclass.billingmanagementapi.models.Role;
-import ro.myclass.billingmanagementapi.service.RoleService;
+import ro.myclass.billingmanagementapi.role.dto.RoleDTO;
+import ro.myclass.billingmanagementapi.role.service.RoleService;
+import ro.myclass.billingmanagementapi.role.models.Role;
 
 
 import java.util.List;

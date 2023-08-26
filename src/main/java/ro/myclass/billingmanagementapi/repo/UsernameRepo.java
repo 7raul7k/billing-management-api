@@ -3,7 +3,6 @@ package ro.myclass.billingmanagementapi.repo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import ro.myclass.billingmanagementapi.models.Role;
 import ro.myclass.billingmanagementapi.models.Username;
 
 import java.util.List;

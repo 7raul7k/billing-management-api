@@ -1,17 +1,19 @@
-package ro.myclass.billingmanagementapi.service;
+package ro.myclass.billingmanagementapi.role.service;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-import ro.myclass.billingmanagementapi.dto.RoleDTO;
+import ro.myclass.billingmanagementapi.role.dto.RoleDTO;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
 import ro.myclass.billingmanagementapi.exceptions.RoleNotFoundException;
-import ro.myclass.billingmanagementapi.models.Role;
-import ro.myclass.billingmanagementapi.repo.RoleRepo;
+import ro.myclass.billingmanagementapi.role.models.Role;
+import ro.myclass.billingmanagementapi.role.repo.RoleRepo;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class RoleService {
+@Transactional
+public class RoleService implements RoleQuerryService, RoleCommandService {
 
     private RoleRepo roleRepo;
 

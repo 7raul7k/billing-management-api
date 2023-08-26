@@ -4,9 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import ro.myclass.billingmanagementapi.models.Role;
-
-import java.util.List;
+import ro.myclass.billingmanagementapi.role.models.Role;
 
 @Data
 @AllArgsConstructor
