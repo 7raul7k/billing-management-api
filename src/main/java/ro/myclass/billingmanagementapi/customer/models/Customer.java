@@ -1,4 +1,4 @@
-package ro.myclass.billingmanagementapi.models;
+package ro.myclass.billingmanagementapi.customer.models;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import ro.myclass.billingmanagementapi.bill.models.Bill;
+import ro.myclass.billingmanagementapi.models.Payment;
 
 import java.util.ArrayList;
 import java.util.List;

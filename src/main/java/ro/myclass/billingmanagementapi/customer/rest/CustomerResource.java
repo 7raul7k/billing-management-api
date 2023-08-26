@@ -1,13 +1,13 @@
-package ro.myclass.billingmanagementapi.rest;
+package ro.myclass.billingmanagementapi.customer.rest;
 
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ro.myclass.billingmanagementapi.dto.CustomerDTO;
-import ro.myclass.billingmanagementapi.models.Customer;
-import ro.myclass.billingmanagementapi.service.CustomerService;
+import ro.myclass.billingmanagementapi.customer.dto.CustomerDTO;
+import ro.myclass.billingmanagementapi.customer.models.Customer;
+import ro.myclass.billingmanagementapi.customer.service.CustomerImplService;
 
 import java.util.List;
 
@@ -16,15 +16,15 @@ import java.util.List;
 @Slf4j
 public class CustomerResource {
 
-    private CustomerService customerService;
+    private CustomerImplService customerImplService;
 
-    public CustomerResource(CustomerService customerService) {
-        this.customerService = customerService;
+    public CustomerResource(CustomerImplService customerImplService) {
+        this.customerImplService = customerImplService;
     }
 
     @GetMapping("/allCustomers")
     public ResponseEntity<List<Customer>> getAllCustomers() {
-        List<Customer> customerList = this.customerService.getAllCustomers();
+        List<Customer> customerList = this.customerImplService.getAllCustomers();
 
         log.info("REST request to get all customers {}", customerList);
 
@@ -33,7 +33,7 @@ public class CustomerResource {
 
     @PostMapping("/addCustomer")
     public ResponseEntity<String> addCustomer(@RequestBody CustomerDTO customer) {
-        this.customerService.addCustomer(customer);
+        this.customerImplService.addCustomer(customer);
 
         log.info("REST request to add a customer {}", customer);
 
@@ -42,7 +42,7 @@ public class CustomerResource {
 
     @DeleteMapping("/deleteCustomer/{name}")
     public ResponseEntity<String> deleteCustomer(@PathVariable String name) {
-        this.customerService.deleteCustomer(name);
+        this.customerImplService.deleteCustomer(name);
 
         log.info("REST request to delete a customer by name {}", name);
 
@@ -51,7 +51,7 @@ public class CustomerResource {
 
     @GetMapping("/getCustomerById/{id}")
     public ResponseEntity<Customer> getCustomerById(@PathVariable long id) {
-        Customer customer = this.customerService.getCustomerById(id);
+        Customer customer = this.customerImplService.getCustomerById(id);
 
         log.info("REST request to get a customer by id {}", id);
 
@@ -60,7 +60,7 @@ public class CustomerResource {
 
     @GetMapping("/getCustomerByEmail/{email}")
     public ResponseEntity<Customer> getCustomerByEmail(@PathVariable String email) {
-        Customer customer = this.customerService.getCustomerByEmail(email);
+        Customer customer = this.customerImplService.getCustomerByEmail(email);
 
         log.info("REST request to get a customer by email {}", email);
 
@@ -69,7 +69,7 @@ public class CustomerResource {
 
     @PutMapping("/updateCustomer")
     public ResponseEntity<String> updateCustomer(@RequestBody CustomerDTO customerDTO) {
-        this.customerService.updateCustomer(customerDTO);
+        this.customerImplService.updateCustomer(customerDTO);
 
         log.info("REST request to update a customer {}", customerDTO);
 
@@ -79,7 +79,7 @@ public class CustomerResource {
     @GetMapping("/getCustomerByAddress/{address}")
     public ResponseEntity<List<Customer>> getCustomerByAddress(@PathVariable String address) {
 
-        List<Customer> customerList = this.customerService.getCustomerByAddress(address);
+        List<Customer> customerList = this.customerImplService.getCustomerByAddress(address);
 
         log.info("REST request to get a customer by address {}", address);
 
@@ -88,7 +88,7 @@ public class CustomerResource {
 
     @GetMapping("/getCustomerByMobile/{mobile}")
     public ResponseEntity<Customer> getCustomerByMobile(@PathVariable String mobile) {
-        Customer customer = this.customerService.getCustomerByMobile(mobile);
+        Customer customer = this.customerImplService.getCustomerByMobile(mobile);
 
         log.info("REST request to get a customer by mobile {}", mobile);
 
@@ -97,7 +97,7 @@ public class CustomerResource {
 
     @GetMapping("/getCustomerByUsername/{username}")
     public ResponseEntity<Customer> getCustomerByUsername(@PathVariable String username) {
-        Customer customer = this.customerService.getCustomerByUsername(username);
+        Customer customer = this.customerImplService.getCustomerByUsername(username);
 
         log.info("REST request to get a customer by username {}", username);
 

@@ -1,22 +1,24 @@
-package ro.myclass.billingmanagementapi.service;
+package ro.myclass.billingmanagementapi.customer.service;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-import ro.myclass.billingmanagementapi.dto.CustomerDTO;
+import ro.myclass.billingmanagementapi.customer.dto.CustomerDTO;
+import ro.myclass.billingmanagementapi.customer.repo.CustomerRepo;
 import ro.myclass.billingmanagementapi.exceptions.CustomerNotFoundException;
 import ro.myclass.billingmanagementapi.exceptions.CustomerWasFoundException;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
-import ro.myclass.billingmanagementapi.models.Customer;
-import ro.myclass.billingmanagementapi.repo.CustomerRepo;
+import ro.myclass.billingmanagementapi.customer.models.Customer;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CustomerService {
+@Transactional
+public class CustomerImplService implements CustomerQuerryService,CustomerCommandService {
 
     private CustomerRepo customerRepo;
 
-    public CustomerService(CustomerRepo customerRepo) {
+    public CustomerImplService(CustomerRepo customerRepo) {
         this.customerRepo = customerRepo;
     }
 

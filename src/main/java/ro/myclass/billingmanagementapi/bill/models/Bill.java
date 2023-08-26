@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import ro.myclass.billingmanagementapi.models.Customer;
+import ro.myclass.billingmanagementapi.customer.models.Customer;
 import ro.myclass.billingmanagementapi.models.Receipt;
 
 import static jakarta.persistence.GenerationType.SEQUENCE;

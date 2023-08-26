@@ -6,9 +6,9 @@ import ro.myclass.billingmanagementapi.dto.PaymentDTO;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
 import ro.myclass.billingmanagementapi.exceptions.PaymentNotFoundException;
 import ro.myclass.billingmanagementapi.exceptions.PaymentWasFoundException;
-import ro.myclass.billingmanagementapi.models.Customer;
+import ro.myclass.billingmanagementapi.customer.models.Customer;
 import ro.myclass.billingmanagementapi.models.Payment;
-import ro.myclass.billingmanagementapi.repo.CustomerRepo;
+import ro.myclass.billingmanagementapi.customer.repo.CustomerRepo;
 import ro.myclass.billingmanagementapi.repo.PaymentRepo;
 
 import java.util.List;
