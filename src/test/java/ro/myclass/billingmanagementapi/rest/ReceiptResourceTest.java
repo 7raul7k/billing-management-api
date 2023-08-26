@@ -179,7 +179,7 @@ class ReceiptResourceTest {
                 .andExpect(status().isBadRequest());
     }
 
- 
+
 
 
 }

@@ -32,7 +32,7 @@ public class CustomerResource {
     }
 
     @PostMapping("/addCustomer")
-    public ResponseEntity<String> addCustomer(CustomerDTO customer) {
+    public ResponseEntity<String> addCustomer(@RequestBody CustomerDTO customer) {
         this.customerService.addCustomer(customer);
 
         log.info("REST request to add a customer {}", customer);
@@ -50,7 +50,7 @@ public class CustomerResource {
     }
 
     @GetMapping("/getCustomerById/{id}")
-    public ResponseEntity<Customer> getCustomerById(long id) {
+    public ResponseEntity<Customer> getCustomerById(@PathVariable long id) {
         Customer customer = this.customerService.getCustomerById(id);
 
         log.info("REST request to get a customer by id {}", id);
@@ -58,8 +58,8 @@ public class CustomerResource {
         return new ResponseEntity<>(customer, HttpStatus.OK);
     }
 
-    @GetMapping("/getCustomerByName/{email}")
-    public ResponseEntity<Customer> getCustomerByEmail(String email) {
+    @GetMapping("/getCustomerByEmail/{email}")
+    public ResponseEntity<Customer> getCustomerByEmail(@PathVariable String email) {
         Customer customer = this.customerService.getCustomerByEmail(email);
 
         log.info("REST request to get a customer by email {}", email);
@@ -68,7 +68,7 @@ public class CustomerResource {
     }
 
     @PutMapping("/updateCustomer")
-    public ResponseEntity<String> updateCustomer(CustomerDTO customerDTO) {
+    public ResponseEntity<String> updateCustomer(@RequestBody CustomerDTO customerDTO) {
         this.customerService.updateCustomer(customerDTO);
 
         log.info("REST request to update a customer {}", customerDTO);
@@ -77,7 +77,7 @@ public class CustomerResource {
     }
 
     @GetMapping("/getCustomerByAddress/{address}")
-    public ResponseEntity<List<Customer>> getCustomerByAddress(String address) {
+    public ResponseEntity<List<Customer>> getCustomerByAddress(@PathVariable String address) {
 
         List<Customer> customerList = this.customerService.getCustomerByAddress(address);
 
@@ -85,6 +85,26 @@ public class CustomerResource {
 
         return new ResponseEntity<>(customerList, HttpStatus.OK);
     }
+
+    @GetMapping("/getCustomerByMobile/{mobile}")
+    public ResponseEntity<Customer> getCustomerByMobile(@PathVariable String mobile) {
+        Customer customer = this.customerService.getCustomerByMobile(mobile);
+
+        log.info("REST request to get a customer by mobile {}", mobile);
+
+        return new ResponseEntity<>(customer, HttpStatus.OK);
+    }
+
+    @GetMapping("/getCustomerByUsername/{username}")
+    public ResponseEntity<Customer> getCustomerByUsername(@PathVariable String username) {
+        Customer customer = this.customerService.getCustomerByUsername(username);
+
+        log.info("REST request to get a customer by username {}", username);
+
+        return new ResponseEntity<>(customer, HttpStatus.OK);
+    }
+
+
 
 
 
