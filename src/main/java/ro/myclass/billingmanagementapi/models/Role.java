@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import ro.myclass.billingmanagementapi.permission.models.Permission;
 
 import java.util.ArrayList;
 import java.util.List;

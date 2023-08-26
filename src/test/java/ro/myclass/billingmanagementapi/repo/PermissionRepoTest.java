@@ -7,7 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ro.myclass.billingmanagementapi.BillingManagementApiApplication;
-import ro.myclass.billingmanagementapi.models.Permission;
+import ro.myclass.billingmanagementapi.permission.models.Permission;
+import ro.myclass.billingmanagementapi.permission.repo.PermissionRepo;
 
 import java.util.ArrayList;
 import java.util.List;

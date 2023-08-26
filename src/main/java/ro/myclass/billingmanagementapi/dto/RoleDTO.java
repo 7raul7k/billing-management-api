@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import ro.myclass.billingmanagementapi.models.Permission;
+import ro.myclass.billingmanagementapi.permission.models.Permission;
 import ro.myclass.billingmanagementapi.models.Role;
 
 import java.util.List;

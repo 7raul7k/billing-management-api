@@ -1,18 +1,18 @@
-package ro.myclass.billingmanagementapi.service;
+package ro.myclass.billingmanagementapi.permission.service;
 
 
 import org.springframework.stereotype.Service;
-import ro.myclass.billingmanagementapi.dto.PermissionDTO;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
 import ro.myclass.billingmanagementapi.exceptions.PermissionWasFoundException;
-import ro.myclass.billingmanagementapi.models.Permission;
-import ro.myclass.billingmanagementapi.repo.PermissionRepo;
+import ro.myclass.billingmanagementapi.permission.dto.PermissionDTO;
+import ro.myclass.billingmanagementapi.permission.models.Permission;
+import ro.myclass.billingmanagementapi.permission.repo.PermissionRepo;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PermissionService {
+public class PermissionService implements PermissionQuerryService, PermissionCommandService{
 
     private PermissionRepo permissionRepo;
 

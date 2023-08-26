@@ -1,13 +1,13 @@
-package ro.myclass.billingmanagementapi.rest;
+package ro.myclass.billingmanagementapi.permission.resource;
 
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ro.myclass.billingmanagementapi.dto.PermissionDTO;
-import ro.myclass.billingmanagementapi.models.Permission;
-import ro.myclass.billingmanagementapi.service.PermissionService;
+import ro.myclass.billingmanagementapi.permission.dto.PermissionDTO;
+import ro.myclass.billingmanagementapi.permission.models.Permission;
+import ro.myclass.billingmanagementapi.permission.service.PermissionService;
 
 import java.util.List;
 

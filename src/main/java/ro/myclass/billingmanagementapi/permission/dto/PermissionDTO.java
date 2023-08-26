@@ -1,4 +1,4 @@
-package ro.myclass.billingmanagementapi.dto;
+package ro.myclass.billingmanagementapi.permission.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
