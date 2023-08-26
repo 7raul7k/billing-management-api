@@ -1,19 +1,19 @@
-package ro.myclass.billingmanagementapi.service;
+package ro.myclass.billingmanagementapi.paymentmode.service;
 
 
 import org.springframework.stereotype.Service;
-import ro.myclass.billingmanagementapi.dto.PaymentModeDTO;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
 import ro.myclass.billingmanagementapi.exceptions.PaymentModeNotFoundException;
 import ro.myclass.billingmanagementapi.exceptions.PaymentModeWasFoundException;
-import ro.myclass.billingmanagementapi.models.PaymentMode;
-import ro.myclass.billingmanagementapi.repo.PaymentModeRepo;
+import ro.myclass.billingmanagementapi.paymentmode.dto.PaymentModeDTO;
+import ro.myclass.billingmanagementapi.paymentmode.models.PaymentMode;
+import ro.myclass.billingmanagementapi.paymentmode.repo.PaymentModeRepo;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PaymentModeService {
+public class PaymentModeService implements PaymentModeQuerryService, PaymentModeCommandService {
 
     public PaymentModeRepo paymentModeRepo;
 

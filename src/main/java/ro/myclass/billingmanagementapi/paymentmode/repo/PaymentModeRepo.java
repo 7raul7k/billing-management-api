@@ -1,9 +1,9 @@
-package ro.myclass.billingmanagementapi.repo;
+package ro.myclass.billingmanagementapi.paymentmode.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import ro.myclass.billingmanagementapi.models.PaymentMode;
+import ro.myclass.billingmanagementapi.paymentmode.models.PaymentMode;
 
 import java.util.List;
 import java.util.Optional;

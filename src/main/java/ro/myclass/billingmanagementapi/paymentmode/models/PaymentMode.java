@@ -1,4 +1,4 @@
-package ro.myclass.billingmanagementapi.models;
+package ro.myclass.billingmanagementapi.paymentmode.models;
 
 
 import jakarta.persistence.*;

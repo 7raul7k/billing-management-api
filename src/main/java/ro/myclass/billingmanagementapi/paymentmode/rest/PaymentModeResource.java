@@ -1,4 +1,4 @@
-package ro.myclass.billingmanagementapi.rest;
+package ro.myclass.billingmanagementapi.paymentmode.rest;
 
 
 import lombok.extern.slf4j.Slf4j;
@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.myclass.billingmanagementapi.payment.dto.PaymentDTO;
 import ro.myclass.billingmanagementapi.payment.models.Payment;
+import ro.myclass.billingmanagementapi.payment.service.PaymentCommandService;
+import ro.myclass.billingmanagementapi.payment.service.PaymentQuerryService;
 import ro.myclass.billingmanagementapi.payment.service.PaymentService;
 
 import java.util.List;
@@ -16,15 +18,18 @@ import java.util.List;
 @Slf4j
 public class PaymentModeResource {
 
-    private PaymentService paymentService;
+    private PaymentCommandService paymentCommandService;
 
-    public PaymentModeResource(PaymentService paymentService) {
-        this.paymentService = paymentService;
+    private PaymentQuerryService paymentQuerryService;
+
+    public PaymentModeResource(PaymentCommandService paymentCommandService, PaymentQuerryService paymentQuerryService) {
+        this.paymentCommandService = paymentCommandService;
+        this.paymentQuerryService = paymentQuerryService;
     }
 
     @GetMapping("/allPayments")
     public ResponseEntity<List<Payment>> getAllPayments() {
-        List<Payment> paymentList = this.paymentService.getAllPayments();
+        List<Payment> paymentList = this.paymentQuerryService.getAllPayments();
 
         log.info("REST request to get all payments {}", paymentList);
 
@@ -33,7 +38,7 @@ public class PaymentModeResource {
 
     @PostMapping("/addPayment")
     public ResponseEntity<String> addPayment(@RequestBody PaymentDTO payment) {
-        this.paymentService.addPayment(payment);
+        this.paymentCommandService.addPayment(payment);
 
         log.info("REST request to add a payment {}", payment);
 
@@ -42,7 +47,7 @@ public class PaymentModeResource {
 
     @GetMapping("/getPaymentById/{id}")
     public ResponseEntity<Payment> getPaymentById(@PathVariable long id) {
-        Payment payment = this.paymentService.getPaymentById(id);
+        Payment payment = this.paymentQuerryService.getPaymentById(id);
 
         log.info("REST request to get a payment by id {}", id);
 
@@ -51,7 +56,7 @@ public class PaymentModeResource {
 
     @GetMapping("/getPaymentByAmount/{amount}")
     public ResponseEntity<List<Payment>> getPaymentByAmount(@PathVariable String amount) {
-        List<Payment> payment = this.paymentService.getPaymentByAmount(amount);
+        List<Payment> payment = this.paymentQuerryService.getPaymentByAmount(amount);
 
         log.info("REST request to get a payment by amount {}", amount);
 

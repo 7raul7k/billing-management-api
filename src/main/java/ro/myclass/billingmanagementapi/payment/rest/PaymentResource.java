@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import ro.myclass.billingmanagementapi.payment.dto.PaymentDTO;
 import ro.myclass.billingmanagementapi.payment.dto.UpdatePaymentRequest;
 import ro.myclass.billingmanagementapi.payment.models.Payment;
+import ro.myclass.billingmanagementapi.payment.service.PaymentCommandService;
+import ro.myclass.billingmanagementapi.payment.service.PaymentQuerryService;
 import ro.myclass.billingmanagementapi.payment.service.PaymentService;
 
 import java.util.List;
@@ -17,15 +19,18 @@ import java.util.List;
 @Slf4j
 public class PaymentResource {
 
-    private PaymentService paymentService;
+    private PaymentCommandService paymentCommandService;
 
-    public PaymentResource(PaymentService paymentService) {
-        this.paymentService = paymentService;
+    private PaymentQuerryService paymentQuerryService;
+
+    public PaymentResource(PaymentCommandService paymentCommandService, PaymentQuerryService paymentQuerryService) {
+        this.paymentCommandService = paymentCommandService;
+        this.paymentQuerryService = paymentQuerryService;
     }
 
     @GetMapping("/allPayments")
     public ResponseEntity<List<Payment>> getAllPayments() {
-        List<Payment> paymentList = this.paymentService.getAllPayments();
+        List<Payment> paymentList = this.paymentQuerryService.getAllPayments();
 
         log.info("REST request to get all payments {}", paymentList);
 
@@ -34,7 +39,7 @@ public class PaymentResource {
 
     @PostMapping("/addPayment")
     public ResponseEntity<String> addPayment(@RequestBody PaymentDTO payment) {
-        this.paymentService.addPayment(payment);
+        this.paymentCommandService.addPayment(payment);
 
         log.info("REST request to add a payment {}", payment);
 
@@ -43,7 +48,7 @@ public class PaymentResource {
 
     @GetMapping("/getPaymentById/{id}")
     public ResponseEntity<Payment> getPaymentById(@PathVariable long id) {
-        Payment payment = this.paymentService.getPaymentById(id);
+        Payment payment = this.paymentQuerryService.getPaymentById(id);
 
         log.info("REST request to get a payment by id {}", id);
 
@@ -52,7 +57,7 @@ public class PaymentResource {
 
     @GetMapping("/getPaymentByAmount/{amount}")
     public ResponseEntity<List<Payment>> getPaymentByAmount(@PathVariable String amount) {
-        List<Payment> payment = this.paymentService.getPaymentByAmount(amount);
+        List<Payment> payment = this.paymentQuerryService.getPaymentByAmount(amount);
 
         log.info("REST request to get a payment by amount {}", amount);
 
@@ -61,7 +66,7 @@ public class PaymentResource {
 
     @DeleteMapping("/deletePayment")
     public ResponseEntity<String> deletePayment(@RequestParam String amount,@RequestParam String description) {
-        this.paymentService.deletePayment(amount, description);
+        this.paymentCommandService.deletePayment(amount, description);
 
         log.info("REST request to delete a payment by amount and description {}", amount, description);
 
@@ -71,7 +76,7 @@ public class PaymentResource {
     @PutMapping("/updatePayment")
     public ResponseEntity<String> updatePayment(@RequestBody UpdatePaymentRequest updatePaymentRequest) {
 
-        this.paymentService.updatePayment(updatePaymentRequest);
+        this.paymentCommandService.updatePayment(updatePaymentRequest);
 
         log.info("REST request to update a payment by updatePaymentRequest {}", updatePaymentRequest);
 
@@ -81,7 +86,7 @@ public class PaymentResource {
 
     @GetMapping("/getPaymentByAmountAndDescription")
     public ResponseEntity<Payment> getPaymentByAmountAndDescription(@RequestParam String amount,@RequestParam String description) {
-        Payment payment = this.paymentService.getPaymentByAmountAndDescription(amount, description);
+        Payment payment = this.paymentQuerryService.getPaymentByAmountAndDescription(amount, description);
 
         log.info("REST request to get a payment by amount and description {}", amount, description);
 

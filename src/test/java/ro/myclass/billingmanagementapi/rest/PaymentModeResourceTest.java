@@ -15,6 +15,7 @@ import ro.myclass.billingmanagementapi.payment.dto.PaymentDTO;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
 import ro.myclass.billingmanagementapi.payment.models.Payment;
 import ro.myclass.billingmanagementapi.payment.service.PaymentService;
+import ro.myclass.billingmanagementapi.paymentmode.rest.PaymentModeResource;
 
 import java.util.ArrayList;
 import java.util.List;
