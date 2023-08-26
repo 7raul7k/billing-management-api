@@ -1,6 +1,5 @@
 package ro.myclass.billingmanagementapi.rest;
 
-import static org.junit.jupiter.api.Assertions.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,16 +11,16 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import ro.myclass.billingmanagementapi.dto.BillDTO;
+import ro.myclass.billingmanagementapi.bill.rest.BillResource;
+import ro.myclass.billingmanagementapi.bill.dto.BillDTO;
+import ro.myclass.billingmanagementapi.bill.service.BillImplService;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
-import ro.myclass.billingmanagementapi.models.Bill;
-import ro.myclass.billingmanagementapi.service.BillService;
+import ro.myclass.billingmanagementapi.bill.models.Bill;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -32,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class BillResourceTest {
 
     @Mock
-    private BillService billService;
+    private BillImplService billServiceImpl;
 
     @InjectMocks
     private BillResource billResource;
@@ -58,7 +57,7 @@ class BillResourceTest {
             billList.add(Bill.builder().id((long) i).number(faker.number().digits(10)).build());
         }
 
-        doReturn(billList).when(billService).getAllBills();
+        doReturn(billList).when(billServiceImpl).getAllBills();
 
         restMockMvc.perform(get("/api/v1/bill/allBills"))
                 .andExpect(status().isOk())
@@ -68,7 +67,7 @@ class BillResourceTest {
     @Test
     public void getAllBillsBadRequest() throws Exception {
 
-        doThrow(ListEmptyException.class).when(billService).getAllBills();
+        doThrow(ListEmptyException.class).when(billServiceImpl).getAllBills();
 
         restMockMvc.perform(get("/api/v1/bill/allBills"))
                 .andExpect(status().isBadRequest());
@@ -79,7 +78,7 @@ class BillResourceTest {
         Faker faker = new Faker();
 
         BillDTO bill = BillDTO.builder().number(faker.number().digits(10)).build();
-        doNothing().when(billService).addBill(bill);
+        doNothing().when(billServiceImpl).addBill(bill);
 
         restMockMvc.perform(post("/api/v1/bill/addBill")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -94,7 +93,7 @@ class BillResourceTest {
 
         BillDTO bill = BillDTO.builder().number(faker.number().digits(10)).build();
 
-        doThrow(ListEmptyException.class).when(billService).addBill(bill);
+        doThrow(ListEmptyException.class).when(billServiceImpl).addBill(bill);
 
         restMockMvc.perform(post("/api/v1/bill/addBill")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -108,7 +107,7 @@ class BillResourceTest {
 
         Bill bill = Bill.builder().id((long) 1).number(faker.number().digits(10)).build();
 
-        doReturn(bill).when(billService).getBillById(1);
+        doReturn(bill).when(billServiceImpl).getBillById(1);
 
         restMockMvc.perform(get("/api/v1/bill/getBillById/1"))
                 .andExpect(status().isOk())
@@ -121,7 +120,7 @@ class BillResourceTest {
 
         Bill bill = Bill.builder().id((long) 1).number(faker.number().digits(10)).build();
 
-        doThrow(ListEmptyException.class).when(billService).getBillById(1);
+        doThrow(ListEmptyException.class).when(billServiceImpl).getBillById(1);
 
         restMockMvc.perform(get("/api/v1/bill/getBillById/1"))
                 .andExpect(status().isBadRequest());
@@ -133,7 +132,7 @@ class BillResourceTest {
 
         Bill bill = Bill.builder().id((long) 1).number(faker.number().digits(10)).build();
 
-        doReturn(bill).when(billService).getBillByNumber("number");
+        doReturn(bill).when(billServiceImpl).getBillByNumber("number");
 
         restMockMvc.perform(get("/api/v1/bill/getBillByNumber/number"))
                 .andExpect(status().isOk())
@@ -146,7 +145,7 @@ class BillResourceTest {
 
         Bill bill = Bill.builder().id((long) 1).number(faker.number().digits(10)).build();
 
-        doThrow(ListEmptyException.class).when(billService).getBillByNumber("number");
+        doThrow(ListEmptyException.class).when(billServiceImpl).getBillByNumber("number");
 
         restMockMvc.perform(get("/api/v1/bill/getBillByNumber/number"))
                 .andExpect(status().isBadRequest());
@@ -159,7 +158,7 @@ class BillResourceTest {
 
         String number = faker.number().digits(10);
 
-        doNothing().when(billService).deleteBill(number);
+        doNothing().when(billServiceImpl).deleteBill(number);
 
         restMockMvc.perform(delete("/api/v1/bill/deleteBill/{number}", number))
                 .andExpect(status().isOk())
@@ -172,7 +171,7 @@ class BillResourceTest {
 
         String number = faker.number().digits(10);
 
-        doThrow(ListEmptyException.class).when(billService).deleteBill(number);
+        doThrow(ListEmptyException.class).when(billServiceImpl).deleteBill(number);
 
         restMockMvc.perform(delete("/api/v1/bill/deleteBill/{number}", number))
                 .andExpect(status().isBadRequest());
@@ -184,7 +183,7 @@ class BillResourceTest {
 
         BillDTO bill = BillDTO.builder().number(faker.number().digits(10)).build();
 
-        doNothing().when(billService).updateBill(bill);
+        doNothing().when(billServiceImpl).updateBill(bill);
 
         restMockMvc.perform(put("/api/v1/bill/updateBill")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -198,7 +197,7 @@ class BillResourceTest {
 
         BillDTO bill = BillDTO.builder().number(faker.number().digits(10)).build();
 
-        doThrow(ListEmptyException.class).when(billService).updateBill(bill);
+        doThrow(ListEmptyException.class).when(billServiceImpl).updateBill(bill);
 
         restMockMvc.perform(put("/api/v1/bill/updateBill")
                 .contentType(MediaType.APPLICATION_JSON)

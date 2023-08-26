@@ -11,15 +11,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import ro.myclass.billingmanagementapi.dto.PermissionDTO;
+import ro.myclass.billingmanagementapi.permission.dto.PermissionDTO;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
-import ro.myclass.billingmanagementapi.models.Permission;
-import ro.myclass.billingmanagementapi.service.PermissionService;
+import ro.myclass.billingmanagementapi.permission.models.Permission;
+import ro.myclass.billingmanagementapi.permission.resource.PermissionResource;
+import ro.myclass.billingmanagementapi.permission.service.PermissionService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;

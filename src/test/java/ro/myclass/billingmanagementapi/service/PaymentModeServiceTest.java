@@ -7,12 +7,13 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import ro.myclass.billingmanagementapi.dto.PaymentModeDTO;
+import ro.myclass.billingmanagementapi.paymentmode.dto.PaymentModeDTO;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
 import ro.myclass.billingmanagementapi.exceptions.PaymentModeNotFoundException;
 import ro.myclass.billingmanagementapi.exceptions.PaymentModeWasFoundException;
-import ro.myclass.billingmanagementapi.models.PaymentMode;
-import ro.myclass.billingmanagementapi.repo.PaymentModeRepo;
+import ro.myclass.billingmanagementapi.paymentmode.models.PaymentMode;
+import ro.myclass.billingmanagementapi.paymentmode.repo.PaymentModeRepo;
+import ro.myclass.billingmanagementapi.paymentmode.service.PaymentModeService;
 
 import java.util.ArrayList;
 import java.util.List;

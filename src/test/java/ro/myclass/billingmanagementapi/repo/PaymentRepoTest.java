@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ro.myclass.billingmanagementapi.BillingManagementApiApplication;
-import ro.myclass.billingmanagementapi.models.Customer;
-import ro.myclass.billingmanagementapi.models.Payment;
+import ro.myclass.billingmanagementapi.payment.models.Payment;
+import ro.myclass.billingmanagementapi.payment.repo.PaymentRepo;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

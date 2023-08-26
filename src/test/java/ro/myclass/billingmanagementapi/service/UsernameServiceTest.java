@@ -7,12 +7,13 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import ro.myclass.billingmanagementapi.dto.UsernameDTO;
+import ro.myclass.billingmanagementapi.username.dto.UsernameDTO;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
 import ro.myclass.billingmanagementapi.exceptions.UsernameNotFoundException;
 import ro.myclass.billingmanagementapi.exceptions.UsernameWasFoundException;
-import ro.myclass.billingmanagementapi.models.Username;
-import ro.myclass.billingmanagementapi.repo.UsernameRepo;
+import ro.myclass.billingmanagementapi.username.models.Username;
+import ro.myclass.billingmanagementapi.username.repo.UsernameRepo;
+import ro.myclass.billingmanagementapi.username.service.UsernameService;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

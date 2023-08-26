@@ -11,16 +11,16 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import ro.myclass.billingmanagementapi.dto.UsernameDTO;
+import ro.myclass.billingmanagementapi.username.dto.UsernameDTO;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
 import ro.myclass.billingmanagementapi.exceptions.UsernameNotFoundException;
-import ro.myclass.billingmanagementapi.models.Username;
-import ro.myclass.billingmanagementapi.service.UsernameService;
+import ro.myclass.billingmanagementapi.username.models.Username;
+import ro.myclass.billingmanagementapi.username.rest.UsernameResource;
+import ro.myclass.billingmanagementapi.username.service.UsernameService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;

@@ -7,11 +7,12 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import ro.myclass.billingmanagementapi.dto.PermissionDTO;
+import ro.myclass.billingmanagementapi.permission.dto.PermissionDTO;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
 import ro.myclass.billingmanagementapi.exceptions.PermissionWasFoundException;
-import ro.myclass.billingmanagementapi.models.Permission;
-import ro.myclass.billingmanagementapi.repo.PermissionRepo;
+import ro.myclass.billingmanagementapi.permission.models.Permission;
+import ro.myclass.billingmanagementapi.permission.repo.PermissionRepo;
+import ro.myclass.billingmanagementapi.permission.service.PermissionService;
 
 import java.util.ArrayList;
 import java.util.List;

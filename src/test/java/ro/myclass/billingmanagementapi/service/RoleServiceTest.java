@@ -7,11 +7,12 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import ro.myclass.billingmanagementapi.dto.RoleDTO;
+import ro.myclass.billingmanagementapi.role.dto.RoleDTO;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
 import ro.myclass.billingmanagementapi.exceptions.RoleNotFoundException;
-import ro.myclass.billingmanagementapi.models.Role;
-import ro.myclass.billingmanagementapi.repo.RoleRepo;
+import ro.myclass.billingmanagementapi.role.models.Role;
+import ro.myclass.billingmanagementapi.role.repo.RoleRepo;
+import ro.myclass.billingmanagementapi.role.service.RoleService;
 
 import java.util.ArrayList;
 import java.util.Optional;

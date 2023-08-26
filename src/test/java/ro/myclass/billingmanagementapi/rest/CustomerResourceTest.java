@@ -11,15 +11,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import ro.myclass.billingmanagementapi.dto.CustomerDTO;
+import ro.myclass.billingmanagementapi.customer.dto.CustomerDTO;
+import ro.myclass.billingmanagementapi.customer.rest.CustomerResource;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
-import ro.myclass.billingmanagementapi.models.Customer;
-import ro.myclass.billingmanagementapi.service.CustomerService;
+import ro.myclass.billingmanagementapi.customer.models.Customer;
+import ro.myclass.billingmanagementapi.customer.service.CustomerImplService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class CustomerResourceTest {
 
     @Mock
-    private CustomerService customerService;
+    private CustomerImplService customerImplService;
 
     @InjectMocks
     private CustomerResource customerResource;
@@ -55,7 +55,7 @@ class CustomerResourceTest {
             customerList.add(Customer.builder().id((long) i).name(faker.name().name()).build());
         }
 
-        doReturn(customerList).when(customerService).getAllCustomers();
+        doReturn(customerList).when(customerImplService).getAllCustomers();
 
         restMockMvc.perform(get("/api/v1/customer/allCustomers"))
                 .andExpect(status().isOk())
@@ -64,7 +64,7 @@ class CustomerResourceTest {
 
     @Test
     public void getAllCustomersBadRequest() throws Exception {
-        doThrow(ListEmptyException.class).when(customerService).getAllCustomers();
+        doThrow(ListEmptyException.class).when(customerImplService).getAllCustomers();
 
         restMockMvc.perform(get("/api/v1/customer/allCustomers"))
                 .andExpect(status().isBadRequest());
@@ -76,7 +76,7 @@ class CustomerResourceTest {
 
         CustomerDTO customer = CustomerDTO.builder().name(faker.name().name()).build();
 
-        doNothing().when(customerService).addCustomer(customer);
+        doNothing().when(customerImplService).addCustomer(customer);
         restMockMvc.perform(post("/api/v1/customer/addCustomer").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(customer)))
                 .andExpect(status().isOk());
     }
@@ -87,7 +87,7 @@ class CustomerResourceTest {
 
         CustomerDTO customer = CustomerDTO.builder().name(faker.name().name()).build();
 
-        doThrow(ListEmptyException.class).when(customerService).addCustomer(customer);
+        doThrow(ListEmptyException.class).when(customerImplService).addCustomer(customer);
         restMockMvc.perform(post("/api/v1/customer/addCustomer").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(customer)))
                 .andExpect(status().isBadRequest());
     }
@@ -98,7 +98,7 @@ class CustomerResourceTest {
 
         String name = faker.name().name();
 
-        doNothing().when(customerService).deleteCustomer(name);
+        doNothing().when(customerImplService).deleteCustomer(name);
         restMockMvc.perform(delete("/api/v1/customer/deleteCustomer/{name}", name))
                 .andExpect(status().isOk());
     }
@@ -109,7 +109,7 @@ class CustomerResourceTest {
 
         String name = faker.name().name();
 
-        doThrow(ListEmptyException.class).when(customerService).deleteCustomer(name);
+        doThrow(ListEmptyException.class).when(customerImplService).deleteCustomer(name);
         restMockMvc.perform(delete("/api/v1/customer/deleteCustomer/{name}", name))
                 .andExpect(status().isBadRequest());
     }
@@ -120,7 +120,7 @@ class CustomerResourceTest {
 
         Customer customer = Customer.builder().id((long) 1).name(faker.name().name()).build();
 
-        doReturn(customer).when(customerService).getCustomerById((long) 1);
+        doReturn(customer).when(customerImplService).getCustomerById((long) 1);
 
         restMockMvc.perform(get("/api/v1/customer/getCustomerById/1"))
                 .andExpect(status().isOk())
@@ -133,7 +133,7 @@ class CustomerResourceTest {
 
         Customer customer = Customer.builder().id((long) 1).name(faker.name().name()).build();
 
-        doThrow(ListEmptyException.class).when(customerService).getCustomerById((long) 1);
+        doThrow(ListEmptyException.class).when(customerImplService).getCustomerById((long) 1);
 
         restMockMvc.perform(get("/api/v1/customer/getCustomerById/1"))
                 .andExpect(status().isBadRequest());
@@ -145,7 +145,7 @@ class CustomerResourceTest {
 
         Customer customer = Customer.builder().id((long) 1).name(faker.name().name()).email("email").password("password").username("username").address("address").mobile("mobile").mobile("mobile").build();
 
-        doReturn(customer).when(customerService).getCustomerByEmail("email");
+        doReturn(customer).when(customerImplService).getCustomerByEmail("email");
 
         restMockMvc.perform(get("/api/v1/customer/getCustomerByEmail/email"))
                 .andExpect(status().isOk())
@@ -159,7 +159,7 @@ class CustomerResourceTest {
 
         Customer customer = Customer.builder().id((long) 1).name(faker.name().name()).email("email").password("password").username("username").address("address").mobile("mobile").mobile("mobile").build();
 
-        doThrow(ListEmptyException.class).when(customerService).getCustomerByEmail("email");
+        doThrow(ListEmptyException.class).when(customerImplService).getCustomerByEmail("email");
 
         restMockMvc.perform(get("/api/v1/customer/getCustomerByEmail/email"))
                 .andExpect(status().isBadRequest());
@@ -171,7 +171,7 @@ class CustomerResourceTest {
 
         Customer customer = Customer.builder().id((long) 1).name(faker.name().name()).email("email").password("password").username("username").address("address").mobile("mobile").mobile("mobile").build();
 
-        doReturn(customer).when(customerService).getCustomerByMobile("mobile");
+        doReturn(customer).when(customerImplService).getCustomerByMobile("mobile");
 
         restMockMvc.perform(get("/api/v1/customer/getCustomerByMobile/mobile"))
                 .andExpect(status().isOk())
@@ -184,7 +184,7 @@ class CustomerResourceTest {
 
         Customer customer = Customer.builder().id((long) 1).name(faker.name().name()).email("email").password("password").username("username").address("address").mobile("mobile").mobile("mobile").build();
 
-        doThrow(ListEmptyException.class).when(customerService).getCustomerByMobile("mobile");
+        doThrow(ListEmptyException.class).when(customerImplService).getCustomerByMobile("mobile");
 
         restMockMvc.perform(get("/api/v1/customer/getCustomerByMobile/mobile"))
                 .andExpect(status().isBadRequest());
@@ -196,7 +196,7 @@ class CustomerResourceTest {
 
         Customer customer = Customer.builder().id((long) 1).name(faker.name().name()).email("email").password("password").username("username").address("address").mobile("mobile").mobile("mobile").build();
 
-        doReturn(customer).when(customerService).getCustomerByUsername("username");
+        doReturn(customer).when(customerImplService).getCustomerByUsername("username");
 
         restMockMvc.perform(get("/api/v1/customer/getCustomerByUsername/username"))
                 .andExpect(status().isOk())
@@ -209,7 +209,7 @@ class CustomerResourceTest {
 
         Customer customer = Customer.builder().id((long) 1).name(faker.name().name()).email("email").password("password").username("username").address("address").mobile("mobile").mobile("mobile").build();
 
-        doThrow(ListEmptyException.class).when(customerService).getCustomerByUsername("username");
+        doThrow(ListEmptyException.class).when(customerImplService).getCustomerByUsername("username");
 
         restMockMvc.perform(get("/api/v1/customer/getCustomerByUsername/username"))
                 .andExpect(status().isBadRequest());
