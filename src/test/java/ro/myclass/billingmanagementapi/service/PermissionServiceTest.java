@@ -12,7 +12,10 @@ import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
 import ro.myclass.billingmanagementapi.exceptions.PermissionWasFoundException;
 import ro.myclass.billingmanagementapi.permission.models.Permission;
 import ro.myclass.billingmanagementapi.permission.repo.PermissionRepo;
+import ro.myclass.billingmanagementapi.permission.service.PermissionCommandService;
+import ro.myclass.billingmanagementapi.permission.service.PermissionQuerryService;
 import ro.myclass.billingmanagementapi.permission.service.PermissionService;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +32,10 @@ class PermissionServiceTest {
     private PermissionRepo permissionRepo;
 
     @InjectMocks
-    private PermissionService permissionService;
+    private PermissionCommandService permissionService = new PermissionService(permissionRepo);
+
+    @InjectMocks
+    private PermissionQuerryService permissionQuerryService = new PermissionService(permissionRepo);
 
     @Captor
     private ArgumentCaptor<Permission> argumentCaptor;
@@ -55,7 +61,7 @@ class PermissionServiceTest {
 
         doReturn(permissionList).when(permissionRepo).getAllPermission();
 
-        assertEquals(permissionList, permissionService.getAllPermissions());
+        assertEquals(permissionList, permissionQuerryService.getAllPermissions());
     }
 
     @Test
@@ -64,7 +70,7 @@ class PermissionServiceTest {
 
         doReturn(permissionList).when(permissionRepo).getAllPermission();
 
-        assertThrows(ListEmptyException.class, () -> permissionService.getAllPermissions());
+        assertThrows(ListEmptyException.class, () -> permissionQuerryService.getAllPermissions());
     }
 
     @Test
@@ -124,7 +130,7 @@ class PermissionServiceTest {
 
         doReturn(Optional.of(permission)).when(permissionRepo).getPermissionById(permission.getId());
 
-        assertEquals(permission,permissionService.getPermissionById(permission.getId()));
+        assertEquals(permission,permissionQuerryService.getPermissionById(permission.getId()));
     }
 
     @Test
@@ -133,7 +139,7 @@ class PermissionServiceTest {
 
         doReturn(Optional.empty()).when(permissionRepo).getPermissionById(permission.getId());
 
-        assertThrows(ListEmptyException.class, () -> permissionService.getPermissionById(permission.getId()));
+            assertThrows(ListEmptyException.class, () -> permissionQuerryService.getPermissionById(permission.getId()));
     }
 
     @Test
@@ -151,7 +157,7 @@ class PermissionServiceTest {
 
         doReturn(permissionList).when(permissionRepo).getPermissionByModule(permission.getModule());
 
-        assertEquals(permissionList,permissionService.getPermissionByModule(permission.getModule()));
+        assertEquals(permissionList,permissionQuerryService.getPermissionByModule(permission.getModule()));
     }
 
     @Test
@@ -160,7 +166,7 @@ class PermissionServiceTest {
 
         doReturn(new ArrayList<>()).when(permissionRepo).getPermissionByModule(permission.getModule());
 
-        assertThrows(ListEmptyException.class, () -> permissionService.getPermissionByModule(permission.getModule()));
+        assertThrows(ListEmptyException.class, () -> permissionQuerryService.getPermissionByModule(permission.getModule()));
     }
 
     @Test
@@ -169,7 +175,7 @@ class PermissionServiceTest {
 
         doReturn(Optional.of(permission)).when(permissionRepo).getPermissionByTitle(permission.getTitle());
 
-        assertEquals(permission,permissionService.getPermissionByTitle(permission.getTitle()));
+        assertEquals(permission,permissionQuerryService.getPermissionByTitle(permission.getTitle()));
     }
 
     @Test
@@ -178,7 +184,7 @@ class PermissionServiceTest {
 
         doReturn(Optional.empty()).when(permissionRepo).getPermissionByTitle(permission.getTitle());
 
-        assertThrows(ListEmptyException.class, () -> permissionService.getPermissionByTitle(permission.getTitle()));
+        assertThrows(ListEmptyException.class, () -> permissionQuerryService.getPermissionByTitle(permission.getTitle()));
     }
 
     @Test
