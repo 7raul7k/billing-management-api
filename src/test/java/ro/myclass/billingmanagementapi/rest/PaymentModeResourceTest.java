@@ -14,6 +14,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import ro.myclass.billingmanagementapi.payment.dto.PaymentDTO;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
 import ro.myclass.billingmanagementapi.payment.models.Payment;
+import ro.myclass.billingmanagementapi.payment.service.PaymentCommandService;
+import ro.myclass.billingmanagementapi.payment.service.PaymentQuerryService;
 import ro.myclass.billingmanagementapi.payment.service.PaymentService;
 import ro.myclass.billingmanagementapi.paymentmode.rest.PaymentModeResource;
 
@@ -30,7 +32,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class PaymentModeResourceTest {
 
     @Mock
-    private PaymentService  paymentService;
+    private PaymentCommandService paymentCommandService;
+
+    @Mock
+    private PaymentQuerryService paymentQuerryService;
+
+
 
     @InjectMocks
     private PaymentModeResource paymentModeResource;
@@ -55,7 +62,7 @@ class PaymentModeResourceTest {
             paymentList.add(Payment.builder().id((long) i).amount(faker.numerify("####")).build());
         }
 
-        doReturn(paymentList).when(paymentService).getAllPayments();
+        doReturn(paymentList).when(paymentQuerryService).getAllPayments();
 
         restMockMvc.perform(get("/api/v1/paymentMode/allPayments"))
                 .andExpect(status().isOk())
@@ -66,7 +73,7 @@ class PaymentModeResourceTest {
     @Test
     public void getAllPaymentsBadRequest() throws Exception {
 
-        doThrow(ListEmptyException.class).when(paymentService).getAllPayments();
+        doThrow(ListEmptyException.class).when(paymentQuerryService).getAllPayments();
 
         restMockMvc.perform(get("/api/v1/paymentMode/allPayments"))
                 .andExpect(status().isBadRequest());
@@ -78,7 +85,7 @@ class PaymentModeResourceTest {
 
         PaymentDTO payment = PaymentDTO.builder().amount(faker.numerify("####")).build();
 
-        doNothing().when(paymentService).addPayment(payment);
+        doNothing().when(paymentCommandService).addPayment(payment);
 
         restMockMvc.perform(post("/api/v1/paymentMode/addPayment").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(payment)))
                 .andExpect(status().isOk());
@@ -90,7 +97,7 @@ class PaymentModeResourceTest {
 
         PaymentDTO payment = PaymentDTO.builder().amount(faker.numerify("####")).build();
 
-        doThrow(ListEmptyException.class).when(paymentService).addPayment(payment);
+        doThrow(ListEmptyException.class).when(paymentCommandService).addPayment(payment);
 
         restMockMvc.perform(post("/api/v1/paymentMode/addPayment").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(payment)))
                 .andExpect(status().isBadRequest());
@@ -102,7 +109,7 @@ class PaymentModeResourceTest {
 
         Payment payment = Payment.builder().id((long) 1).amount(faker.numerify("####")).build();
 
-        doReturn(payment).when(paymentService).getPaymentById((long) 1);
+        doReturn(payment).when(paymentQuerryService).getPaymentById((long) 1);
 
         restMockMvc.perform(get("/api/v1/paymentMode/getPaymentById/1"))
                 .andExpect(status().isOk())
@@ -115,7 +122,7 @@ class PaymentModeResourceTest {
 
         Payment payment = Payment.builder().id((long) 1).amount(faker.numerify("####")).build();
 
-        doThrow(ListEmptyException.class).when(paymentService).getPaymentById((long) 1);
+        doThrow(ListEmptyException.class).when(paymentQuerryService).getPaymentById((long) 1);
 
         restMockMvc.perform(get("/api/v1/paymentMode/getPaymentById/1"))
                 .andExpect(status().isBadRequest());
@@ -132,7 +139,7 @@ class PaymentModeResourceTest {
             paymentList.add(Payment.builder().id((long) i).amount(faker.numerify("####")).build());
         }
 
-        doReturn(paymentList).when(paymentService).getPaymentByAmount("amount");
+        doReturn(paymentList).when(paymentQuerryService).getPaymentByAmount("amount");
 
         restMockMvc.perform(get("/api/v1/paymentMode/getPaymentByAmount/amount"))
                 .andExpect(status().isOk())
@@ -150,7 +157,7 @@ class PaymentModeResourceTest {
             paymentList.add(Payment.builder().id((long) i).amount(faker.numerify("####")).build());
         }
 
-        doThrow(ListEmptyException.class).when(paymentService).getPaymentByAmount("amount");
+        doThrow(ListEmptyException.class).when(paymentQuerryService).getPaymentByAmount("amount");
 
         restMockMvc.perform(get("/api/v1/paymentMode/getPaymentByAmount/amount"))
                 .andExpect(status().isBadRequest());
