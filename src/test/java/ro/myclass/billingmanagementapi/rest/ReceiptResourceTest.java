@@ -15,6 +15,8 @@ import ro.myclass.billingmanagementapi.receipt.dto.ReceiptDTO;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
 import ro.myclass.billingmanagementapi.receipt.models.Receipt;
 import ro.myclass.billingmanagementapi.receipt.rest.ReceiptResource;
+import ro.myclass.billingmanagementapi.receipt.service.ReceiptCommandService;
+import ro.myclass.billingmanagementapi.receipt.service.ReceiptQuerryService;
 import ro.myclass.billingmanagementapi.receipt.service.ReceiptService;
 
 import java.util.ArrayList;
@@ -30,7 +32,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ReceiptResourceTest {
 
     @Mock
-    private ReceiptService receiptService;
+    private ReceiptCommandService receiptCommandService;
+
+    @Mock
+    private ReceiptQuerryService receiptQuerryService;
 
     @InjectMocks
     private ReceiptResource receiptResource;
@@ -56,7 +61,7 @@ class ReceiptResourceTest {
             receiptList.add(Receipt.builder().id((long) i).description(faker.lorem().sentence()).type(faker.lorem().word()).build());
         }
 
-        doReturn(receiptList).when(receiptService).getAllReceipts();
+        doReturn(receiptList).when(receiptQuerryService).getAllReceipts();
 
         restMockMvc.perform(get("/api/v1/receipt/allReceipts"))
                 .andExpect(status().isOk())
@@ -65,7 +70,7 @@ class ReceiptResourceTest {
 
     @Test
     public void getAllReceiptBadRequests() throws Exception {
-        doThrow(ListEmptyException.class).when(receiptService).getAllReceipts();
+        doThrow(ListEmptyException.class).when(receiptQuerryService).getAllReceipts();
 
         restMockMvc.perform(get("/api/v1/receipt/allReceipts"))
                 .andExpect(status().isBadRequest());
@@ -77,7 +82,7 @@ class ReceiptResourceTest {
 
         ReceiptDTO receipt = ReceiptDTO.builder().description(faker.lorem().sentence()).type(faker.lorem().word()).number(faker.numerify("####")).build();
 
-        doNothing().when(receiptService).addReceipt(receipt);
+        doNothing().when(receiptCommandService).addReceipt(receipt);
 
         restMockMvc.perform(post("/api/v1/receipt/addReceipt").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(receipt)))
                 .andExpect(status().isOk());
@@ -89,7 +94,7 @@ class ReceiptResourceTest {
 
         ReceiptDTO receipt = ReceiptDTO.builder().description(faker.lorem().sentence()).type(faker.lorem().word()).number(faker.numerify("####")).build();
 
-        doThrow(ListEmptyException.class).when(receiptService).addReceipt(receipt);
+        doThrow(ListEmptyException.class).when(receiptCommandService).addReceipt(receipt);
 
         restMockMvc.perform(post("/api/v1/receipt/addReceipt").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(receipt)))
                 .andExpect(status().isBadRequest());
@@ -101,7 +106,7 @@ class ReceiptResourceTest {
 
         ReceiptDTO receipt = ReceiptDTO.builder().description(faker.lorem().sentence()).type(faker.lorem().word()).number(faker.numerify("####")).build();
 
-        doNothing().when(receiptService).addReceipt(receipt);
+        doNothing().when(receiptCommandService).addReceipt(receipt);
 
         restMockMvc.perform(post("/api/v1/receipt/addReceipt").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(receipt)))
                 .andExpect(status().isOk());
@@ -113,7 +118,7 @@ class ReceiptResourceTest {
 
         ReceiptDTO receipt = ReceiptDTO.builder().description(faker.lorem().sentence()).type(faker.lorem().word()).number(faker.numerify("####")).build();
 
-        doThrow(ListEmptyException.class).when(receiptService).addReceipt(receipt);
+        doThrow(ListEmptyException.class).when(receiptCommandService).addReceipt(receipt);
 
         restMockMvc.perform(post("/api/v1/receipt/addReceipt").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(receipt)))
                 .andExpect(status().isBadRequest());
@@ -125,7 +130,7 @@ class ReceiptResourceTest {
 
         Receipt receipt = Receipt.builder().id((long) 1).description(faker.lorem().sentence()).type(faker.lorem().word()).number(faker.numerify("####")).build();
 
-        doReturn(receipt).when(receiptService).getReceiptById((long) 1);
+        doReturn(receipt).when(receiptQuerryService).getReceiptById((long) 1);
 
         restMockMvc.perform(get("/api/v1/receipt/getReceiptById/1"))
                 .andExpect(status().isOk())
@@ -138,7 +143,7 @@ class ReceiptResourceTest {
 
         Receipt receipt = Receipt.builder().id((long) 1).description(faker.lorem().sentence()).type(faker.lorem().word()).number(faker.numerify("####")).build();
 
-        doThrow(ListEmptyException.class).when(receiptService).getReceiptById((long) 1);
+        doThrow(ListEmptyException.class).when(receiptQuerryService).getReceiptById((long) 1);
 
         restMockMvc.perform(get("/api/v1/receipt/getReceiptById/1"))
                 .andExpect(status().isBadRequest());
@@ -155,7 +160,7 @@ class ReceiptResourceTest {
             receiptList.add(Receipt.builder().id((long) i).description(faker.lorem().sentence()).type(faker.lorem().word()).build());
         }
 
-        doReturn(receiptList).when(receiptService).getReceiptByType("type");
+        doReturn(receiptList).when(receiptQuerryService).getReceiptByType("type");
 
         restMockMvc.perform(get("/api/v1/receipt/getReceiptByType/type"))
                 .andExpect(status().isOk())
@@ -173,7 +178,7 @@ class ReceiptResourceTest {
             receiptList.add(Receipt.builder().id((long) i).description(faker.lorem().sentence()).type(faker.lorem().word()).build());
         }
 
-        doThrow(ListEmptyException.class).when(receiptService).getReceiptByType("type");
+        doThrow(ListEmptyException.class).when(receiptQuerryService).getReceiptByType("type");
 
         restMockMvc.perform(get("/api/v1/receipt/getReceiptByType/type"))
                 .andExpect(status().isBadRequest());

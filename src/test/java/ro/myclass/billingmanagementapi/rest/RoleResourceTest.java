@@ -16,6 +16,8 @@ import ro.myclass.billingmanagementapi.role.dto.RoleDTO;
 import ro.myclass.billingmanagementapi.exceptions.RoleNotFoundException;
 import ro.myclass.billingmanagementapi.role.models.Role;
 import ro.myclass.billingmanagementapi.role.rest.RoleResource;
+import ro.myclass.billingmanagementapi.role.service.RoleCommandService;
+import ro.myclass.billingmanagementapi.role.service.RoleQuerryService;
 import ro.myclass.billingmanagementapi.role.service.RoleService;
 
 import java.util.ArrayList;
@@ -30,7 +32,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class RoleResourceTest {
 
     @Mock
-    private RoleService roleService;
+    private RoleCommandService roleCommandService;
+
+    @Mock
+    private RoleQuerryService roleQuerryService;
 
     @InjectMocks
     private RoleResource roleResource;
@@ -57,7 +62,7 @@ class RoleResourceTest {
             roleList.add(Role.builder().id((long) i).title(faker.name().title()).build());
         }
 
-        doReturn(roleList).when(roleService).getAllRoles();
+        doReturn(roleList).when(roleQuerryService).getAllRoles();
 
         restMockMvc.perform(get("/api/v1/role/allRoles"))
                 .andExpect(status().isOk())
@@ -67,7 +72,7 @@ class RoleResourceTest {
 
     @Test
     public void getAllRolesBadRequest() throws Exception{
-        doThrow(RoleNotFoundException.class).when(roleService).getAllRoles();
+        doThrow(RoleNotFoundException.class).when(roleQuerryService).getAllRoles();
 
         restMockMvc.perform(get("/api/v1/role/allRoles"))
                 .andExpect(status().isBadRequest());
@@ -80,7 +85,7 @@ class RoleResourceTest {
 
         RoleDTO roleDTO = RoleDTO.builder().title(faker.name().title()).build();
 
-        doNothing().when(roleService).addRole(roleDTO);
+        doNothing().when(roleCommandService).addRole(roleDTO);
 
         restMockMvc.perform(post("/api/v1/role/addRole").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(roleDTO)))
                 .andExpect(status().isOk());
@@ -94,7 +99,7 @@ class RoleResourceTest {
 
         RoleDTO roleDTO = RoleDTO.builder().title(faker.name().title()).build();
 
-        doThrow(RoleNotFoundException.class).when(roleService).addRole(roleDTO);
+        doThrow(RoleNotFoundException.class).when(roleCommandService).addRole(roleDTO);
 
         restMockMvc.perform(post("/api/v1/role/addRole").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(roleDTO)))
                 .andExpect(status().isBadRequest());
@@ -107,7 +112,7 @@ class RoleResourceTest {
 
         String title = faker.name().title();
 
-        doNothing().when(roleService).removeRole(title);
+        doNothing().when(roleCommandService).removeRole(title);
 
         restMockMvc.perform(delete("/api/v1/role/deleteRole/{title}", title))
                 .andExpect(status().isOk());
@@ -119,7 +124,7 @@ class RoleResourceTest {
 
         String title = faker.name().title();
 
-        doThrow(RoleNotFoundException.class).when(roleService).removeRole(title);
+        doThrow(RoleNotFoundException.class).when(roleCommandService).removeRole(title);
 
         restMockMvc.perform(delete("/api/v1/role/deleteRole/{title}", title))
                 .andExpect(status().isBadRequest());
@@ -132,7 +137,7 @@ class RoleResourceTest {
 
         Role role = Role.builder().id((long) 1).title(faker.name().title()).build();
 
-        doReturn(role).when(roleService).getRolebyId(role.getId());
+        doReturn(role).when(roleQuerryService).getRolebyId(role.getId());
 
         restMockMvc.perform(get("/api/v1/role/getRoleById/{id}", role.getId()))
                 .andExpect(status().isOk())
@@ -145,7 +150,7 @@ class RoleResourceTest {
 
         Role role = Role.builder().id((long) 1).title(faker.name().title()).build();
 
-        doThrow(RoleNotFoundException.class).when(roleService).getRolebyId(role.getId());
+        doThrow(RoleNotFoundException.class).when(roleQuerryService).getRolebyId(role.getId());
 
         restMockMvc.perform(get("/api/v1/role/getRoleById/{id}", role.getId()))
                 .andExpect(status().isBadRequest());
@@ -158,7 +163,7 @@ class RoleResourceTest {
 
         RoleDTO roleDTO = RoleDTO.builder().title(faker.name().title()).build();
 
-        doNothing().when(roleService).updateRole(roleDTO);
+        doNothing().when(roleCommandService).updateRole(roleDTO);
 
         restMockMvc.perform(put("/api/v1/role/updateRole").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(roleDTO)))
                 .andExpect(status().isOk());
@@ -170,7 +175,7 @@ class RoleResourceTest {
 
         RoleDTO roleDTO = RoleDTO.builder().title(faker.name().title()).build();
 
-        doThrow(RoleNotFoundException.class).when(roleService).updateRole(roleDTO);
+        doThrow(RoleNotFoundException.class).when(roleCommandService).updateRole(roleDTO);
 
         restMockMvc.perform(put("/api/v1/role/updateRole").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(roleDTO)))
                 .andExpect(status().isBadRequest());
@@ -183,7 +188,7 @@ class RoleResourceTest {
 
         Role role = Role.builder().id((long) 1).title(faker.name().title()).build();
 
-        doReturn(role).when(roleService).getRoleByTitle(role.getTitle());
+        doReturn(role).when(roleQuerryService).getRoleByTitle(role.getTitle());
 
         restMockMvc.perform(get("/api/v1/role/getRoleByTitle/{title}", role.getTitle()))
                 .andExpect(status().isOk())
@@ -196,7 +201,7 @@ class RoleResourceTest {
 
         Role role = Role.builder().id((long) 1).title(faker.name().title()).build();
 
-        doThrow(RoleNotFoundException.class).when(roleService).getRoleByTitle(role.getTitle());
+        doThrow(RoleNotFoundException.class).when(roleQuerryService).getRoleByTitle(role.getTitle());
 
         restMockMvc.perform(get("/api/v1/role/getRoleByTitle/{title}", role.getTitle()))
                 .andExpect(status().isBadRequest());

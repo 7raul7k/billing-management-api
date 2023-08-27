@@ -19,6 +19,8 @@ import ro.myclass.billingmanagementapi.payment.dto.UpdatePaymentRequest;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
 import ro.myclass.billingmanagementapi.exceptions.PaymentNotFoundException;
 import ro.myclass.billingmanagementapi.payment.models.Payment;
+import ro.myclass.billingmanagementapi.payment.service.PaymentCommandService;
+import ro.myclass.billingmanagementapi.payment.service.PaymentQuerryService;
 import ro.myclass.billingmanagementapi.payment.service.PaymentService;
 
 
@@ -34,7 +36,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class PaymentResourceTest {
 
     @Mock
-    private PaymentService paymentService;
+    private PaymentCommandService paymentCommandService;
+
+    @Mock
+    private PaymentQuerryService paymentQuerryService;
 
     @InjectMocks
     private PaymentResource paymentResource;
@@ -60,7 +65,7 @@ class PaymentResourceTest {
             paymentList.add(Payment.builder().id((long) i ).amount("100").description(faker.lorem().sentence()).build());
         }
 
-        doReturn(paymentList).when(paymentService).getAllPayments();
+        doReturn(paymentList).when(paymentQuerryService).getAllPayments();
 
         restMockMvc.perform(get("/api/v1/payment/allPayments"))
                 .andExpect(status().isOk())
@@ -71,7 +76,7 @@ class PaymentResourceTest {
     @Test
     public void getAllPaymentsBadRequest() throws Exception {
 
-        doThrow(ListEmptyException.class).when(paymentService).getAllPayments();
+        doThrow(ListEmptyException.class).when(paymentQuerryService).getAllPayments();
 
         restMockMvc.perform(get("/api/v1/payment/allPayments"))
                 .andExpect(status().isBadRequest());
@@ -84,7 +89,7 @@ class PaymentResourceTest {
         PaymentDTO payment = PaymentDTO.builder().amount("100").description(faker.lorem().sentence()).description(faker.lorem().sentence()).amount("100").build();
 
 
-        doNothing().when(paymentService).addPayment(payment);
+        doNothing().when(paymentCommandService).addPayment(payment);
 
         restMockMvc.perform(post("/api/v1/payment/addPayment").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(payment)))
                 .andExpect(status().isOk());
@@ -96,7 +101,7 @@ class PaymentResourceTest {
 
         PaymentDTO payment = PaymentDTO.builder().amount("100").description(faker.lorem().sentence()).description(faker.lorem().sentence()).amount("100").build();
 
-        doThrow(ListEmptyException.class).when(paymentService).addPayment(payment);
+        doThrow(ListEmptyException.class).when(paymentCommandService).addPayment(payment);
 
         restMockMvc.perform(post("/api/v1/payment/addPayment").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(payment)))
                 .andExpect(status().isBadRequest());
@@ -109,7 +114,7 @@ class PaymentResourceTest {
         String amount = "100";
         String description = faker.lorem().sentence();
 
-        doNothing().when(paymentService).deletePayment(amount,description);
+        doNothing().when(paymentCommandService).deletePayment(amount,description);
 
         restMockMvc.perform(delete("/api/v1/payment/deletePayment").param("amount",amount).param("description",description))
                 .andExpect(status().isOk());
@@ -122,7 +127,7 @@ class PaymentResourceTest {
         String amount = "100";
         String description = faker.lorem().sentence();
 
-        doThrow(ListEmptyException.class).when(paymentService).deletePayment(amount,description);
+        doThrow(ListEmptyException.class).when(paymentCommandService).deletePayment(amount,description);
 
         restMockMvc.perform(delete("/api/v1/payment/deletePayment").param("amount",amount).param("description",description))
                 .andExpect(status().isBadRequest());
@@ -134,7 +139,7 @@ class PaymentResourceTest {
 
         UpdatePaymentRequest updatePaymentRequest = UpdatePaymentRequest.builder().customerId(1).paymentDTO(PaymentDTO.builder().amount("100").description(faker.lorem().sentence()).description(faker.lorem().sentence()).amount("100").build()).build();
 
-        doNothing().when(paymentService).updatePayment(updatePaymentRequest);
+        doNothing().when(paymentCommandService).updatePayment(updatePaymentRequest);
 
         restMockMvc.perform(put("/api/v1/payment/updatePayment").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(updatePaymentRequest)))
                 .andExpect(status().isOk());
@@ -146,7 +151,7 @@ class PaymentResourceTest {
 
         UpdatePaymentRequest updatePaymentRequest = UpdatePaymentRequest.builder().customerId(1).paymentDTO(PaymentDTO.builder().amount("100").description(faker.lorem().sentence()).description(faker.lorem().sentence()).amount("100").build()).build();
 
-        doThrow(ListEmptyException.class).when(paymentService).updatePayment(updatePaymentRequest);
+        doThrow(ListEmptyException.class).when(paymentCommandService).updatePayment(updatePaymentRequest);
 
         restMockMvc.perform(put("/api/v1/payment/updatePayment").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(updatePaymentRequest)))
                 .andExpect(status().isBadRequest());
@@ -158,7 +163,7 @@ class PaymentResourceTest {
 
         Payment payment = Payment.builder().id((long) 1).amount("100").description(faker.lorem().sentence()).build();
 
-        doReturn(payment).when(paymentService).getPaymentById((long) 1);
+        doReturn(payment).when(paymentQuerryService).getPaymentById((long) 1);
 
         restMockMvc.perform(get("/api/v1/payment/getPaymentById/1"))
                 .andExpect(status().isOk())
@@ -171,7 +176,7 @@ class PaymentResourceTest {
 
         Payment payment = Payment.builder().id((long) 1).amount("100").description(faker.lorem().sentence()).build();
 
-        doThrow(ListEmptyException.class).when(paymentService).getPaymentById((long) 1);
+        doThrow(ListEmptyException.class).when(paymentQuerryService).getPaymentById((long) 1);
 
         restMockMvc.perform(get("/api/v1/payment/getPaymentById/1"))
                 .andExpect(status().isBadRequest());
@@ -188,7 +193,7 @@ class PaymentResourceTest {
             paymentList.add(Payment.builder().id((long) i ).amount("100").description(faker.lorem().sentence()).build());
         }
 
-        doReturn(paymentList).when(paymentService).getPaymentByAmount("100");
+        doReturn(paymentList).when(paymentQuerryService).getPaymentByAmount("100");
 
         restMockMvc.perform(get("/api/v1/payment/getPaymentByAmount/100"))
                 .andExpect(status().isOk())
@@ -206,7 +211,7 @@ class PaymentResourceTest {
             paymentList.add(Payment.builder().id((long) i ).amount("100").description(faker.lorem().sentence()).build());
         }
 
-        doThrow(ListEmptyException.class).when(paymentService).getPaymentByAmount("100");
+        doThrow(ListEmptyException.class).when(paymentQuerryService).getPaymentByAmount("100");
 
         restMockMvc.perform(get("/api/v1/payment/getPaymentByAmount/100"))
                 .andExpect(status().isBadRequest());
@@ -217,7 +222,7 @@ class PaymentResourceTest {
 
 
         Payment payment = Payment.builder().id((long) 1).amount("100").description("description").build();
-       doReturn(payment).when(paymentService).getPaymentByAmountAndDescription("100","description");
+       doReturn(payment).when(paymentQuerryService).getPaymentByAmountAndDescription("100","description");
 
         restMockMvc.perform(get("/api/v1/payment/getPaymentByAmountAndDescription").param("amount","100").param("description","description"))
                 .andExpect(status().isOk())
@@ -228,7 +233,7 @@ class PaymentResourceTest {
     public void getPaymentByAmountAndDescriptionBadRequest() throws Exception {
         Faker faker = new Faker();
 
-        doThrow(PaymentNotFoundException.class).when(paymentService).getPaymentByAmountAndDescription("100","description");
+        doThrow(PaymentNotFoundException.class).when(paymentQuerryService).getPaymentByAmountAndDescription("100","description");
 
         restMockMvc.perform(get("/api/v1/payment/getPaymentByAmountAndDescription").param("amount","100").param("description","description"))
                 .andExpect(status().isBadRequest());

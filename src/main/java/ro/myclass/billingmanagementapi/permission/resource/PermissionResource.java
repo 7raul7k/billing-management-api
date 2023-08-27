@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.myclass.billingmanagementapi.permission.dto.PermissionDTO;
 import ro.myclass.billingmanagementapi.permission.models.Permission;
+import ro.myclass.billingmanagementapi.permission.service.PermissionCommandService;
+import ro.myclass.billingmanagementapi.permission.service.PermissionQuerryService;
 import ro.myclass.billingmanagementapi.permission.service.PermissionService;
 
 import java.util.List;
@@ -16,15 +18,18 @@ import java.util.List;
 @Slf4j
 public class PermissionResource {
 
-    private PermissionService permissionService;
+    private PermissionCommandService permissionService;
 
-    public PermissionResource(PermissionService permissionService) {
+    private PermissionQuerryService permissionQuerryService;
+
+    public PermissionResource(PermissionCommandService permissionService, PermissionQuerryService permissionQuerryService) {
         this.permissionService = permissionService;
+        this.permissionQuerryService = permissionQuerryService;
     }
 
     @GetMapping("/allPermissions")
     public ResponseEntity<List<Permission>> getAllPermissions() {
-        List<Permission> permissionList = this.permissionService.getAllPermissions();
+        List<Permission> permissionList = this.permissionQuerryService.getAllPermissions();
 
         log.info("REST request to get all permissions {}", permissionList);
 
@@ -42,7 +47,7 @@ public class PermissionResource {
 
     @GetMapping("/getPermissionById/{id}")
     public ResponseEntity<Permission> getPermissionById(@PathVariable long id) {
-        Permission permission = this.permissionService.getPermissionById(id);
+        Permission permission = this.permissionQuerryService.getPermissionById(id);
 
         log.info("REST request to get a permission by id {}", id);
 
@@ -51,7 +56,7 @@ public class PermissionResource {
 
     @GetMapping("/getPermissionByTitle/{title}")
     public ResponseEntity<Permission> getPermissionByTitle(@PathVariable String title) {
-        Permission permission = this.permissionService.getPermissionByTitle(title);
+        Permission permission = this.permissionQuerryService.getPermissionByTitle(title);
 
         log.info("REST request to get a permission by title {}", title);
 
@@ -61,7 +66,7 @@ public class PermissionResource {
     @GetMapping("/getPermissionByModule/{module}")
     public ResponseEntity<List<Permission>> getPermissionByModule(@PathVariable String module) {
 
-        List<Permission> permissions = this.permissionService.getPermissionByModule(module);
+        List<Permission> permissions = this.permissionQuerryService.getPermissionByModule(module);
 
         log.info("REST request to get a permission by module {}", module);
 
