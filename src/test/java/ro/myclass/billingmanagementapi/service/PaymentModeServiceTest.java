@@ -13,6 +13,8 @@ import ro.myclass.billingmanagementapi.exceptions.PaymentModeNotFoundException;
 import ro.myclass.billingmanagementapi.exceptions.PaymentModeWasFoundException;
 import ro.myclass.billingmanagementapi.paymentmode.models.PaymentMode;
 import ro.myclass.billingmanagementapi.paymentmode.repo.PaymentModeRepo;
+import ro.myclass.billingmanagementapi.paymentmode.service.PaymentModeCommandService;
+import ro.myclass.billingmanagementapi.paymentmode.service.PaymentModeQuerryService;
 import ro.myclass.billingmanagementapi.paymentmode.service.PaymentModeService;
 
 import java.util.ArrayList;
@@ -30,10 +32,13 @@ class PaymentModeServiceTest {
     private PaymentModeRepo paymentModeRepo;
 
     @InjectMocks
-    private PaymentModeService paymentModeService;
+    private PaymentModeCommandService paymentModeService = new PaymentModeService(paymentModeRepo);
+
+    @InjectMocks
+    private PaymentModeQuerryService paymentModeQuerryService = new PaymentModeService(paymentModeRepo);
 
     @Captor
-    private ArgumentCaptor<PaymentMode> argumentCaptor;
+    ArgumentCaptor<PaymentMode> argumentCaptor;
 
     @Test
     public void getAllPaymentsMode(){
@@ -59,7 +64,7 @@ class PaymentModeServiceTest {
 
         doReturn(paymentModeList).when(paymentModeRepo).getAllPaymentMode();
 
-        assertEquals(paymentModeList,paymentModeService.getAllPaymentModes());
+        assertEquals(paymentModeList,paymentModeQuerryService.getAllPaymentModes());
 
 
     }
@@ -68,7 +73,7 @@ class PaymentModeServiceTest {
     public void getAllPaymentsModeException(){
         doReturn(new ArrayList<>()).when(paymentModeRepo).getAllPaymentMode();
 
-        assertThrows(ListEmptyException.class,()->paymentModeService.getAllPaymentModes());
+        assertThrows(ListEmptyException.class,()->paymentModeQuerryService.getAllPaymentModes());
     }
 
     @Test
@@ -125,7 +130,7 @@ class PaymentModeServiceTest {
 
         doReturn(Optional.of(paymentMode)).when(paymentModeRepo).getPaymentModeById(paymentMode.getId());
 
-        assertEquals(paymentMode,paymentModeService.getPaymentModeById(paymentMode.getId()));
+        assertEquals(paymentMode,paymentModeQuerryService.getPaymentModeById(paymentMode.getId()));
     }
 
     @Test
@@ -135,7 +140,7 @@ class PaymentModeServiceTest {
 
         doReturn(Optional.empty()).when(paymentModeRepo).getPaymentModeById(paymentMode.getId());
 
-        assertThrows(PaymentModeNotFoundException.class,()->paymentModeService.getPaymentModeById(paymentMode.getId()));
+        assertThrows(PaymentModeNotFoundException.class,()->paymentModeQuerryService.getPaymentModeById(paymentMode.getId()));
     }
 
     @Test
@@ -145,7 +150,7 @@ class PaymentModeServiceTest {
 
         doReturn(Optional.of(paymentMode)).when(paymentModeRepo).getPaymentModeByName(paymentMode.getName());
 
-        assertEquals(paymentMode,paymentModeService.getPaymentModeByName(paymentMode.getName()));
+        assertEquals(paymentMode,paymentModeQuerryService.getPaymentModeByName(paymentMode.getName()));
     }
 
     @Test
@@ -155,7 +160,7 @@ class PaymentModeServiceTest {
 
         doReturn(Optional.empty()).when(paymentModeRepo).getPaymentModeByName(paymentMode.getName());
 
-        assertThrows(PaymentModeNotFoundException.class,()->paymentModeService.getPaymentModeByName(paymentMode.getName()));
+        assertThrows(PaymentModeNotFoundException.class,()->paymentModeQuerryService.getPaymentModeByName(paymentMode.getName()));
     }
 
     @Test

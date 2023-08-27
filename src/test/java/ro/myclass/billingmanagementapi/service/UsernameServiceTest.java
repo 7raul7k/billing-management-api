@@ -13,6 +13,8 @@ import ro.myclass.billingmanagementapi.exceptions.UsernameNotFoundException;
 import ro.myclass.billingmanagementapi.exceptions.UsernameWasFoundException;
 import ro.myclass.billingmanagementapi.username.models.Username;
 import ro.myclass.billingmanagementapi.username.repo.UsernameRepo;
+import ro.myclass.billingmanagementapi.username.service.UsernameCommandService;
+import ro.myclass.billingmanagementapi.username.service.UsernameQuerryService;
 import ro.myclass.billingmanagementapi.username.service.UsernameService;
 
 import java.time.LocalDate;
@@ -31,7 +33,10 @@ class UsernameServiceTest {
     private UsernameRepo usernameRepo;
 
     @InjectMocks
-    private UsernameService usernameService;
+    private UsernameCommandService usernameService = new UsernameService(usernameRepo);
+
+    @InjectMocks
+    private UsernameQuerryService usernameQuerryService = new UsernameService(usernameRepo);
 
     @Captor
     private ArgumentCaptor<Username> argumentCaptor;
@@ -59,7 +64,7 @@ class UsernameServiceTest {
         doReturn(usernameList).when(usernameRepo).getAllUsername();
 
 
-        assertEquals(usernameList, usernameService.getAllUsernames());
+        assertEquals(usernameList, usernameQuerryService.getAllUsernames());
 
     }
 
@@ -68,7 +73,7 @@ class UsernameServiceTest {
     public void getAllUsernameException() {
         doReturn(new ArrayList<>()).when(usernameRepo).getAllUsername();
 
-        assertThrows(ListEmptyException.class, () -> usernameService.getAllUsernames());
+        assertThrows(ListEmptyException.class, () -> usernameQuerryService.getAllUsernames());
     }
 
     @Test
@@ -125,7 +130,7 @@ class UsernameServiceTest {
 
         doReturn(Optional.of(username)).when(usernameRepo).getUsernameById(username.getId());
 
-        assertEquals(username,usernameService.getUsernameById(username.getId()));
+        assertEquals(username,usernameQuerryService.getUsernameById(username.getId()));
     }
 
     @Test
@@ -134,7 +139,7 @@ class UsernameServiceTest {
 
         doReturn(Optional.empty()).when(usernameRepo).getUsernameById(username.getId());
 
-        assertThrows(UsernameNotFoundException.class,()->usernameService.getUsernameById(username.getId()));
+        assertThrows(UsernameNotFoundException.class,()->usernameQuerryService.getUsernameById(username.getId()));
     }
 
     @Test
@@ -143,7 +148,7 @@ class UsernameServiceTest {
 
         doReturn(Optional.of(username)).when(usernameRepo).getUsernameByUsername(username.getUsername());
 
-        assertEquals(username,usernameService.getUsernameByUsername(username.getUsername()));
+        assertEquals(username,usernameQuerryService.getUsernameByUsername(username.getUsername()));
 
     }
 
@@ -153,8 +158,7 @@ class UsernameServiceTest {
 
         doReturn(Optional.empty()).when(usernameRepo).getUsernameByUsername(username.getUsername());
 
-        assertThrows(UsernameNotFoundException.class,()->usernameService.getUsernameByUsername(username.getUsername()));
-    }
+        assertThrows(UsernameNotFoundException.class,()->usernameQuerryService.getUsernameByUsername(username.getUsername()));    }
 
     @Test
     public void getUsernameByEmail() {
@@ -162,7 +166,7 @@ class UsernameServiceTest {
 
         doReturn(Optional.of(username)).when(usernameRepo).getUsernameByEmail(username.getEmail());
 
-        assertEquals(username, usernameService.getUsernameByEmail(username.getEmail()));
+        assertEquals(username, usernameQuerryService.getUsernameByEmail(username.getEmail()));
     }
 
     @Test
@@ -171,7 +175,7 @@ class UsernameServiceTest {
 
         doReturn(Optional.empty()).when(usernameRepo).getUsernameByEmail(username.getEmail());
 
-        assertThrows(UsernameNotFoundException.class,()->usernameService.getUsernameByEmail(username.getEmail()));
+        assertThrows(UsernameNotFoundException.class,()->usernameQuerryService.getUsernameByEmail(username.getEmail()));
 
     }
 

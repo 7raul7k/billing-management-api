@@ -7,8 +7,11 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import ro.myclass.billingmanagementapi.bill.service.BillCommandService;
 import ro.myclass.billingmanagementapi.bill.service.BillImplService;
 import ro.myclass.billingmanagementapi.bill.dto.BillDTO;
+import ro.myclass.billingmanagementapi.bill.service.BillQueryService;
 import ro.myclass.billingmanagementapi.exceptions.BillNotFoundException;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
 import ro.myclass.billingmanagementapi.bill.models.Bill;
@@ -29,8 +32,12 @@ class BillServiceImplTest {
     @Mock
     BillRepo billRepo;
 
+
     @InjectMocks
-    BillImplService billServiceImpl;
+    BillCommandService billCommandService = new BillImplService(billRepo);
+
+    @InjectMocks
+    BillQueryService billQueryService = new BillImplService(billRepo);
 
     @Captor
     ArgumentCaptor<Bill> billArgumentCaptor;
@@ -57,7 +64,7 @@ class BillServiceImplTest {
 
         doReturn(billList).when(billRepo).getAllBill();
 
-        assertEquals(billList, this.billServiceImpl.getAllBills());
+        assertEquals(billList, this.billQueryService.getAllBills());
 
 
     }
@@ -69,7 +76,7 @@ class BillServiceImplTest {
 
         doReturn(new ArrayList<>()).when(billRepo).getAllBill();
 
-        assertThrows(ListEmptyException.class, () -> this.billServiceImpl.getAllBills());
+        assertThrows(ListEmptyException.class, () -> this.billQueryService.getAllBills());
     }
 
     @Test
@@ -80,7 +87,7 @@ class BillServiceImplTest {
 
         doReturn(Optional.empty()).when(billRepo).getBillByNumber("1");
 
-        this.billServiceImpl.addBill(billDTO);
+        this.billCommandService.addBill(billDTO);
 
         verify(billRepo).save(billArgumentCaptor.capture());
 
@@ -96,7 +103,7 @@ class BillServiceImplTest {
 
         doReturn(Optional.of(bill)).when(billRepo).getBillByNumber("1");
 
-        assertThrows(BillNotFoundException.class, () -> this.billServiceImpl.addBill(billDTO));
+        assertThrows(BillNotFoundException.class, () -> this.billCommandService.addBill(billDTO));
 
     }
 
@@ -106,7 +113,7 @@ class BillServiceImplTest {
 
         doReturn(Optional.of(bill)).when(billRepo).getBillByNumber("1");
 
-        this.billServiceImpl.deleteBill("1");
+        this.billCommandService.deleteBill("1");
 
         verify(billRepo).delete(billArgumentCaptor.capture());
 
@@ -119,7 +126,7 @@ class BillServiceImplTest {
 
         doReturn(Optional.empty()).when(billRepo).getBillByNumber("1");
 
-        assertThrows(BillNotFoundException.class, () -> this.billServiceImpl.deleteBill("1"));
+        assertThrows(BillNotFoundException.class, () -> this.billCommandService.deleteBill("1"));
     }
 
     @Test
@@ -128,7 +135,7 @@ class BillServiceImplTest {
 
         doReturn(Optional.of(bill)).when(billRepo).getBillByNumber("1");
 
-        assertEquals(bill, this.billServiceImpl.getBillByNumber("1"));
+        assertEquals(bill, this.billQueryService.getBillByNumber("1"));
     }
 
     @Test
@@ -137,7 +144,7 @@ class BillServiceImplTest {
 
         doReturn(Optional.empty()).when(billRepo).getBillByNumber("1");
 
-        assertThrows(BillNotFoundException.class, () -> this.billServiceImpl.getBillByNumber("1"));
+        assertThrows(BillNotFoundException.class, () -> this.billQueryService.getBillByNumber("1"));
     }
 
     @Test
@@ -155,14 +162,14 @@ class BillServiceImplTest {
 
         doReturn(billList).when(billRepo).getBillByType("test");
 
-        assertEquals(billList, this.billServiceImpl.getBillByType("test"));
+        assertEquals(billList, this.billQueryService.getBillByType("test"));
     }
 
     @Test
     public void getBillByTypeException() {
         doReturn(new ArrayList<>()).when(billRepo).getBillByType("test");
 
-        assertThrows(BillNotFoundException.class, () -> this.billServiceImpl.getBillByType("test"));
+        assertThrows(BillNotFoundException.class, () -> this.billQueryService.getBillByType("test"));
     }
 
     @Test
@@ -171,14 +178,14 @@ class BillServiceImplTest {
 
         doReturn(Optional.of(bill)).when(billRepo).getBillById(1L);
 
-        assertEquals(bill, this.billServiceImpl.getBillById(1L));
+        assertEquals(bill, this.billQueryService.getBillById(1L));
     }
 
     @Test
     public void getBillByIdException() {
         doReturn(Optional.empty()).when(billRepo).getBillById(1L);
 
-        assertThrows(BillNotFoundException.class, () -> this.billServiceImpl.getBillById(1L));
+        assertThrows(BillNotFoundException.class, () -> this.billQueryService.getBillById(1L));
     }
 
     @Test
@@ -188,7 +195,7 @@ class BillServiceImplTest {
 
         doReturn(Optional.of(bill)).when(billRepo).getBillByNumber("1");
 
-        this.billServiceImpl.updateBill(billDTO);
+        this.billCommandService.updateBill(billDTO);
 
         verify(billRepo).saveAndFlush(billArgumentCaptor.capture());
 
@@ -202,6 +209,6 @@ class BillServiceImplTest {
 
         doReturn(Optional.empty()).when(billRepo).getBillByNumber("1");
 
-        assertThrows(BillNotFoundException.class, () -> this.billServiceImpl.updateBill(billDTO));
+        assertThrows(BillNotFoundException.class, () -> this.billCommandService.updateBill(billDTO));
     }
 }

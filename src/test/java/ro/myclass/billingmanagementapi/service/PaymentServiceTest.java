@@ -14,6 +14,8 @@ import ro.myclass.billingmanagementapi.payment.dto.PaymentDTO;
 import ro.myclass.billingmanagementapi.payment.dto.UpdatePaymentRequest;
 import ro.myclass.billingmanagementapi.payment.models.Payment;
 import ro.myclass.billingmanagementapi.payment.repo.PaymentRepo;
+import ro.myclass.billingmanagementapi.payment.service.PaymentCommandService;
+import ro.myclass.billingmanagementapi.payment.service.PaymentQuerryService;
 import ro.myclass.billingmanagementapi.payment.service.PaymentService;
 
 import java.time.LocalDate;
@@ -34,7 +36,10 @@ class PaymentServiceTest {
         @Mock
         private CustomerRepo customerRepo;
         @InjectMocks
-        private PaymentService paymentService;
+        private PaymentCommandService paymentCommandService = new PaymentService(paymentRepo,customerRepo);
+
+        @InjectMocks
+        private PaymentQuerryService paymentQuerryService = new PaymentService(paymentRepo,customerRepo);
 
         @Captor
         private ArgumentCaptor<Payment> argumentCaptor;
@@ -63,7 +68,7 @@ class PaymentServiceTest {
 
             doReturn(paymentList).when(paymentRepo).getAllPayment();
 
-            assertEquals(paymentList, paymentService.getAllPayments());
+            assertEquals(paymentList, paymentQuerryService.getAllPayments());
         }
 
 
@@ -73,7 +78,7 @@ class PaymentServiceTest {
 
             doReturn(paymentList).when(paymentRepo).getAllPayment();
 
-            assertThrows(ListEmptyException.class, () -> paymentService.getAllPayments());
+            assertThrows(ListEmptyException.class, () -> paymentQuerryService.getAllPayments());
         }
 
         @Test
@@ -85,7 +90,7 @@ class PaymentServiceTest {
             doReturn(Optional.empty()).when(paymentRepo).getPaymentByAmountAndDescription(paymentDTO.getAmount(),paymentDTO.getDescription());
 
 
-            paymentService.addPayment(paymentDTO);
+            paymentCommandService.addPayment(paymentDTO);
 
 
             verify(paymentRepo,times(1)).save(argumentCaptor.capture());
@@ -101,7 +106,7 @@ class PaymentServiceTest {
 
             doReturn(Optional.of(Payment.builder().amount("test").date(LocalDate.now()).description("test").build())).when(paymentRepo).getPaymentByAmountAndDescription(paymentDTO.getAmount(),paymentDTO.getDescription());
 
-            assertThrows(Exception.class, () -> paymentService.addPayment(paymentDTO));
+            assertThrows(Exception.class, () -> paymentCommandService.addPayment(paymentDTO));
         }
 
         @Test
@@ -110,7 +115,7 @@ class PaymentServiceTest {
 
             doReturn(Optional.of(payment)).when(paymentRepo).getPaymentByAmountAndDescription(payment.getAmount(),payment.getDescription());
 
-            paymentService.deletePayment(payment.getAmount(),payment.getDescription());
+            paymentCommandService.deletePayment(payment.getAmount(),payment.getDescription());
 
             verify(paymentRepo,times(1)).delete(argumentCaptor.capture());
 
@@ -123,7 +128,7 @@ class PaymentServiceTest {
 
             doReturn(Optional.empty()).when(paymentRepo).getPaymentByAmountAndDescription(payment.getAmount(),payment.getDescription());
 
-            assertThrows(ListEmptyException.class, () -> paymentService.deletePayment(payment.getAmount(),payment.getDescription()));
+            assertThrows(ListEmptyException.class, () -> paymentCommandService.deletePayment(payment.getAmount(),payment.getDescription()));
         }
 
         @Test
@@ -138,7 +143,8 @@ class PaymentServiceTest {
             doReturn(Optional.of(customer)).when(customerRepo).getCustomerById(updatePaymentRequest.getCustomerId());
 
             doReturn(Optional.of(payment)).when(paymentRepo).getPaymentByAmountAndDescription(paymentDTO.getAmount(),paymentDTO.getDescription());
-            paymentService.updatePayment(updatePaymentRequest);
+
+            paymentCommandService.updatePayment(updatePaymentRequest);
 
             verify(paymentRepo,times(1)).saveAndFlush(argumentCaptor.capture());
 
@@ -154,7 +160,7 @@ class PaymentServiceTest {
 
             doReturn(Optional.empty()).when(customerRepo).getCustomerById(updatePaymentRequest.getCustomerId());
 
-            assertThrows(Exception.class, () -> paymentService.updatePayment(updatePaymentRequest));
+            assertThrows(Exception.class, () -> paymentCommandService.updatePayment(updatePaymentRequest));
         }
 
         @Test
@@ -168,7 +174,7 @@ class PaymentServiceTest {
             doReturn(Optional.of(customer)).when(customerRepo).getCustomerById(updatePaymentRequest.getCustomerId());
 
             doReturn(Optional.empty()).when(paymentRepo).getPaymentByAmountAndDescription(paymentDTO.getAmount(),paymentDTO.getDescription());
-            assertThrows(Exception.class, () -> paymentService.updatePayment(updatePaymentRequest));
+            assertThrows(Exception.class, () -> paymentCommandService.updatePayment(updatePaymentRequest));
         }
 
         @Test
@@ -177,7 +183,7 @@ class PaymentServiceTest {
 
             doReturn(Optional.of(payment)).when(paymentRepo).getPaymentByAmountAndDescription(payment.getAmount(),payment.getDescription());
 
-            assertEquals(payment,paymentService.getPaymentByAmountAndDescription(payment.getAmount(),payment.getDescription()));
+            assertEquals(payment,paymentQuerryService.getPaymentByAmountAndDescription(payment.getAmount(),payment.getDescription()));
         }
 
         @Test
@@ -186,7 +192,7 @@ class PaymentServiceTest {
 
             doReturn(Optional.empty()).when(paymentRepo).getPaymentByAmountAndDescription(payment.getAmount(),payment.getDescription());
 
-            assertThrows(Exception.class, () -> paymentService.getPaymentByAmountAndDescription(payment.getAmount(),payment.getDescription()));
+            assertThrows(Exception.class, () -> paymentQuerryService.getPaymentByAmountAndDescription(payment.getAmount(),payment.getDescription()));
         }
 
         @Test
@@ -195,8 +201,7 @@ class PaymentServiceTest {
 
             doReturn(Optional.of(payment)).when(paymentRepo).getPaymentById(payment.getId());
 
-            assertEquals(payment,paymentService.getPaymentById(payment.getId()));
-        }
+            assertEquals(payment,paymentQuerryService.getPaymentById(payment.getId()));}
 
         @Test
         public void getPaymentByIdException(){
@@ -204,7 +209,7 @@ class PaymentServiceTest {
 
             doReturn(Optional.empty()).when(paymentRepo).getPaymentById(payment.getId());
 
-            assertThrows(Exception.class, () -> paymentService.getPaymentById(payment.getId()));
+            assertThrows(Exception.class, () -> paymentQuerryService.getPaymentById(payment.getId()));
         }
 
         @Test
@@ -222,7 +227,7 @@ class PaymentServiceTest {
 
             doReturn(paymentList).when(paymentRepo).getPaymentByAmount(payment.getAmount());
 
-            assertEquals(paymentList,paymentService.getPaymentByAmount(payment.getAmount()));
+            assertEquals(paymentList,paymentQuerryService.getPaymentByAmount(payment.getAmount()));
         }
 
         @Test
@@ -231,7 +236,7 @@ class PaymentServiceTest {
 
             doReturn(new ArrayList<>()).when(paymentRepo).getPaymentByAmount("1");
 
-            assertThrows(Exception.class, () -> paymentService.getPaymentByAmount("1"));
+            assertThrows(Exception.class, () -> paymentQuerryService.getPaymentByAmount("1"));
         }
 
 
