@@ -8,7 +8,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ro.myclass.billingmanagementapi.customer.dto.CustomerDTO;
+import ro.myclass.billingmanagementapi.customer.service.CustomerCommandService;
 import ro.myclass.billingmanagementapi.customer.service.CustomerImplService;
+import ro.myclass.billingmanagementapi.customer.service.CustomerQuerryService;
 import ro.myclass.billingmanagementapi.exceptions.CustomerNotFoundException;
 import ro.myclass.billingmanagementapi.exceptions.CustomerWasFoundException;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
@@ -30,7 +32,10 @@ class CustomerImplServiceTest {
     private CustomerRepo customerRepo;
 
     @InjectMocks
-    private CustomerImplService customerImplService;
+    private CustomerQuerryService customerQueryService = new CustomerImplService(customerRepo);
+
+    @InjectMocks
+    private CustomerCommandService customerCommandService = new CustomerImplService(customerRepo);
 
     @Captor
     private ArgumentCaptor<Customer> argumentCaptor;
@@ -57,7 +62,7 @@ class CustomerImplServiceTest {
 
         doReturn(customerList).when(customerRepo).getAllCustomer();
 
-        assertEquals(customerList, customerImplService.getAllCustomers());
+        assertEquals(customerList, customerQueryService.getAllCustomers());
     }
 
 
@@ -67,7 +72,7 @@ class CustomerImplServiceTest {
 
         doReturn(customerList).when(customerRepo).getAllCustomer();
 
-        assertThrows(ListEmptyException.class, () -> customerImplService.getAllCustomers());
+        assertThrows(ListEmptyException.class, () -> customerQueryService.getAllCustomers());
     }
 
     @Test
@@ -79,7 +84,7 @@ class CustomerImplServiceTest {
 
         doReturn(Optional.empty()).when(customerRepo).getCustomerByUsername(customerDTO.getUsername());
 
-        customerImplService.addCustomer(customerDTO);
+        customerCommandService.addCustomer(customerDTO);
 
         verify(customerRepo,times(1)).save(argumentCaptor.capture());
 
@@ -94,7 +99,7 @@ class CustomerImplServiceTest {
 
         doReturn(Optional.of(Customer.builder().build())).when(customerRepo).getCustomerByUsername(customerDTO.getUsername());
 
-        assertThrows(CustomerWasFoundException.class,()-> customerImplService.addCustomer(customerDTO));
+        assertThrows(CustomerWasFoundException.class,()-> customerCommandService.addCustomer(customerDTO));
     }
 
     @Test
@@ -103,7 +108,7 @@ class CustomerImplServiceTest {
 
         doReturn(Optional.of(customer)).when(customerRepo).getCustomerByUsername(customer.getUsername());
 
-        customerImplService.deleteCustomer(customer.getUsername());
+        customerCommandService.deleteCustomer(customer.getUsername());
 
         verify(customerRepo,times(1)).delete(argumentCaptor.capture());
 
@@ -115,7 +120,7 @@ class CustomerImplServiceTest {
 
         doReturn(Optional.empty()).when(customerRepo).getCustomerByUsername("test");
 
-        assertThrows(CustomerNotFoundException.class,()-> customerImplService.deleteCustomer("test"));
+        assertThrows(CustomerNotFoundException.class,()-> customerCommandService.deleteCustomer("test"));
     }
 
     @Test
@@ -124,7 +129,7 @@ class CustomerImplServiceTest {
 
         doReturn(Optional.of(customer)).when(customerRepo).getCustomerByUsername(customer.getUsername());
 
-        assertEquals(customer, customerImplService.getCustomerByUsername(customer.getUsername()));
+        assertEquals(customer, customerQueryService.getCustomerByUsername(customer.getUsername()));
     }
 
     @Test
@@ -132,7 +137,7 @@ class CustomerImplServiceTest {
 
         doReturn(Optional.empty()).when(customerRepo).getCustomerByUsername("test");
 
-        assertThrows(CustomerNotFoundException.class,()-> customerImplService.getCustomerByUsername("test"));
+        assertThrows(CustomerNotFoundException.class,()-> customerQueryService.getCustomerByUsername("test"));
     }
 
     @Test
@@ -141,7 +146,7 @@ class CustomerImplServiceTest {
 
         doReturn(Optional.of(customer)).when(customerRepo).getCustomerById(customer.getId());
 
-        assertEquals(customer, customerImplService.getCustomerById(customer.getId()));
+        assertEquals(customer, customerQueryService.getCustomerById(customer.getId()));
     }
 
     @Test
@@ -149,7 +154,7 @@ class CustomerImplServiceTest {
 
         doReturn(Optional.empty()).when(customerRepo).getCustomerById(1L);
 
-        assertThrows(CustomerNotFoundException.class,()-> customerImplService.getCustomerById(1L));
+        assertThrows(CustomerNotFoundException.class,()-> customerQueryService.getCustomerById(1L));
     }
 
     @Test
@@ -158,7 +163,7 @@ class CustomerImplServiceTest {
 
         doReturn(Optional.of(customer)).when(customerRepo).getCustomerByMobile(customer.getMobile());
 
-        assertEquals(customer, customerImplService.getCustomerByMobile(customer.getMobile()));
+        assertEquals(customer, customerQueryService.getCustomerByMobile(customer.getMobile()));
     }
 
     @Test
@@ -166,7 +171,7 @@ class CustomerImplServiceTest {
 
         doReturn(Optional.empty()).when(customerRepo).getCustomerByMobile("test");
 
-        assertThrows(CustomerNotFoundException.class,()-> customerImplService.getCustomerByMobile("test"));
+        assertThrows(CustomerNotFoundException.class,()-> customerQueryService.getCustomerByMobile("test"));
     }
 
     @Test
@@ -175,7 +180,7 @@ class CustomerImplServiceTest {
 
         doReturn(Optional.of(customer)).when(customerRepo).getCustomerByEmail(customer.getEmail());
 
-        assertEquals(customer, customerImplService.getCustomerByEmail(customer.getEmail()));
+        assertEquals(customer, customerQueryService.getCustomerByEmail(customer.getEmail()));
     }
 
 
@@ -184,7 +189,7 @@ class CustomerImplServiceTest {
 
         doReturn(Optional.empty()).when(customerRepo).getCustomerByEmail("test");
 
-        assertThrows(CustomerNotFoundException.class,()-> customerImplService.getCustomerByEmail("test"));
+        assertThrows(CustomerNotFoundException.class,()-> customerQueryService.getCustomerByEmail("test"));
     }
 
     @Test
@@ -195,7 +200,7 @@ class CustomerImplServiceTest {
 
         doReturn(Optional.of(customer)).when(customerRepo).getCustomerByUsername(customerDTO.getUsername());
 
-        customerImplService.updateCustomer(customerDTO);
+        customerCommandService.updateCustomer(customerDTO);
 
         verify(customerRepo,times(1)).saveAndFlush(argumentCaptor.capture());
 
@@ -208,7 +213,7 @@ class CustomerImplServiceTest {
 
         doReturn(Optional.empty()).when(customerRepo).getCustomerByUsername(customerDTO.getUsername());
 
-        assertThrows(CustomerNotFoundException.class,()-> customerImplService.updateCustomer(customerDTO));
+        assertThrows(CustomerNotFoundException.class,()-> customerCommandService.updateCustomer(customerDTO));
     }
 
     @Test
@@ -235,7 +240,7 @@ class CustomerImplServiceTest {
 
         doReturn(customerList).when(customerRepo).getCustomerByAddress(customer.getAddress());
 
-        assertEquals(customerList, customerImplService.getCustomerByAddress(customer.getAddress()));
+        assertEquals(customerList, customerQueryService.getCustomerByAddress(customer.getAddress()));
 
 
     }
@@ -246,6 +251,6 @@ class CustomerImplServiceTest {
 
         doReturn(customerList).when(customerRepo).getCustomerByAddress("test");
 
-        assertThrows(ListEmptyException.class,()-> customerImplService.getCustomerByAddress("test"));
+        assertThrows(ListEmptyException.class,()-> customerQueryService.getCustomerByAddress("test"));
     }
 }
