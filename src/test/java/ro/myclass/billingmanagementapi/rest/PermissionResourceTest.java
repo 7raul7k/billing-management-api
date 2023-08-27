@@ -15,13 +15,14 @@ import ro.myclass.billingmanagementapi.permission.dto.PermissionDTO;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
 import ro.myclass.billingmanagementapi.permission.models.Permission;
 import ro.myclass.billingmanagementapi.permission.resource.PermissionResource;
+import ro.myclass.billingmanagementapi.permission.service.PermissionCommandService;
+import ro.myclass.billingmanagementapi.permission.service.PermissionQuerryService;
 import ro.myclass.billingmanagementapi.permission.service.PermissionService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -31,7 +32,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class PermissionResourceTest {
 
     @Mock
-    private PermissionService permissionService;
+    private PermissionCommandService permissionCommandService;
+
+    @Mock
+    private PermissionQuerryService permissionQuerryService;
 
     @InjectMocks
     private PermissionResource permissionResource;
@@ -57,7 +61,7 @@ class PermissionResourceTest {
             permissionList.add(Permission.builder().id((long) i).title(faker.name().title()).build());
         }
 
-        doReturn(permissionList).when(permissionService).getAllPermissions();
+        doReturn(permissionList).when(permissionQuerryService).getAllPermissions();
 
         restMockMvc.perform(get("/api/v1/permission/allPermissions"))
                 .andExpect(status().isOk())
@@ -69,7 +73,7 @@ class PermissionResourceTest {
     @Test
     public void getAllPermissionsBadRequest() throws Exception {
 
-        doThrow(ListEmptyException.class).when(permissionService).getAllPermissions();
+        doThrow(ListEmptyException.class).when(permissionQuerryService).getAllPermissions();
 
         restMockMvc.perform(get("/api/v1/permission/allPermissions"))
                 .andExpect(status().isBadRequest());
@@ -87,7 +91,7 @@ class PermissionResourceTest {
     public void addPermissionBadRequest() throws Exception {
         PermissionDTO permission = PermissionDTO.builder().title("title").module("module").build();
 
-        doThrow(ListEmptyException.class).when(permissionService).addPermission(permission);
+        doThrow(ListEmptyException.class).when(permissionCommandService).addPermission(permission);
 
         restMockMvc.perform(post("/api/v1/permission/addPermission").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(permission)))
                 .andExpect(status().isBadRequest());
@@ -99,7 +103,7 @@ class PermissionResourceTest {
 
         Permission permission = Permission.builder().id((long) 1).title(faker.name().title()).build();
 
-        doReturn(permission).when(permissionService).getPermissionById(1);
+        doReturn(permission).when(permissionQuerryService).getPermissionById(1);
 
         restMockMvc.perform(get("/api/v1/permission/getPermissionById/1"))
                 .andExpect(status().isOk())
@@ -112,7 +116,7 @@ class PermissionResourceTest {
 
         Permission permission = Permission.builder().id((long) 1).title(faker.name().title()).build();
 
-        doThrow(ListEmptyException.class).when(permissionService).getPermissionById(1);
+        doThrow(ListEmptyException.class).when(permissionQuerryService).getPermissionById(1);
 
         restMockMvc.perform(get("/api/v1/permission/getPermissionById/1"))
                 .andExpect(status().isBadRequest());
@@ -124,7 +128,7 @@ class PermissionResourceTest {
 
         Permission permission = Permission.builder().id((long) 1).title(faker.name().title()).build();
 
-        doReturn(permission).when(permissionService).getPermissionByTitle("title");
+        doReturn(permission).when(permissionQuerryService).getPermissionByTitle("title");
 
         restMockMvc.perform(get("/api/v1/permission/getPermissionByTitle/title"))
                 .andExpect(status().isOk())
@@ -137,7 +141,7 @@ class PermissionResourceTest {
 
         Permission permission = Permission.builder().id((long) 1).title(faker.name().title()).build();
 
-        doThrow(ListEmptyException.class).when(permissionService).getPermissionByTitle("title");
+        doThrow(ListEmptyException.class).when(permissionQuerryService).getPermissionByTitle("title");
 
         restMockMvc.perform(get("/api/v1/permission/getPermissionByTitle/title"))
                 .andExpect(status().isBadRequest());
@@ -154,7 +158,7 @@ class PermissionResourceTest {
             permissionList.add(Permission.builder().id((long) i).title(faker.name().title()).build());
         }
 
-        doReturn(permissionList).when(permissionService).getPermissionByModule("module");
+        doReturn(permissionList).when(permissionQuerryService).getPermissionByModule("module");
 
         restMockMvc.perform(get("/api/v1/permission/getPermissionByModule/module"))
                 .andExpect(status().isOk())
@@ -172,7 +176,7 @@ class PermissionResourceTest {
             permissionList.add(Permission.builder().id((long) i).title(faker.name().title()).build());
         }
 
-        doThrow(ListEmptyException.class).when(permissionService).getPermissionByModule("module");
+        doThrow(ListEmptyException.class).when(permissionQuerryService).getPermissionByModule("module");
 
         restMockMvc.perform(get("/api/v1/permission/getPermissionByModule/module"))
                 .andExpect(status().isBadRequest());
@@ -182,6 +186,8 @@ class PermissionResourceTest {
     public void updatePermission() throws Exception {
         PermissionDTO permission = PermissionDTO.builder().title("title").module("module").build();
 
+        doNothing().when(permissionCommandService).updatePermission(permission);
+
         restMockMvc.perform(put("/api/v1/permission/updatePermission").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(permission)))
                 .andExpect(status().isOk());
     }
@@ -190,7 +196,7 @@ class PermissionResourceTest {
     public void updatePermissionBadRequest() throws Exception {
         PermissionDTO permission = PermissionDTO.builder().title("title").module("module").build();
 
-        doThrow(ListEmptyException.class).when(permissionService).updatePermission(permission);
+        doThrow(ListEmptyException.class).when(permissionCommandService).updatePermission(permission);
 
         restMockMvc.perform(put("/api/v1/permission/updatePermission").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(permission)))
                 .andExpect(status().isBadRequest());
