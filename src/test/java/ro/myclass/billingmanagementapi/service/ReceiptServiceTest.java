@@ -14,6 +14,8 @@ import ro.myclass.billingmanagementapi.exceptions.ReceiptNotFoundException;
 import ro.myclass.billingmanagementapi.exceptions.ReceiptWasFoundException;
 import ro.myclass.billingmanagementapi.receipt.models.Receipt;
 import ro.myclass.billingmanagementapi.receipt.repo.ReceiptRepo;
+import ro.myclass.billingmanagementapi.receipt.service.ReceiptCommandService;
+import ro.myclass.billingmanagementapi.receipt.service.ReceiptQuerryService;
 import ro.myclass.billingmanagementapi.receipt.service.ReceiptService;
 
 import java.time.LocalDate;
@@ -32,7 +34,10 @@ class ReceiptServiceTest {
     private ReceiptRepo receiptRepo;
 
     @InjectMocks
-    private ReceiptService receiptService;
+    private ReceiptCommandService receiptService = new ReceiptService(receiptRepo);
+
+    @InjectMocks
+    private ReceiptQuerryService receiptQuerryService = new ReceiptService(receiptRepo);
 
     @Captor
     private ArgumentCaptor<Receipt> argumentCaptor;
@@ -59,7 +64,7 @@ class ReceiptServiceTest {
 
         doReturn(receiptList).when(receiptRepo).getAllReceipt();
 
-        assertEquals(receiptList,receiptService.getAllReceipts());
+        assertEquals(receiptList,receiptQuerryService.getAllReceipts());
 
     }
 
@@ -67,7 +72,7 @@ class ReceiptServiceTest {
     public void getAllReceiptsException(){
         doReturn(new ArrayList<>()).when(receiptRepo).getAllReceipt();
 
-        assertThrows(ListEmptyException.class,()->receiptService.getAllReceipts());
+        assertThrows(ListEmptyException.class,()->receiptQuerryService.getAllReceipts());
     }
 
     @Test
@@ -131,7 +136,7 @@ class ReceiptServiceTest {
 
         doReturn(Optional.of(receipt)).when(receiptRepo).getReceiptsById(receipt.getId());
 
-        assertEquals(receipt,receiptService.getReceiptById(receipt.getId()));
+        assertEquals(receipt,receiptQuerryService.getReceiptById(receipt.getId()));
     }
 
     @Test
@@ -141,7 +146,7 @@ class ReceiptServiceTest {
 
         doReturn(Optional.empty()).when(receiptRepo).getReceiptsById(receipt.getId());
 
-        assertThrows(ReceiptWasFoundException.class,()->receiptService.getReceiptById(receipt.getId()));
+        assertThrows(ReceiptWasFoundException.class,()->receiptQuerryService.getReceiptById(receipt.getId()));
     }
 
     @Test
@@ -161,7 +166,7 @@ class ReceiptServiceTest {
 
         doReturn(receiptList).when(receiptRepo).getReceiptsByType(receipt.getType());
 
-        assertEquals(receiptList,receiptService.getReceiptByType(receipt.getType()));
+        assertEquals(receiptList,receiptQuerryService.getReceiptByType(receipt.getType()));
     }
 
     @Test
@@ -170,7 +175,7 @@ class ReceiptServiceTest {
 
         doReturn(new ArrayList<>()).when(receiptRepo).getReceiptsByType(receipt.getType());
 
-        assertThrows(ReceiptWasFoundException.class,()->receiptService.getReceiptByType(receipt.getType()));
+        assertThrows(ReceiptWasFoundException.class,()->receiptQuerryService.getReceiptByType(receipt.getType()));
     }
 
     @Test
@@ -188,7 +193,7 @@ class ReceiptServiceTest {
 
         doReturn(receiptList).when(receiptRepo).getReceiptsByNumber(receipt.getNumber());
 
-        assertEquals(receiptList,receiptService.getReceiptByNumber(receipt.getNumber()));
+        assertEquals(receiptList,receiptQuerryService.getReceiptByNumber(receipt.getNumber()));
     }
 
     @Test
@@ -197,7 +202,7 @@ class ReceiptServiceTest {
 
         doReturn(new ArrayList<>()).when(receiptRepo).getReceiptsByNumber(receipt.getNumber());
 
-        assertThrows(ReceiptWasFoundException.class,()->receiptService.getReceiptByNumber(receipt.getNumber()));
+        assertThrows(ReceiptWasFoundException.class,()->receiptQuerryService.getReceiptByNumber(receipt.getNumber()));
     }
 
     @Test
@@ -231,8 +236,7 @@ class ReceiptServiceTest {
 
         doReturn(Optional.of(receipt)).when(receiptRepo).getReceiptByTypeAndNumberAndDescription(receipt.getType(),receipt.getNumber(),receipt.getDescription());
 
-        assertEquals(receipt,receiptService.getReceiptByTypeAndNumberAndDescription(receipt.getType(),receipt.getNumber(),receipt.getDescription()));
-
+        assertEquals(receipt,receiptQuerryService.getReceiptByTypeAndNumberAndDescription(receipt.getType(),receipt.getNumber(),receipt.getDescription()));
     }
 
     @Test
@@ -242,8 +246,7 @@ class ReceiptServiceTest {
 
         doReturn(Optional.empty()).when(receiptRepo).getReceiptByTypeAndNumberAndDescription(receipt.getType(),receipt.getNumber(),receipt.getDescription());
 
-        assertThrows(ReceiptNotFoundException.class,()->receiptService.getReceiptByTypeAndNumberAndDescription(receipt.getType(),receipt.getNumber(),receipt.getDescription()));
-
+        assertThrows(ReceiptNotFoundException.class,()->receiptQuerryService.getReceiptByTypeAndNumberAndDescription(receipt.getType(),receipt.getNumber(),receipt.getDescription()));
     }
 
 }
