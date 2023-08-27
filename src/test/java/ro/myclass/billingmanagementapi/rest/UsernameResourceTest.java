@@ -16,6 +16,8 @@ import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
 import ro.myclass.billingmanagementapi.exceptions.UsernameNotFoundException;
 import ro.myclass.billingmanagementapi.username.models.Username;
 import ro.myclass.billingmanagementapi.username.rest.UsernameResource;
+import ro.myclass.billingmanagementapi.username.service.UsernameCommandService;
+import ro.myclass.billingmanagementapi.username.service.UsernameQuerryService;
 import ro.myclass.billingmanagementapi.username.service.UsernameService;
 
 import java.util.ArrayList;
@@ -30,7 +32,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class UsernameResourceTest {
 
     @Mock
-    private UsernameService usernameService;
+    private UsernameCommandService usernameCommandService;
+
+    @Mock
+    private UsernameQuerryService usernameQuerryService;
 
     @InjectMocks
     private UsernameResource usernameResource;
@@ -56,7 +61,7 @@ class UsernameResourceTest {
             usernameList.add(Username.builder().id((long) i).username(faker.name().username()).email(faker.internet().emailAddress()).address(faker.address().fullAddress()).build());
         }
 
-        doReturn(usernameList).when(usernameService).getAllUsernames();
+        doReturn(usernameList).when(usernameQuerryService).getAllUsernames();
 
         restMockMvc.perform(get("/api/v1/username/allUsernames"))
                 .andExpect(status().isOk())
@@ -66,7 +71,7 @@ class UsernameResourceTest {
     @Test
     public void getAllUsernamesBadRequest() throws Exception {
 
-        doThrow(ListEmptyException.class).when(usernameService).getAllUsernames();
+        doThrow(ListEmptyException.class).when(usernameQuerryService).getAllUsernames();
 
         restMockMvc.perform(get("/api/v1/username/allUsernames"))
                 .andExpect(status().isBadRequest());
@@ -78,7 +83,7 @@ class UsernameResourceTest {
 
         //create usernamedto with all properties
         UsernameDTO username = UsernameDTO.builder().username(faker.name().username()).email(faker.internet().emailAddress()).address(faker.address().fullAddress()).build();
-        doNothing().when(usernameService).addUsername(username);
+        doNothing().when(usernameCommandService).addUsername(username);
 
         restMockMvc.perform(post("/api/v1/username/addUsername").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(username)))
                 .andExpect(status().isOk());
@@ -91,7 +96,7 @@ class UsernameResourceTest {
 
         //create usernamedto with all properties
         UsernameDTO username = UsernameDTO.builder().username(faker.name().username()).email(faker.internet().emailAddress()).address(faker.address().fullAddress()).build();
-        doThrow(ListEmptyException.class).when(usernameService).addUsername(username);
+        doThrow(ListEmptyException.class).when(usernameCommandService).addUsername(username);
 
         restMockMvc.perform(post("/api/v1/username/addUsername").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(username)))
                 .andExpect(status().isBadRequest());
@@ -101,7 +106,7 @@ class UsernameResourceTest {
     public void deleteUsername() throws Exception {
 
 
-        doNothing().when(usernameService).deleteUsername("username");
+        doNothing().when(usernameCommandService).deleteUsername("username");
 
         restMockMvc.perform(delete("/api/v1/username/deleteUsername/username"))
                 .andExpect(status().isOk());
@@ -110,7 +115,7 @@ class UsernameResourceTest {
 
     @Test
     public void deleteUsernameBadRequest() throws Exception {
-        doThrow(UsernameNotFoundException.class).when(usernameService).deleteUsername("username");
+        doThrow(UsernameNotFoundException.class).when(usernameCommandService).deleteUsername("username");
 
         restMockMvc.perform(delete("/api/v1/username/deleteUsername/username"))
                 .andExpect(status().isBadRequest());
@@ -122,7 +127,7 @@ class UsernameResourceTest {
 
         Username username = Username.builder().id((long) 1).username(faker.name().username()).email(faker.internet().emailAddress()).address(faker.address().fullAddress()).build();
 
-        doReturn(username).when(usernameService).getUsernameById(1);
+        doReturn(username).when(usernameQuerryService).getUsernameById(1);
 
         restMockMvc.perform(get("/api/v1/username/getUsernameById/1"))
                 .andExpect(status().isOk())
@@ -135,7 +140,7 @@ class UsernameResourceTest {
 
         Username username = Username.builder().id((long) 1).username(faker.name().username()).email(faker.internet().emailAddress()).address(faker.address().fullAddress()).build();
 
-        doThrow(UsernameNotFoundException.class).when(usernameService).getUsernameById(1);
+        doThrow(UsernameNotFoundException.class).when(usernameQuerryService).getUsernameById(1);
 
         restMockMvc.perform(get("/api/v1/username/getUsernameById/1"))
                 .andExpect(status().isBadRequest());
@@ -147,7 +152,7 @@ class UsernameResourceTest {
 
         Username username = Username.builder().id((long) 1).username(faker.name().username()).email(faker.internet().emailAddress()).address(faker.address().fullAddress()).build();
 
-        doReturn(username).when(usernameService).getUsernameByUsername("username");
+        doReturn(username).when(usernameQuerryService).getUsernameByUsername("username");
 
         restMockMvc.perform(get("/api/v1/username/getUsernameByUsername/username"))
                 .andExpect(status().isOk())
@@ -160,7 +165,7 @@ class UsernameResourceTest {
 
         Username username = Username.builder().id((long) 1).username(faker.name().username()).email(faker.internet().emailAddress()).address(faker.address().fullAddress()).build();
 
-        doThrow(UsernameNotFoundException.class).when(usernameService).getUsernameByUsername("username");
+        doThrow(UsernameNotFoundException.class).when(usernameQuerryService).getUsernameByUsername("username");
 
         restMockMvc.perform(get("/api/v1/username/getUsernameByUsername/username"))
                 .andExpect(status().isBadRequest());
@@ -172,7 +177,7 @@ class UsernameResourceTest {
 
         UsernameDTO usernameDTO = UsernameDTO.builder().username(faker.name().username()).email(faker.internet().emailAddress()).address(faker.address().fullAddress()).build();
 
-        doNothing().when(usernameService).updateUsername(usernameDTO);
+        doNothing().when(usernameCommandService).updateUsername(usernameDTO);
 
         restMockMvc.perform(put("/api/v1/username/updateUsername").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(usernameDTO)))
                 .andExpect(status().isOk());
@@ -184,7 +189,7 @@ class UsernameResourceTest {
 
         UsernameDTO usernameDTO = UsernameDTO.builder().username(faker.name().username()).email(faker.internet().emailAddress()).address(faker.address().fullAddress()).build();
 
-        doThrow(UsernameNotFoundException.class).when(usernameService).updateUsername(usernameDTO);
+        doThrow(UsernameNotFoundException.class).when(usernameCommandService).updateUsername(usernameDTO);
 
         restMockMvc.perform(put("/api/v1/username/updateUsername").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(usernameDTO)))
                 .andExpect(status().isBadRequest());
@@ -196,7 +201,7 @@ class UsernameResourceTest {
 
         Username username = Username.builder().id((long) 1).username(faker.name().username()).email(faker.internet().emailAddress()).address(faker.address().fullAddress()).build();
 
-        doReturn(username).when(usernameService).getUsernameByEmail("email");
+        doReturn(username).when(usernameQuerryService).getUsernameByEmail("email");
 
         restMockMvc.perform(get("/api/v1/username/getUsernameByEmail/email"))
                 .andExpect(status().isOk())
@@ -209,7 +214,7 @@ class UsernameResourceTest {
 
         Username username = Username.builder().id((long) 1).username(faker.name().username()).email(faker.internet().emailAddress()).address(faker.address().fullAddress()).build();
 
-        doThrow(UsernameNotFoundException.class).when(usernameService).getUsernameByEmail("email");
+        doThrow(UsernameNotFoundException.class).when(usernameQuerryService).getUsernameByEmail("email");
 
         restMockMvc.perform(get("/api/v1/username/getUsernameByEmail/email"))
                 .andExpect(status().isBadRequest());
