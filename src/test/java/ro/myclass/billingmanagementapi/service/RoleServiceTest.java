@@ -12,6 +12,8 @@ import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
 import ro.myclass.billingmanagementapi.exceptions.RoleNotFoundException;
 import ro.myclass.billingmanagementapi.role.models.Role;
 import ro.myclass.billingmanagementapi.role.repo.RoleRepo;
+import ro.myclass.billingmanagementapi.role.service.RoleCommandService;
+import ro.myclass.billingmanagementapi.role.service.RoleQuerryService;
 import ro.myclass.billingmanagementapi.role.service.RoleService;
 
 import java.util.ArrayList;
@@ -28,7 +30,10 @@ class RoleServiceTest {
     private RoleRepo roleRepo;
 
     @InjectMocks
-    private RoleService roleService;
+    private RoleCommandService roleService = new RoleService(roleRepo);
+
+    @InjectMocks
+    private RoleQuerryService roleQuerryService = new RoleService(roleRepo);
 
     @Captor
     private ArgumentCaptor<Role> argumentCaptor;
@@ -52,7 +57,7 @@ class RoleServiceTest {
 
         doReturn(roleList).when(roleRepo).getAllRole();
 
-        assertEquals(roleList,roleService.getAllRoles());
+        assertEquals(roleList,roleQuerryService.getAllRoles());
     }
 
     @Test
@@ -60,7 +65,7 @@ class RoleServiceTest {
     public void getAllRoleException(){
         doReturn(new ArrayList<>()).when(roleRepo).getAllRole();
 
-        assertThrows(ListEmptyException.class,()->roleService.getAllRoles());
+        assertThrows(ListEmptyException.class,()->roleQuerryService.getAllRoles());
     }
     @Test
     public void addRole(){
@@ -119,7 +124,7 @@ class RoleServiceTest {
 
         doReturn(Optional.of(role)).when(roleRepo).getRoleById(role.getId());
 
-        assertEquals(role,roleService.getRolebyId(role.getId()));
+        assertEquals(role,roleQuerryService.getRolebyId(role.getId()));
     }
 
 
@@ -129,7 +134,7 @@ class RoleServiceTest {
 
         doReturn(Optional.empty()).when(roleRepo).getRoleById(role.getId());
 
-        assertThrows(RoleNotFoundException.class,()->roleService.getRolebyId(role.getId()));
+        assertThrows(RoleNotFoundException.class,()->roleQuerryService.getRolebyId(role.getId()));
     }
 
 
@@ -139,7 +144,7 @@ class RoleServiceTest {
 
         doReturn(Optional.of(role)).when(roleRepo).getRoleByTitle(role.getTitle());
 
-        assertEquals(role,roleService.getRoleByTitle(role.getTitle()));
+        assertEquals(role,roleQuerryService.getRoleByTitle(role.getTitle()));
     }
 
     @Test
@@ -148,7 +153,7 @@ class RoleServiceTest {
 
         doReturn(Optional.empty()).when(roleRepo).getRoleByTitle(role.getTitle());
 
-        assertThrows(RoleNotFoundException.class,()->roleService.getRoleByTitle(role.getTitle()));
+        assertThrows(RoleNotFoundException.class,()->roleQuerryService.getRoleByTitle(role.getTitle()));
     }
 
     @Test
