@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import ro.myclass.billingmanagementapi.role.dto.RoleDTO;
 import ro.myclass.billingmanagementapi.role.service.RoleCommandService;
 import ro.myclass.billingmanagementapi.role.service.RoleQuerryService;
-import ro.myclass.billingmanagementapi.role.service.RoleService;
 import ro.myclass.billingmanagementapi.role.models.Role;
 
 

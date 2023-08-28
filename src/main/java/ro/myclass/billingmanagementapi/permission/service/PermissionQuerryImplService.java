@@ -30,19 +30,6 @@ public class PermissionQuerryImplService implements PermissionQuerryService{
         return permissionList;
     }
 
-
-
-    public void deletePermission(String title){
-        Optional<Permission> permissionOptional = this.permissionRepo.getPermissionByTitle(title);
-
-        if(permissionOptional.isEmpty()){
-            throw new ListEmptyException();
-        }else{
-            this.permissionRepo.delete(permissionOptional.get());
-        }
-    }
-
-
     public List<Permission> getPermissionByModule(String module){
         List<Permission> permissionOptional = this.permissionRepo.getPermissionByModule(module);
 
@@ -55,6 +42,16 @@ public class PermissionQuerryImplService implements PermissionQuerryService{
 
     public Permission getPermissionByTitle(String title){
         Optional<Permission> permissionOptional = this.permissionRepo.getPermissionByTitle(title);
+
+        if(permissionOptional.isEmpty()){
+            throw new ListEmptyException();
+        }else{
+            return permissionOptional.get();
+        }
+    }
+
+    public Permission getPermissionById(long id){
+        Optional<Permission> permissionOptional = this.permissionRepo.getPermissionById(id);
 
         if(permissionOptional.isEmpty()){
             throw new ListEmptyException();
