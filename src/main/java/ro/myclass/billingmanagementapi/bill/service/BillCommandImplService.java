@@ -7,19 +7,17 @@ import org.springframework.stereotype.Service;
 import ro.myclass.billingmanagementapi.bill.dto.BillDTO;
 import ro.myclass.billingmanagementapi.bill.repository.BillRepo;
 import ro.myclass.billingmanagementapi.exceptions.BillNotFoundException;
-import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
 import ro.myclass.billingmanagementapi.bill.models.Bill;
 
-import java.util.List;
 import java.util.Optional;
 
 @Transactional
 @Service
-public class BillImplCommandService implements BillCommandService {
+public class BillCommandImplService implements BillCommandService {
 
     private BillRepo billRepo;
 
-    public BillImplCommandService(BillRepo billRepo) {
+    public BillCommandImplService(BillRepo billRepo) {
         this.billRepo = billRepo;
     }
 

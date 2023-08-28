@@ -14,23 +14,14 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class CustomerImplService implements CustomerQuerryService,CustomerCommandService {
+public class CustomerCommandImplService implements CustomerCommandService {
 
     private CustomerRepo customerRepo;
 
-    public CustomerImplService(CustomerRepo customerRepo) {
+    public CustomerCommandImplService(CustomerRepo customerRepo) {
         this.customerRepo = customerRepo;
     }
 
-    public List<Customer> getAllCustomers(){
-        List<Customer> customerList = this.customerRepo.getAllCustomer();
-
-        if(customerList.isEmpty()){
-            throw new ListEmptyException();
-        }else{
-            return customerList;
-        }
-    }
 
     public void addCustomer(CustomerDTO customerDTO) {
 
@@ -52,56 +43,6 @@ public class CustomerImplService implements CustomerQuerryService,CustomerComman
             throw new CustomerNotFoundException();
         }else{
             this.customerRepo.delete(customerOptional.get());
-        }
-    }
-
-    public Customer getCustomerByUsername(String username){
-        Optional<Customer> customerOptional = this.customerRepo.getCustomerByUsername(username);
-
-        if(customerOptional.isEmpty()){
-            throw new CustomerNotFoundException();
-        }else{
-            return customerOptional.get();
-        }
-    }
-
-    public Customer getCustomerById(long id){
-        Optional<Customer> customerOptional = this.customerRepo.getCustomerById(id);
-
-        if(customerOptional.isEmpty()){
-            throw new CustomerNotFoundException();
-        }else{
-            return customerOptional.get();
-        }
-    }
-
-    public Customer getCustomerByMobile(String mobile){
-        Optional<Customer> customerOptional = this.customerRepo.getCustomerByMobile(mobile);
-
-        if(customerOptional.isEmpty()){
-            throw new CustomerNotFoundException();
-        }else{
-            return customerOptional.get();
-        }
-    }
-
-    public Customer getCustomerByEmail(String email){
-        Optional<Customer> customerOptional = this.customerRepo.getCustomerByEmail(email);
-
-        if(customerOptional.isEmpty()){
-            throw new CustomerNotFoundException();
-        }else{
-            return customerOptional.get();
-        }
-    }
-
-    public List<Customer> getCustomerByAddress(String address){
-        List<Customer> customerList = this.customerRepo.getCustomerByAddress(address);
-
-        if(customerList.isEmpty()){
-            throw new ListEmptyException();
-        }else{
-            return customerList;
         }
     }
 

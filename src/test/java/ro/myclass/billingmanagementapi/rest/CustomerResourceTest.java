@@ -17,7 +17,6 @@ import ro.myclass.billingmanagementapi.customer.service.CustomerCommandService;
 import ro.myclass.billingmanagementapi.customer.service.CustomerQuerryService;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
 import ro.myclass.billingmanagementapi.customer.models.Customer;
-import ro.myclass.billingmanagementapi.customer.service.CustomerImplService;
 
 import java.util.ArrayList;
 import java.util.List;

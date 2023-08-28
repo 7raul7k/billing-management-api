@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class BillImplQuerryService implements BillQueryService {
+public class BillQuerryImplService implements BillQueryService {
 
     private BillRepo billRepo;
 
-    public BillImplQuerryService(BillRepo billRepo) {
+    public BillQuerryImplService(BillRepo billRepo) {
         this.billRepo = billRepo;
     }
 
