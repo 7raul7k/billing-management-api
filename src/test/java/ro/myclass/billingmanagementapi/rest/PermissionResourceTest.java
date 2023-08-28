@@ -17,7 +17,6 @@ import ro.myclass.billingmanagementapi.permission.models.Permission;
 import ro.myclass.billingmanagementapi.permission.resource.PermissionResource;
 import ro.myclass.billingmanagementapi.permission.service.PermissionCommandService;
 import ro.myclass.billingmanagementapi.permission.service.PermissionQuerryService;
-import ro.myclass.billingmanagementapi.permission.service.PermissionService;
 
 import java.util.ArrayList;
 import java.util.List;

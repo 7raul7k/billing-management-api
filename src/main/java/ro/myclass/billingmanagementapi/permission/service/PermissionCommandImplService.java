@@ -12,23 +12,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PermissionService implements PermissionQuerryService, PermissionCommandService{
+public class PermissionCommandImplService implements  PermissionCommandService{
 
     private PermissionRepo permissionRepo;
 
-    public PermissionService(PermissionRepo permissionRepo) {
+    public PermissionCommandImplService(PermissionRepo permissionRepo) {
         this.permissionRepo = permissionRepo;
     }
 
-    public List<Permission> getAllPermissions(){
-        List<Permission> permissionList = this.permissionRepo.getAllPermission();
 
-        if(permissionList.isEmpty()){
-            throw new ListEmptyException();
-    }
-
-        return permissionList;
-    }
 
     public void addPermission(PermissionDTO permissionDTO){
        Optional<Permission> permissionOptional = this.permissionRepo.getPermissionByTitle(permissionDTO.getTitle());
@@ -62,25 +54,7 @@ public class PermissionService implements PermissionQuerryService, PermissionCom
         }
     }
 
-    public List<Permission> getPermissionByModule(String module){
-        List<Permission> permissionOptional = this.permissionRepo.getPermissionByModule(module);
 
-        if(permissionOptional.isEmpty()){
-            throw new ListEmptyException();
-        }else{
-           return permissionOptional;
-        }
-    }
-
-    public Permission getPermissionByTitle(String title){
-        Optional<Permission> permissionOptional = this.permissionRepo.getPermissionByTitle(title);
-
-        if(permissionOptional.isEmpty()){
-            throw new ListEmptyException();
-        }else{
-            return permissionOptional.get();
-        }
-    }
 
     public void updatePermission(PermissionDTO permissionDTO){
         Optional<Permission> permissionOptional = this.permissionRepo.getPermissionByTitle(permissionDTO.getTitle());
