@@ -17,7 +17,6 @@ import ro.myclass.billingmanagementapi.receipt.models.Receipt;
 import ro.myclass.billingmanagementapi.receipt.rest.ReceiptResource;
 import ro.myclass.billingmanagementapi.receipt.service.ReceiptCommandService;
 import ro.myclass.billingmanagementapi.receipt.service.ReceiptQuerryService;
-import ro.myclass.billingmanagementapi.receipt.service.ReceiptService;
 
 import java.util.ArrayList;
 import java.util.List;

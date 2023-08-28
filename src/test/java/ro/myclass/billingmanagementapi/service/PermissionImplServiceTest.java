@@ -27,7 +27,7 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
-class PermissionCommandImplServiceTest {
+class PermissionImplServiceTest {
 
     @Mock
     private PermissionRepo permissionRepo;
