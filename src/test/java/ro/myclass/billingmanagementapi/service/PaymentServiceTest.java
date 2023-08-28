@@ -15,8 +15,9 @@ import ro.myclass.billingmanagementapi.payment.dto.UpdatePaymentRequest;
 import ro.myclass.billingmanagementapi.payment.models.Payment;
 import ro.myclass.billingmanagementapi.payment.repo.PaymentRepo;
 import ro.myclass.billingmanagementapi.payment.service.PaymentCommandService;
+import ro.myclass.billingmanagementapi.payment.service.PaymentQuerryImplService;
 import ro.myclass.billingmanagementapi.payment.service.PaymentQuerryService;
-import ro.myclass.billingmanagementapi.payment.service.PaymentService;
+import ro.myclass.billingmanagementapi.payment.service.PaymentCommandImplService;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -36,10 +37,10 @@ class PaymentServiceTest {
         @Mock
         private CustomerRepo customerRepo;
         @InjectMocks
-        private PaymentCommandService paymentCommandService = new PaymentService(paymentRepo,customerRepo);
+        private PaymentCommandService paymentCommandService = new PaymentCommandImplService(paymentRepo,customerRepo);
 
         @InjectMocks
-        private PaymentQuerryService paymentQuerryService = new PaymentService(paymentRepo,customerRepo);
+        private PaymentQuerryService paymentQuerryService = new PaymentQuerryImplService(paymentRepo,customerRepo);
 
         @Captor
         private ArgumentCaptor<Payment> argumentCaptor;
