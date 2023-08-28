@@ -13,23 +13,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PaymentModeService implements PaymentModeQuerryService, PaymentModeCommandService {
+public class PaymentModeCommandImplService implements PaymentModeCommandService {
 
     public PaymentModeRepo paymentModeRepo;
 
-    public PaymentModeService(PaymentModeRepo paymentModeRepo) {
+    public PaymentModeCommandImplService(PaymentModeRepo paymentModeRepo) {
         this.paymentModeRepo = paymentModeRepo;
     }
 
-    public List<PaymentMode> getAllPaymentModes(){
-        List<PaymentMode> paymentModeList = this.paymentModeRepo.getAllPaymentMode();
 
-        if(paymentModeList.isEmpty()){
-            throw new ListEmptyException();
-        }else{
-            return paymentModeList;
-        }
-    }
 
     public void addPaymentMode(PaymentModeDTO paymentModeDTO){
         Optional<PaymentMode> paymentModeOptional = this.paymentModeRepo.getPaymentModeByName(paymentModeDTO.getName());
@@ -53,25 +45,7 @@ public class PaymentModeService implements PaymentModeQuerryService, PaymentMode
         }
     }
 
-    public PaymentMode getPaymentModeById(long id){
-        Optional<PaymentMode> paymentModeOptional = this.paymentModeRepo.getPaymentModeById(id);
 
-        if(paymentModeOptional.isEmpty()){
-            throw new PaymentModeNotFoundException();
-        }else{
-            return paymentModeOptional.get();
-        }
-    }
-
-    public PaymentMode getPaymentModeByName(String name){
-        Optional<PaymentMode> paymentModeOptional = this.paymentModeRepo.getPaymentModeByName(name);
-
-        if(paymentModeOptional.isEmpty()){
-            throw new PaymentModeNotFoundException();
-        }else{
-            return paymentModeOptional.get();
-        }
-    }
 
     public void updatePaymentMode(PaymentModeDTO paymentModeDTO){
         Optional<PaymentMode> paymentModeOptional = this.paymentModeRepo.getPaymentModeByName(paymentModeDTO.getName());

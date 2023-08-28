@@ -14,8 +14,9 @@ import ro.myclass.billingmanagementapi.exceptions.PaymentModeWasFoundException;
 import ro.myclass.billingmanagementapi.paymentmode.models.PaymentMode;
 import ro.myclass.billingmanagementapi.paymentmode.repo.PaymentModeRepo;
 import ro.myclass.billingmanagementapi.paymentmode.service.PaymentModeCommandService;
+import ro.myclass.billingmanagementapi.paymentmode.service.PaymentModeQuerryImplService;
 import ro.myclass.billingmanagementapi.paymentmode.service.PaymentModeQuerryService;
-import ro.myclass.billingmanagementapi.paymentmode.service.PaymentModeService;
+import ro.myclass.billingmanagementapi.paymentmode.service.PaymentModeCommandImplService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,16 +27,16 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
-class PaymentModeServiceTest {
+class PaymentModeImplServiceTest {
 
     @Mock
     private PaymentModeRepo paymentModeRepo;
 
     @InjectMocks
-    private PaymentModeCommandService paymentModeService = new PaymentModeService(paymentModeRepo);
+    private PaymentModeCommandService paymentModeService = new PaymentModeCommandImplService(paymentModeRepo);
 
     @InjectMocks
-    private PaymentModeQuerryService paymentModeQuerryService = new PaymentModeService(paymentModeRepo);
+    private PaymentModeQuerryService paymentModeQuerryService = new PaymentModeQuerryImplService(paymentModeRepo);
 
     @Captor
     ArgumentCaptor<PaymentMode> argumentCaptor;
