@@ -14,8 +14,9 @@ import ro.myclass.billingmanagementapi.exceptions.UsernameWasFoundException;
 import ro.myclass.billingmanagementapi.username.models.Username;
 import ro.myclass.billingmanagementapi.username.repo.UsernameRepo;
 import ro.myclass.billingmanagementapi.username.service.UsernameCommandService;
+import ro.myclass.billingmanagementapi.username.service.UsernameQuerryImplService;
 import ro.myclass.billingmanagementapi.username.service.UsernameQuerryService;
-import ro.myclass.billingmanagementapi.username.service.UsernameService;
+import ro.myclass.billingmanagementapi.username.service.UsernameCommandImplService;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -27,16 +28,16 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
-class UsernameServiceTest {
+class UsernameImplServiceTest {
 
     @Mock
     private UsernameRepo usernameRepo;
 
     @InjectMocks
-    private UsernameCommandService usernameService = new UsernameService(usernameRepo);
+    private UsernameCommandService usernameService = new UsernameCommandImplService(usernameRepo);
 
     @InjectMocks
-    private UsernameQuerryService usernameQuerryService = new UsernameService(usernameRepo);
+    private UsernameQuerryService usernameQuerryService = new UsernameQuerryImplService(usernameRepo);
 
     @Captor
     private ArgumentCaptor<Username> argumentCaptor;

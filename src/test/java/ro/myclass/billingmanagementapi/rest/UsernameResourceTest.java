@@ -18,7 +18,6 @@ import ro.myclass.billingmanagementapi.username.models.Username;
 import ro.myclass.billingmanagementapi.username.rest.UsernameResource;
 import ro.myclass.billingmanagementapi.username.service.UsernameCommandService;
 import ro.myclass.billingmanagementapi.username.service.UsernameQuerryService;
-import ro.myclass.billingmanagementapi.username.service.UsernameService;
 
 import java.util.ArrayList;
 import java.util.List;

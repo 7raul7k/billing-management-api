@@ -13,24 +13,14 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class RoleService implements RoleQuerryService, RoleCommandService {
+public class RoleCommandImplService implements RoleCommandService {
 
     private RoleRepo roleRepo;
 
-    public RoleService(RoleRepo roleRepo) {
+    public RoleCommandImplService(RoleRepo roleRepo) {
         this.roleRepo = roleRepo;
     }
 
-
-    public List<Role> getAllRoles(){
-        List<Role> roleList = this.roleRepo.getAllRole();
-
-        if(roleList.isEmpty()){
-        throw new ListEmptyException();
-        }else{
-            return roleList;
-        }
-    }
 
     public void addRole(RoleDTO roleDTO){
         Optional<Role> roleOptional = this.roleRepo.getRoleByTitle(roleDTO.getTitle());
@@ -54,27 +44,6 @@ public class RoleService implements RoleQuerryService, RoleCommandService {
             this.roleRepo.delete(roleOptional.get());
         }
 
-    }
-
-
-    public Role getRolebyId(long id){
-        Optional<Role> roleOptional = this.roleRepo.getRoleById(id);
-
-        if(roleOptional.isEmpty()){
-            throw new RoleNotFoundException();
-        }else{
-            return roleOptional.get();
-        }
-    }
-
-    public Role getRoleByTitle(String title){
-        Optional<Role> roleOptional = this.roleRepo.getRoleByTitle(title);
-
-        if(roleOptional.isEmpty()){
-            throw new RoleNotFoundException();
-        }else{
-            return roleOptional.get();
-        }
     }
 
 

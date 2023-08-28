@@ -14,7 +14,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import ro.myclass.billingmanagementapi.bill.rest.BillResource;
 import ro.myclass.billingmanagementapi.bill.dto.BillDTO;
 import ro.myclass.billingmanagementapi.bill.service.BillCommandService;
-import ro.myclass.billingmanagementapi.bill.service.BillImplService;
 import ro.myclass.billingmanagementapi.bill.service.BillQueryService;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
 import ro.myclass.billingmanagementapi.bill.models.Bill;

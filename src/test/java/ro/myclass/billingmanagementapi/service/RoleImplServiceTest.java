@@ -13,8 +13,9 @@ import ro.myclass.billingmanagementapi.exceptions.RoleNotFoundException;
 import ro.myclass.billingmanagementapi.role.models.Role;
 import ro.myclass.billingmanagementapi.role.repo.RoleRepo;
 import ro.myclass.billingmanagementapi.role.service.RoleCommandService;
+import ro.myclass.billingmanagementapi.role.service.RoleQuerryImplService;
 import ro.myclass.billingmanagementapi.role.service.RoleQuerryService;
-import ro.myclass.billingmanagementapi.role.service.RoleService;
+import ro.myclass.billingmanagementapi.role.service.RoleCommandImplService;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -24,16 +25,16 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
-class RoleServiceTest {
+class RoleImplServiceTest {
 
     @Mock
     private RoleRepo roleRepo;
 
     @InjectMocks
-    private RoleCommandService roleService = new RoleService(roleRepo);
+    private RoleCommandService roleService = new RoleCommandImplService(roleRepo);
 
     @InjectMocks
-    private RoleQuerryService roleQuerryService = new RoleService(roleRepo);
+    private RoleQuerryService roleQuerryService = new RoleQuerryImplService(roleRepo);
 
     @Captor
     private ArgumentCaptor<Role> argumentCaptor;

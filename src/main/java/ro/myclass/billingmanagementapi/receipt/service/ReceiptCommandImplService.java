@@ -14,23 +14,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ReceiptService implements ReceiptCommandService,ReceiptQuerryService{
+public class ReceiptCommandImplService implements ReceiptCommandService{
 
     public ReceiptRepo receiptRepo;
 
-    public ReceiptService(ReceiptRepo receiptRepo) {
+    public ReceiptCommandImplService(ReceiptRepo receiptRepo) {
         this.receiptRepo = receiptRepo;
     }
 
-    public List<Receipt> getAllReceipts(){
-        List<Receipt> receiptList = this.receiptRepo.getAllReceipt();
 
-        if(receiptList.isEmpty()){
-            throw new ListEmptyException();
-        }else{
-            return receiptList;
-        }
-    }
 
     public void addReceipt(ReceiptDTO receiptDTO) {
         Optional<Receipt> receiptOptional = this.receiptRepo.getReceiptByTypeAndNumberAndDescription(receiptDTO.getType(), receiptDTO.getNumber(), receiptDTO.getDescription());
@@ -54,35 +46,6 @@ public class ReceiptService implements ReceiptCommandService,ReceiptQuerryServic
         }
     }
 
-    public Receipt getReceiptById(long id){
-        Optional<Receipt> receiptOptional = this.receiptRepo.getReceiptsById(id);
-
-        if(receiptOptional.isEmpty()){
-            throw new ReceiptWasFoundException();
-        }else{
-            return receiptOptional.get();
-        }
-    }
-
-    public List<Receipt> getReceiptByType(String type){
-        List<Receipt> receiptList = this.receiptRepo.getReceiptsByType(type);
-
-        if(receiptList.isEmpty()){
-            throw new ReceiptWasFoundException();
-        }else{
-            return receiptList;
-        }
-    }
-
-    public List<Receipt> getReceiptByNumber(String number){
-        List<Receipt> receiptList = this.receiptRepo.getReceiptsByNumber(number);
-
-        if(receiptList.isEmpty()){
-            throw new ReceiptWasFoundException();
-        }else{
-            return receiptList;
-        }
-    }
 
     public void updateReceipt(ReceiptDTO receiptDTO) {
         Optional<Receipt> receiptOptional = this.receiptRepo.getReceiptByTypeAndNumberAndDescription(receiptDTO.getType(), receiptDTO.getNumber(), receiptDTO.getDescription());
@@ -113,15 +76,6 @@ public class ReceiptService implements ReceiptCommandService,ReceiptQuerryServic
         }
     }
 
-    public Receipt getReceiptByTypeAndNumberAndDescription(String type, String number, String description){
-        Optional<Receipt> receiptOptional = this.receiptRepo.getReceiptByTypeAndNumberAndDescription(type,number,description);
-
-        if(receiptOptional.isEmpty()){
-            throw new ReceiptNotFoundException();
-        }else{
-            return receiptOptional.get();
-        }
-    }
 
 
 }

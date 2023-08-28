@@ -13,8 +13,9 @@ import ro.myclass.billingmanagementapi.exceptions.PermissionWasFoundException;
 import ro.myclass.billingmanagementapi.permission.models.Permission;
 import ro.myclass.billingmanagementapi.permission.repo.PermissionRepo;
 import ro.myclass.billingmanagementapi.permission.service.PermissionCommandService;
+import ro.myclass.billingmanagementapi.permission.service.PermissionQuerryImplService;
 import ro.myclass.billingmanagementapi.permission.service.PermissionQuerryService;
-import ro.myclass.billingmanagementapi.permission.service.PermissionService;
+import ro.myclass.billingmanagementapi.permission.service.PermissionCommandImplService;
 
 
 import java.util.ArrayList;
@@ -26,16 +27,16 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
-class PermissionServiceTest {
+class PermissionImplServiceTest {
 
     @Mock
     private PermissionRepo permissionRepo;
 
     @InjectMocks
-    private PermissionCommandService permissionService = new PermissionService(permissionRepo);
+    private PermissionCommandService permissionService = new PermissionCommandImplService(permissionRepo);
 
     @InjectMocks
-    private PermissionQuerryService permissionQuerryService = new PermissionService(permissionRepo);
+    private PermissionQuerryService permissionQuerryService = new PermissionQuerryImplService(permissionRepo);
 
     @Captor
     private ArgumentCaptor<Permission> argumentCaptor;

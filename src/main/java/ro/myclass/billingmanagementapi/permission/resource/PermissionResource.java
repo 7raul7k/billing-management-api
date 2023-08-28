@@ -9,7 +9,6 @@ import ro.myclass.billingmanagementapi.permission.dto.PermissionDTO;
 import ro.myclass.billingmanagementapi.permission.models.Permission;
 import ro.myclass.billingmanagementapi.permission.service.PermissionCommandService;
 import ro.myclass.billingmanagementapi.permission.service.PermissionQuerryService;
-import ro.myclass.billingmanagementapi.permission.service.PermissionService;
 
 import java.util.List;
 

@@ -15,8 +15,9 @@ import ro.myclass.billingmanagementapi.exceptions.ReceiptWasFoundException;
 import ro.myclass.billingmanagementapi.receipt.models.Receipt;
 import ro.myclass.billingmanagementapi.receipt.repo.ReceiptRepo;
 import ro.myclass.billingmanagementapi.receipt.service.ReceiptCommandService;
+import ro.myclass.billingmanagementapi.receipt.service.ReceiptQuerryImplService;
 import ro.myclass.billingmanagementapi.receipt.service.ReceiptQuerryService;
-import ro.myclass.billingmanagementapi.receipt.service.ReceiptService;
+import ro.myclass.billingmanagementapi.receipt.service.ReceiptCommandImplService;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -28,16 +29,16 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
-class ReceiptServiceTest {
+class ReceiptImplServiceTest {
 
     @Mock
     private ReceiptRepo receiptRepo;
 
     @InjectMocks
-    private ReceiptCommandService receiptService = new ReceiptService(receiptRepo);
+    private ReceiptCommandService receiptService = new ReceiptCommandImplService(receiptRepo);
 
     @InjectMocks
-    private ReceiptQuerryService receiptQuerryService = new ReceiptService(receiptRepo);
+    private ReceiptQuerryService receiptQuerryService = new ReceiptQuerryImplService(receiptRepo);
 
     @Captor
     private ArgumentCaptor<Receipt> argumentCaptor;

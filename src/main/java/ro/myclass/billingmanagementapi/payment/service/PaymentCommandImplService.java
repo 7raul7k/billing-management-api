@@ -15,13 +15,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PaymentService implements PaymentQuerryService, PaymentCommandService{
+public class PaymentCommandImplService implements  PaymentCommandService{
 
     private PaymentRepo paymentRepo;
 
     private CustomerRepo customerRepo;
 
-    public PaymentService(PaymentRepo paymentRepo, CustomerRepo customerRepo) {
+    public PaymentCommandImplService(PaymentRepo paymentRepo, CustomerRepo customerRepo) {
         this.paymentRepo = paymentRepo;
         this.customerRepo = customerRepo;
     }
@@ -101,33 +101,5 @@ public class PaymentService implements PaymentQuerryService, PaymentCommandServi
 
     }
 
-    public Payment getPaymentByAmountAndDescription(String amount, String description) {
-        Optional<Payment> paymentOptional = this.paymentRepo.getPaymentByAmountAndDescription(amount, description);
 
-        if (paymentOptional.isEmpty()) {
-            throw new PaymentNotFoundException();
-        } else {
-            return paymentOptional.get();
-        }
-    }
-
-    public Payment getPaymentById(long id){
-        Optional<Payment> paymentOptional = this.paymentRepo.getPaymentById(id);
-
-        if(paymentOptional.isEmpty()){
-            throw new ListEmptyException();
-        }else{
-            return paymentOptional.get();
-        }
-    }
-
-    public List<Payment> getPaymentByAmount(String amount){
-        List<Payment> paymentList = this.paymentRepo.getPaymentByAmount(amount);
-
-        if(paymentList.isEmpty()){
-            throw new ListEmptyException();
-        }else{
-            return paymentList;
-        }
-    }
 }

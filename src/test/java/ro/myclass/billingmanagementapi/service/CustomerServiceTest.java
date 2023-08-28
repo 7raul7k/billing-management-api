@@ -9,7 +9,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ro.myclass.billingmanagementapi.customer.dto.CustomerDTO;
 import ro.myclass.billingmanagementapi.customer.service.CustomerCommandService;
-import ro.myclass.billingmanagementapi.customer.service.CustomerImplService;
+import ro.myclass.billingmanagementapi.customer.service.CustomerCommandImplService;
+import ro.myclass.billingmanagementapi.customer.service.CustomerQuerryImplService;
 import ro.myclass.billingmanagementapi.customer.service.CustomerQuerryService;
 import ro.myclass.billingmanagementapi.exceptions.CustomerNotFoundException;
 import ro.myclass.billingmanagementapi.exceptions.CustomerWasFoundException;
@@ -26,16 +27,16 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
-class CustomerImplServiceTest {
+class CustomerServiceTest {
 
     @Mock
     private CustomerRepo customerRepo;
 
     @InjectMocks
-    private CustomerQuerryService customerQueryService = new CustomerImplService(customerRepo);
+    private CustomerQuerryService customerQueryService = new CustomerQuerryImplService(customerRepo);
 
     @InjectMocks
-    private CustomerCommandService customerCommandService = new CustomerImplService(customerRepo);
+    private CustomerCommandService customerCommandService = new CustomerCommandImplService(customerRepo);
 
     @Captor
     private ArgumentCaptor<Customer> argumentCaptor;

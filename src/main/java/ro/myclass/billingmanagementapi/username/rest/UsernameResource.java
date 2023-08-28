@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.myclass.billingmanagementapi.username.service.UsernameCommandService;
 import ro.myclass.billingmanagementapi.username.service.UsernameQuerryService;
-import ro.myclass.billingmanagementapi.username.service.UsernameService;
 import ro.myclass.billingmanagementapi.username.dto.UsernameDTO;
 import ro.myclass.billingmanagementapi.username.models.Username;
 

@@ -18,7 +18,6 @@ import ro.myclass.billingmanagementapi.role.models.Role;
 import ro.myclass.billingmanagementapi.role.rest.RoleResource;
 import ro.myclass.billingmanagementapi.role.service.RoleCommandService;
 import ro.myclass.billingmanagementapi.role.service.RoleQuerryService;
-import ro.myclass.billingmanagementapi.role.service.RoleService;
 
 import java.util.ArrayList;
 import java.util.List;
