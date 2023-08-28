@@ -7,10 +7,10 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import ro.myclass.billingmanagementapi.bill.service.BillCommandService;
-import ro.myclass.billingmanagementapi.bill.service.BillImplService;
+import ro.myclass.billingmanagementapi.bill.service.BillImplCommandService;
 import ro.myclass.billingmanagementapi.bill.dto.BillDTO;
+import ro.myclass.billingmanagementapi.bill.service.BillImplQuerryService;
 import ro.myclass.billingmanagementapi.bill.service.BillQueryService;
 import ro.myclass.billingmanagementapi.exceptions.BillNotFoundException;
 import ro.myclass.billingmanagementapi.exceptions.ListEmptyException;
@@ -34,10 +34,10 @@ class BillServiceImplTest {
 
 
     @InjectMocks
-    BillCommandService billCommandService = new BillImplService(billRepo);
+    BillCommandService billCommandService = new BillImplCommandService(billRepo);
 
     @InjectMocks
-    BillQueryService billQueryService = new BillImplService(billRepo);
+    BillQueryService billQueryService = new BillImplQuerryService(billRepo);
 
     @Captor
     ArgumentCaptor<Bill> billArgumentCaptor;

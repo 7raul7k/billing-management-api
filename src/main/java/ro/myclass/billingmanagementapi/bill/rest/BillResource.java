@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import ro.myclass.billingmanagementapi.bill.dto.BillDTO;
 import ro.myclass.billingmanagementapi.bill.models.Bill;
 import ro.myclass.billingmanagementapi.bill.service.BillCommandService;
-import ro.myclass.billingmanagementapi.bill.service.BillImplService;
 import ro.myclass.billingmanagementapi.bill.service.BillQueryService;
 
 

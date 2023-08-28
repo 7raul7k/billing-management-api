@@ -15,22 +15,12 @@ import java.util.Optional;
 
 @Transactional
 @Service
-public class BillImplService implements BillQueryService,BillCommandService {
+public class BillImplCommandService implements BillCommandService {
 
     private BillRepo billRepo;
 
-    public BillImplService(BillRepo billRepo) {
+    public BillImplCommandService(BillRepo billRepo) {
         this.billRepo = billRepo;
-    }
-
-    public List<Bill> getAllBills() {
-        List<Bill> bills = billRepo.getAllBill();
-
-        if (bills.isEmpty()) {
-            throw new ListEmptyException();
-        } else {
-            return bills;
-        }
     }
 
 
@@ -57,36 +47,6 @@ public class BillImplService implements BillQueryService,BillCommandService {
         }
     }
 
-    public Bill getBillByNumber(String number) {
-        Optional<Bill> billOptional = billRepo.getBillByNumber(number);
-
-        if (billOptional.isEmpty()) {
-            throw new BillNotFoundException();
-        } else {
-            return billOptional.get();
-        }
-    }
-
-    public List<Bill> getBillByType(String type) {
-        List<Bill> billOptional = billRepo.getBillByType(type);
-
-        if (billOptional.isEmpty()) {
-            throw new BillNotFoundException();
-        } else {
-            return billOptional;
-        }
-    }
-
-
-      public Bill getBillById(long id) {
-          Optional<Bill> billOptional = billRepo.getBillById(id);
-
-          if (billOptional.isEmpty()) {
-              throw new BillNotFoundException();
-          } else {
-              return billOptional.get();
-          }
-      }
 
       public void updateBill(BillDTO billDTO) {
 
