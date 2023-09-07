@@ -2,6 +2,7 @@ package ro.myclass.billingmanagementapi.bill.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,14 +33,17 @@ public class Bill {
     @Column(name = "type",
     nullable = false,
     columnDefinition = "TEXT")
+    @NotEmpty(message = "Type cannot be empty")
     private String type;
     @Column(name = "description",
     nullable = false,
     columnDefinition = "TEXT")
+    @NotEmpty(message = "Description cannot be empty")
     private String description;
     @Column(name = "number",
     nullable = false,
     columnDefinition = "TEXT")
+    @NotEmpty(message = "Number cannot be empty")
     private String number;
 
     @Override
