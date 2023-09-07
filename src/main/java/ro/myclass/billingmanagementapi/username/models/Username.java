@@ -3,6 +3,8 @@ package ro.myclass.billingmanagementapi.username.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,18 +36,22 @@ public class Username {
     @Column(name = "name",
     nullable = false,
     columnDefinition = "TEXT")
+    @NotEmpty(message = "Name cannot be empty")
     private String username;
     @Column(name = "email",
     nullable = false,
     columnDefinition = "TEXT")
+    @Email(message = "Email should be valid")
     private String email;
     @Column(name = "dob",
     nullable = false,
     columnDefinition = "DATE")
+    @NotEmpty(message = "Date of birth cannot be empty")
     private LocalDate dob;
     @Column(name = "address",
     nullable = false,
     columnDefinition = "TEXT")
+    @NotEmpty(message = "Address cannot be empty")
     private String address;
 
     @Override
