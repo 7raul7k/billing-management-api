@@ -1,6 +1,8 @@
 package ro.myclass.billingmanagementapi.receipt.dto;
 
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,8 +18,13 @@ import java.util.List;
 @SuperBuilder
 public class ReceiptDTO {
 
+    @NotEmpty(message = "Type cannot be empty")
     public String description;
+    @NotEmpty(message = "Number cannot be empty")
     public String type;
+    @NotEmpty(message = "Description cannot be empty")
     public String number;
+    @NotEmpty(message = "Date cannot be empty")
     public LocalDate date;
+    @NotNull(message = "Bills cannot be null")
     public List<Bill> bills;}
