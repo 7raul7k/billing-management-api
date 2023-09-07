@@ -1,6 +1,8 @@
 package ro.myclass.billingmanagementapi.role.dto;
 
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,8 +18,12 @@ import java.util.List;
 @SuperBuilder
 public class RoleDTO {
 
+    @NotEmpty(message = "Title cannot be empty")
     private String title;
+    @NotEmpty(message = "Description cannot be empty")
     private String description;
+    @NotNull(message = "Permissions cannot be null")
     private List<Permission> permissions;
+    @NotNull(message = "Role cannot be null")
     private Role role;
 }
