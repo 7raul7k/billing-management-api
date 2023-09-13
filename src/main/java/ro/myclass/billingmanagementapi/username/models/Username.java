@@ -3,11 +3,17 @@ package ro.myclass.billingmanagementapi.username.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import ro.myclass.billingmanagementapi.role.models.Role;
+import ro.myclass.billingmanagementapi.validators.annotation.AddressConstraint;
+import ro.myclass.billingmanagementapi.validators.annotation.DateConstraint;
+import ro.myclass.billingmanagementapi.validators.annotation.EmailConstraint;
+import ro.myclass.billingmanagementapi.validators.annotation.UsernameConstraint;
 
 import java.time.LocalDate;
 
@@ -34,18 +40,22 @@ public class Username {
     @Column(name = "name",
     nullable = false,
     columnDefinition = "TEXT")
+    @UsernameConstraint
     private String username;
     @Column(name = "email",
     nullable = false,
     columnDefinition = "TEXT")
+    @EmailConstraint
     private String email;
     @Column(name = "dob",
     nullable = false,
     columnDefinition = "DATE")
-    private LocalDate dob;
+    @DateConstraint
+     private LocalDate dob;
     @Column(name = "address",
     nullable = false,
     columnDefinition = "TEXT")
+    @AddressConstraint
     private String address;
 
     @Override

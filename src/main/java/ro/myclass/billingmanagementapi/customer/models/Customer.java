@@ -3,12 +3,15 @@ package ro.myclass.billingmanagementapi.customer.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import ro.myclass.billingmanagementapi.bill.models.Bill;
 import ro.myclass.billingmanagementapi.payment.models.Payment;
+import ro.myclass.billingmanagementapi.validators.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,26 +38,32 @@ public class Customer {
     @Column(name =  "name",
     nullable = false,
     columnDefinition = "TEXT")
+    @UsernameConstraint
     private String name;
     @Column(name =  "mobile",
     nullable = false,
     columnDefinition = "TEXT")
+    @NumberConstraint
     private String mobile;
     @Column(name = "email",
     nullable = false,
     columnDefinition = "TEXT")
+    @EmailConstraint
     private String email;
     @Column(name = "address",
     nullable = false,
     columnDefinition = "TEXT")
+    @AddressConstraint
     private String address;
     @Column(name = "username",
     nullable = false,
     columnDefinition = "TEXT")
+    @NotEmpty(message = "Username cannot be empty")
     private String username;
     @Column(name = "password",
     nullable = false,
     columnDefinition = "TEXT")
+    @PasswordConstraint
     private String password;
 
     @Override

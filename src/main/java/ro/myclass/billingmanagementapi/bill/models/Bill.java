@@ -2,12 +2,15 @@ package ro.myclass.billingmanagementapi.bill.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import ro.myclass.billingmanagementapi.customer.models.Customer;
 import ro.myclass.billingmanagementapi.receipt.models.Receipt;
+import ro.myclass.billingmanagementapi.validators.annotation.NumberConstraint;
+import ro.myclass.billingmanagementapi.validators.annotation.TypeConstraint;
 
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
@@ -32,14 +35,17 @@ public class Bill {
     @Column(name = "type",
     nullable = false,
     columnDefinition = "TEXT")
+    @TypeConstraint
     private String type;
     @Column(name = "description",
     nullable = false,
     columnDefinition = "TEXT")
+    @NotEmpty(message = "Description cannot be empty")
     private String description;
     @Column(name = "number",
     nullable = false,
     columnDefinition = "TEXT")
+    @NumberConstraint
     private String number;
 
     @Override

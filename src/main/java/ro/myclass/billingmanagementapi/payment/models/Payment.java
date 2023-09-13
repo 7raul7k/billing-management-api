@@ -2,11 +2,14 @@ package ro.myclass.billingmanagementapi.payment.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import ro.myclass.billingmanagementapi.customer.models.Customer;
+import ro.myclass.billingmanagementapi.validators.annotation.AmountConstraint;
+import ro.myclass.billingmanagementapi.validators.annotation.DateConstraint;
 
 import java.time.LocalDate;
 
@@ -32,14 +35,17 @@ public class Payment {
     @Column(name = "description",
     nullable = false,
     columnDefinition = "TEXT")
+    @NotEmpty(message = "Description cannot be empty")
     private String description;
     @Column(name = "amount",
     nullable = false,
     columnDefinition = "TEXT")
+    @AmountConstraint
     private String amount;
     @Column(name ="date",
     nullable = false,
     columnDefinition = "DATE")
+    @DateConstraint
     private LocalDate date;
 
     @Override

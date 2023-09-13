@@ -2,12 +2,14 @@ package ro.myclass.billingmanagementapi.role.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import ro.myclass.billingmanagementapi.username.models.Username;
 import ro.myclass.billingmanagementapi.permission.models.Permission;
+import ro.myclass.billingmanagementapi.validators.annotation.TitleConstraint;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +36,12 @@ public class Role {
     @Column(name = "title",
             nullable = false,
             columnDefinition = "TEXT")
+    @TitleConstraint
     private String title;
     @Column(name = "description",
             nullable = false,
             columnDefinition = "TEXT")
+    @NotEmpty(message = "Description cannot be empty")
     private String description;
 
     @Override

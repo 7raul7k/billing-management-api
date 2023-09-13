@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import ro.myclass.billingmanagementapi.role.models.Role;
+import ro.myclass.billingmanagementapi.validators.annotation.ModuleConstraint;
+import ro.myclass.billingmanagementapi.validators.annotation.TitleConstraint;
 
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
@@ -31,10 +33,12 @@ public class Permission {
     @Column(name = "title",
     nullable = false,
     columnDefinition = "TEXT")
+    @TitleConstraint
     private String title;
     @Column(name = "module",
     nullable = false,
     columnDefinition = "TEXT")
+    @ModuleConstraint
     private String module;
     @Column(name = "description",
     nullable = false,
