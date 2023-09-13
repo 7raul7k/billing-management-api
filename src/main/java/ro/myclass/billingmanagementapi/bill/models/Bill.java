@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import ro.myclass.billingmanagementapi.customer.models.Customer;
 import ro.myclass.billingmanagementapi.receipt.models.Receipt;
+import ro.myclass.billingmanagementapi.validators.annotation.NumberConstraint;
 import ro.myclass.billingmanagementapi.validators.annotation.TypeConstraint;
 
 import static jakarta.persistence.GenerationType.SEQUENCE;
@@ -44,7 +45,7 @@ public class Bill {
     @Column(name = "number",
     nullable = false,
     columnDefinition = "TEXT")
-    @NotEmpty(message = "Number cannot be empty")
+    @NumberConstraint
     private String number;
 
     @Override

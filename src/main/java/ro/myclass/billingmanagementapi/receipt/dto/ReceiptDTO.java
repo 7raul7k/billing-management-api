@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import ro.myclass.billingmanagementapi.bill.models.Bill;
 import ro.myclass.billingmanagementapi.validators.annotation.DateConstraint;
+import ro.myclass.billingmanagementapi.validators.annotation.NumberConstraint;
 import ro.myclass.billingmanagementapi.validators.annotation.TypeConstraint;
 
 import java.time.LocalDate;
@@ -24,7 +25,7 @@ public class ReceiptDTO {
     public String description;
     @TypeConstraint
     public String type;
-    @NotEmpty(message = "Description cannot be empty")
+    @NumberConstraint
     public String number;
     @DateConstraint
     public LocalDate date;
