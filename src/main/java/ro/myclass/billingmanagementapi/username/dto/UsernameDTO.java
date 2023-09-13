@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import ro.myclass.billingmanagementapi.role.models.Role;
 import ro.myclass.billingmanagementapi.validators.annotation.AddressConstraint;
+import ro.myclass.billingmanagementapi.validators.annotation.UsernameConstraint;
 
 import java.time.LocalDate;
 
@@ -17,7 +18,7 @@ import java.time.LocalDate;
 @SuperBuilder
 public class UsernameDTO {
 
-        @NotEmpty(message = "Username cannot be empty")
+        @UsernameConstraint
         private String username;
         @Email(message = "Email should be valid")
         private String email;

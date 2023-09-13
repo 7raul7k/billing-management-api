@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import ro.myclass.billingmanagementapi.role.models.Role;
 import ro.myclass.billingmanagementapi.validators.annotation.AddressConstraint;
+import ro.myclass.billingmanagementapi.validators.annotation.UsernameConstraint;
 
 import java.time.LocalDate;
 
@@ -37,7 +38,7 @@ public class Username {
     @Column(name = "name",
     nullable = false,
     columnDefinition = "TEXT")
-    @NotEmpty(message = "Name cannot be empty")
+    @UsernameConstraint
     private String username;
     @Column(name = "email",
     nullable = false,

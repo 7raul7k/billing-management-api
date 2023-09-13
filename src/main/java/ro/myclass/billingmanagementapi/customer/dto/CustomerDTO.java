@@ -10,6 +10,7 @@ import lombok.experimental.SuperBuilder;
 import ro.myclass.billingmanagementapi.bill.models.Bill;
 import ro.myclass.billingmanagementapi.payment.models.Payment;
 import ro.myclass.billingmanagementapi.validators.annotation.AddressConstraint;
+import ro.myclass.billingmanagementapi.validators.annotation.UsernameConstraint;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class CustomerDTO {
     private String email;
     @AddressConstraint
     private String address;
-    @NotEmpty(message = "Username cannot be empty")
+    @UsernameConstraint
     private String username;
     @NotEmpty(message = "Password cannot be empty")
     private String password;
