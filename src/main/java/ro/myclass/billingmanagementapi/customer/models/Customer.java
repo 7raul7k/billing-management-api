@@ -11,10 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import ro.myclass.billingmanagementapi.bill.models.Bill;
 import ro.myclass.billingmanagementapi.payment.models.Payment;
-import ro.myclass.billingmanagementapi.validators.annotation.AddressConstraint;
-import ro.myclass.billingmanagementapi.validators.annotation.EmailConstraint;
-import ro.myclass.billingmanagementapi.validators.annotation.NumberConstraint;
-import ro.myclass.billingmanagementapi.validators.annotation.UsernameConstraint;
+import ro.myclass.billingmanagementapi.validators.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +63,7 @@ public class Customer {
     @Column(name = "password",
     nullable = false,
     columnDefinition = "TEXT")
-    @NotEmpty(message = "Password cannot be empty")
+    @PasswordConstraint
     private String password;
 
     @Override

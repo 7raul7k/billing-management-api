@@ -1,6 +1,7 @@
 package ro.myclass.billingmanagementapi.validators.annotation;
 
 import jakarta.validation.Constraint;
+import ro.myclass.billingmanagementapi.validators.customValidators.AmountValidator;
 
 import java.lang.annotation.*;
 

@@ -9,10 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import ro.myclass.billingmanagementapi.bill.models.Bill;
 import ro.myclass.billingmanagementapi.payment.models.Payment;
-import ro.myclass.billingmanagementapi.validators.annotation.AddressConstraint;
-import ro.myclass.billingmanagementapi.validators.annotation.EmailConstraint;
-import ro.myclass.billingmanagementapi.validators.annotation.NumberConstraint;
-import ro.myclass.billingmanagementapi.validators.annotation.UsernameConstraint;
+import ro.myclass.billingmanagementapi.validators.annotation.*;
 
 import java.util.List;
 
@@ -33,7 +30,7 @@ public class CustomerDTO {
     private String address;
     @UsernameConstraint
     private String username;
-    @NotEmpty(message = "Password cannot be empty")
+    @PasswordConstraint
     private String password;
     @NotNull(message = "Payments cannot be null")
     private List<Payment> payments;
