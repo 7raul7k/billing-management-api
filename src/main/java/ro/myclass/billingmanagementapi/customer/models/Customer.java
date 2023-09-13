@@ -12,6 +12,7 @@ import lombok.experimental.SuperBuilder;
 import ro.myclass.billingmanagementapi.bill.models.Bill;
 import ro.myclass.billingmanagementapi.payment.models.Payment;
 import ro.myclass.billingmanagementapi.validators.annotation.AddressConstraint;
+import ro.myclass.billingmanagementapi.validators.annotation.EmailConstraint;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,7 @@ public class Customer {
     @Column(name = "email",
     nullable = false,
     columnDefinition = "TEXT")
-    @Email(message = "Email should be valid")
+    @EmailConstraint
     private String email;
     @Column(name = "address",
     nullable = false,

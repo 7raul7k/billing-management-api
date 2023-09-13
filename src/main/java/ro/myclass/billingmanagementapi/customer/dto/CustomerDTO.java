@@ -10,6 +10,7 @@ import lombok.experimental.SuperBuilder;
 import ro.myclass.billingmanagementapi.bill.models.Bill;
 import ro.myclass.billingmanagementapi.payment.models.Payment;
 import ro.myclass.billingmanagementapi.validators.annotation.AddressConstraint;
+import ro.myclass.billingmanagementapi.validators.annotation.EmailConstraint;
 import ro.myclass.billingmanagementapi.validators.annotation.UsernameConstraint;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class CustomerDTO {
     @NotEmpty(message = "Mobile cannot be empty")
     private String mobile;
     @Email
-    @NotEmpty(message = "Email cannot be empty")
+    @EmailConstraint
     private String email;
     @AddressConstraint
     private String address;

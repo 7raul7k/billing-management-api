@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import ro.myclass.billingmanagementapi.role.models.Role;
 import ro.myclass.billingmanagementapi.validators.annotation.AddressConstraint;
+import ro.myclass.billingmanagementapi.validators.annotation.EmailConstraint;
 import ro.myclass.billingmanagementapi.validators.annotation.UsernameConstraint;
 
 import java.time.LocalDate;
@@ -43,7 +44,7 @@ public class Username {
     @Column(name = "email",
     nullable = false,
     columnDefinition = "TEXT")
-    @Email(message = "Email should be valid")
+    @EmailConstraint
     private String email;
     @Column(name = "dob",
     nullable = false,
