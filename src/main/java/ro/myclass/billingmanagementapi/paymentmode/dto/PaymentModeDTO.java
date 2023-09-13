@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import ro.myclass.billingmanagementapi.validators.annotation.TypeConstraint;
 
 @Data
 @AllArgsConstructor
@@ -13,6 +14,7 @@ import lombok.experimental.SuperBuilder;
 public class PaymentModeDTO {
 
     private String name;
+    @TypeConstraint
     private String type;
     private String description;
 

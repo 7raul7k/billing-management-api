@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import ro.myclass.billingmanagementapi.customer.models.Customer;
 import ro.myclass.billingmanagementapi.receipt.models.Receipt;
+import ro.myclass.billingmanagementapi.validators.annotation.TypeConstraint;
 
 @Data
 @AllArgsConstructor
@@ -16,7 +17,7 @@ import ro.myclass.billingmanagementapi.receipt.models.Receipt;
 @SuperBuilder
 public class BillDTO {
 
-    @NotEmpty(message = "Type cannot be empty")
+    @TypeConstraint
     private String type;
     @NotEmpty(message = "Description cannot be empty")
     private String description;

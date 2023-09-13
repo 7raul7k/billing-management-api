@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import ro.myclass.billingmanagementapi.validators.annotation.TypeConstraint;
 
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
@@ -35,6 +36,7 @@ public class PaymentMode {
     @Column(name = "type",
     nullable = false,
     columnDefinition = "TEXT")
+    @TypeConstraint
     private String type;
     @Column(name ="description",
     nullable = false,

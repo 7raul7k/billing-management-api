@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import ro.myclass.billingmanagementapi.bill.models.Bill;
+import ro.myclass.billingmanagementapi.validators.annotation.TypeConstraint;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class Receipt {
     @Column(name = "type",
     nullable = false,
     columnDefinition = "TEXT")
+    @TypeConstraint
     private String type;
     @Column(name = "description",
     nullable = false,
