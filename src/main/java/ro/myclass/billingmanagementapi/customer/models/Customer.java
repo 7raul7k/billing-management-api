@@ -14,6 +14,7 @@ import ro.myclass.billingmanagementapi.payment.models.Payment;
 import ro.myclass.billingmanagementapi.validators.annotation.AddressConstraint;
 import ro.myclass.billingmanagementapi.validators.annotation.EmailConstraint;
 import ro.myclass.billingmanagementapi.validators.annotation.NumberConstraint;
+import ro.myclass.billingmanagementapi.validators.annotation.UsernameConstraint;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,7 @@ public class Customer {
     @Column(name =  "name",
     nullable = false,
     columnDefinition = "TEXT")
+    @UsernameConstraint
     private String name;
     @Column(name =  "mobile",
     nullable = false,

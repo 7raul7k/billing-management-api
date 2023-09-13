@@ -22,7 +22,7 @@ import java.util.List;
 @SuperBuilder
 public class CustomerDTO {
 
-    @NotEmpty(message = "Name cannot be empty")
+    @UsernameConstraint
     private String name;
     @NumberConstraint
     private String mobile;
