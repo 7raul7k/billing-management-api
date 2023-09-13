@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import ro.myclass.billingmanagementapi.customer.models.Customer;
+import ro.myclass.billingmanagementapi.validators.annotation.DateConstraint;
 
 import java.time.LocalDate;
 
@@ -17,6 +18,7 @@ public class PaymentDTO {
 
     private String description;
     private String amount;
+    @DateConstraint
     private LocalDate date;
     private Customer customer;
 

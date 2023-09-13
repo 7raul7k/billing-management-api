@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import ro.myclass.billingmanagementapi.customer.models.Customer;
+import ro.myclass.billingmanagementapi.validators.annotation.DateConstraint;
 
 import java.time.LocalDate;
 
@@ -42,6 +43,7 @@ public class Payment {
     @Column(name ="date",
     nullable = false,
     columnDefinition = "DATE")
+    @DateConstraint
     private LocalDate date;
 
     @Override
