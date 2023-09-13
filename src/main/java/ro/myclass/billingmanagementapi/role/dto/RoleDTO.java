@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import ro.myclass.billingmanagementapi.permission.models.Permission;
 import ro.myclass.billingmanagementapi.role.models.Role;
+import ro.myclass.billingmanagementapi.validators.annotation.TitleConstraint;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ import java.util.List;
 @SuperBuilder
 public class RoleDTO {
 
-    @NotEmpty(message = "Title cannot be empty")
+    @TitleConstraint
     private String title;
     @NotEmpty(message = "Description cannot be empty")
     private String description;

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import ro.myclass.billingmanagementapi.username.models.Username;
 import ro.myclass.billingmanagementapi.permission.models.Permission;
+import ro.myclass.billingmanagementapi.validators.annotation.TitleConstraint;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,7 @@ public class Role {
     @Column(name = "title",
             nullable = false,
             columnDefinition = "TEXT")
-    @NotEmpty(message = "Title cannot be empty")
+    @TitleConstraint
     private String title;
     @Column(name = "description",
             nullable = false,
