@@ -11,6 +11,11 @@ public class TypeValidator  implements ConstraintValidator<TypeConstraint,String
 
     @Override
     public boolean isValid(String type, jakarta.validation.ConstraintValidatorContext constraintValidatorContext) {
-        return type.equals("income") || type.equals("expense");
+        if(type != null){
+            if(type.equals("electricity")||type.equals("water")||type.equals("gas")||type.equals("internet")){
+                return true;
+            }
+        }
+        return false;
     }
 }

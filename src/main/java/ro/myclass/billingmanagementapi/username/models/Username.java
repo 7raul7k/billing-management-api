@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import ro.myclass.billingmanagementapi.role.models.Role;
+import ro.myclass.billingmanagementapi.validators.annotation.AddressConstraint;
 
 import java.time.LocalDate;
 
@@ -51,7 +52,7 @@ public class Username {
     @Column(name = "address",
     nullable = false,
     columnDefinition = "TEXT")
-    @NotEmpty(message = "Address cannot be empty")
+    @AddressConstraint
     private String address;
 
     @Override

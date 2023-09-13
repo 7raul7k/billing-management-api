@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import ro.myclass.billingmanagementapi.bill.models.Bill;
 import ro.myclass.billingmanagementapi.payment.models.Payment;
+import ro.myclass.billingmanagementapi.validators.annotation.AddressConstraint;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +52,7 @@ public class Customer {
     @Column(name = "address",
     nullable = false,
     columnDefinition = "TEXT")
-    @NotEmpty(message = "Address cannot be empty")
+    @AddressConstraint
     private String address;
     @Column(name = "username",
     nullable = false,

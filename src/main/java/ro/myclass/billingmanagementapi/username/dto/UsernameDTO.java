@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import ro.myclass.billingmanagementapi.role.models.Role;
+import ro.myclass.billingmanagementapi.validators.annotation.AddressConstraint;
 
 import java.time.LocalDate;
 
@@ -22,7 +23,7 @@ public class UsernameDTO {
         private String email;
         @NotEmpty(message = "Data cannot be empty")
         private LocalDate dob;
-        @NotEmpty(message = "Address cannot be empty")
+        @AddressConstraint
         private String address;
         @NotEmpty(message = "Password cannot be empty")
         private Role Role;
